@@ -1,0 +1,20 @@
+/* XPM */
+const char *infoIcon[]={
+"16 13 4 1",
+"# c None",
+". c None",
+"a c #0000c0",
+"b c #ffffff",
+"..############..",
+".####aaaaaa###..",
+"###aaaaaaaaaa##.",
+"###aaaabbaaaa###",
+"##aaaaabbaaaaa##",
+"##aaaaaaaaaaaa##",
+"##aaaaabbaaaaa##",
+"##aaaaabbaaaaa##",
+"##aaaaabbaaaaa##",
+"###aaaabbaaaa###",
+"###aaaaaaaaaa##.",
+"..###aaaaaa###..",
+"..############.."};

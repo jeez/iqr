@@ -1,0 +1,14 @@
+/* XPM */
+const static char *close_small[]={
+"8 8 3 1",
+"a c None",
+". c #303030",
+"# c #dcdcdc",
+".#aaaa#.",
+"#.#aa#.#",
+"a#.##.#a",
+"aa#..#aa",
+"aa#..#aa",
+"a#.##.#a",
+"#.####.#",
+".#aaaa#."};

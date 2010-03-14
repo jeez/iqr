@@ -1,0 +1,37 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(ccvt.h)
+
+dnl AC_CONFIG_HEADER(ccvt.h)
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_CXX
+AC_PROG_CXXCPP
+AC_PROG_GCC_TRADITIONAL
+AC_PROG_RANLIB
+
+dnl Checks for header files.
+AC_HEADER_STDC
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+
+dnl Check for Intel architecture
+AC_CHECK_INTELCPU
+
+dnl Check for MMX processor
+AC_CHECK_MMX
+
+dnl we have various versions of a file; WHAT determines the version by 
+dnl substitution in the filename
+if test $ac_cv_flag_mmx = yes; then
+  WHAT=mmx
+else
+  WHAT=c2
+fi
+AC_SUBST(WHAT)
+
+
+AC_OUTPUT(Makefile)
+

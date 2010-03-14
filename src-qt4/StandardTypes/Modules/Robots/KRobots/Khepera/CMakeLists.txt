@@ -1,0 +1,42 @@
+SET(CMAKE_INSTALL_PREFIX /opt/iqr)
+ADD_DEFINITIONS(-DQT_THREAD_SUPPORT -D_REENTRANT -DQT_NO_DEBUG -DIQRMODULE)
+
+SET(QT_MT_REQUIRED TRUE)
+FIND_PACKAGE(Qt4 REQUIRED)
+
+
+SET (libSrc 
+  moduleKhepera.cpp
+  wSerial.cpp
+  ../ClsBaseKRobot.cpp
+)
+
+INCLUDE_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/qtKheperaDisp
+  ${CMAKE_CURRENT_SOURCE_DIR}/../
+  ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../
+  ${QT_INCLUDE_DIR}
+)
+
+
+ADD_SUBDIRECTORY(qtKheperaDisp)
+
+ADD_LIBRARY(moduleKhepera SHARED ${libSrc})
+
+
+SET_TARGET_PROPERTIES(moduleKhepera PROPERTIES PREFIX "")
+
+TARGET_LINK_LIBRARIES(moduleKhepera
+  KheperaDisp
+)
+
+INSTALL(TARGETS 
+  moduleKhepera
+#  LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../../lib/Modules/ 
+#  LIBRARY DESTINATION lib/Modules/ 
+  LIBRARY DESTINATION lib/iqr/Modules/
+  ARCHIVE DESTINATION lib/iqr/Modules/
+  RUNTIME DESTINATION bin 
+
+)

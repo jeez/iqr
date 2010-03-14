@@ -1,0 +1,8 @@
+<!-- VERSION:06 -->
+<!ELEMENT Process (Module?, Note?, DiagramIcon, Group*) >
+<!ATTLIST Process 
+          name CDATA #REQUIRED
+       	  id ID #REQUIRED
+          hostname CDATA #REQUIRED
+          port NMTOKEN #REQUIRED>
+

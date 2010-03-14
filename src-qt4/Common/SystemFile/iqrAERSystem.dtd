@@ -1,0 +1,51 @@
+<!ELEMENT AERConnection ( pre+ ) >
+<!ATTLIST AERConnection id NMTOKEN #REQUIRED >
+<!ATTLIST AERConnection source NMTOKEN #REQUIRED >
+<!ATTLIST AERConnection target NMTOKEN #REQUIRED >
+<!ATTLIST AERConnection type NMTOKEN #REQUIRED >
+
+<!ELEMENT AERExportSystem ( Note, Process, AERConnection+ ) >
+<!ATTLIST AERExportSystem author NMTOKEN #REQUIRED >
+<!ATTLIST AERExportSystem cylesPerSecond NMTOKEN #REQUIRED >
+<!ATTLIST AERExportSystem date CDATA #REQUIRED >
+<!ATTLIST AERExportSystem id NMTOKEN #REQUIRED >
+<!ATTLIST AERExportSystem name CDATA #REQUIRED >
+
+<!ELEMENT DiagramIcon EMPTY >
+<!ATTLIST DiagramIcon height NMTOKEN #REQUIRED >
+<!ATTLIST DiagramIcon width NMTOKEN #REQUIRED >
+<!ATTLIST DiagramIcon x NMTOKEN #REQUIRED >
+<!ATTLIST DiagramIcon y NMTOKEN #REQUIRED >
+
+<!ELEMENT Group ( Topology, Neuron, Note, DiagramIcon ) >
+<!ATTLIST Group id NMTOKEN #REQUIRED >
+<!ATTLIST Group name NMTOKEN #REQUIRED >
+
+<!ELEMENT Neuron ( Parameter+ ) >
+<!ATTLIST Neuron name NMTOKEN #REQUIRED >
+
+<!ELEMENT Note EMPTY >
+
+<!ELEMENT Parameter EMPTY >
+<!ATTLIST Parameter name NMTOKEN #REQUIRED >
+<!ATTLIST Parameter value ( 0 | 0.3 | 1 | false ) #REQUIRED >
+
+<!ELEMENT Process ( Note, DiagramIcon, Group+ ) >
+<!ATTLIST Process hostname CDATA #REQUIRED >
+<!ATTLIST Process id NMTOKEN #REQUIRED >
+<!ATTLIST Process name CDATA #REQUIRED >
+<!ATTLIST Process port NMTOKEN #REQUIRED >
+
+<!ELEMENT Topology ( TopologyRect ) >
+
+<!ELEMENT TopologyRect EMPTY >
+<!ATTLIST TopologyRect hcount NMTOKEN #REQUIRED >
+<!ATTLIST TopologyRect vcount NMTOKEN #REQUIRED >
+
+<!ELEMENT post EMPTY >
+<!ATTLIST post delay NMTOKEN #FIXED "0" >
+<!ATTLIST post index NMTOKEN #REQUIRED >
+
+<!ELEMENT pre ( post+ ) >
+<!ATTLIST pre index NMTOKEN #REQUIRED >
+

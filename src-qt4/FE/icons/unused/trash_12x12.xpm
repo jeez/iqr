@@ -1,0 +1,21 @@
+/* XPM */
+const char *trash[]={
+"12 12 6 1",
+". c None",
+"# c #303030",
+"b c #585858",
+"d c #808080",
+"c c #a0a0a0",
+"a c #ffffff",
+"...###aa#...",
+".##bbbbabb#.",
+"#aabaaaabbb#",
+"c#bbaaabab#b",
+"ccd#b#b#bdbb",
+"ccddcddcddbb",
+"ccddcddcddbb",
+".ccdcddcddb.",
+".ccdcddcddb.",
+".ccdcddcddb.",
+".ccdcddcddb.",
+"..bbbbbbbb.."};

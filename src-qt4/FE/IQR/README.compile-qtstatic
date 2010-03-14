@@ -1,0 +1,3 @@
+In your makefile, replace -L$(QTDIR)/lib -lqt with $(QTDIR)/lib/libqt.a,
+but make sure you actually compiled the static version of QT first.
+

@@ -1,0 +1,21 @@
+/* XPM */
+const char *stop[]={
+"13 13 5 1",
+"a c None",
+"c c #800000",
+"b c #c00000",
+". c #dcdcdc",
+"# c #ff0000",
+".............",
+".###########a",
+".#bbbbbbbbbc.",
+".#bbbbbbbbbc.",
+".#bbbbbbbbbc.",
+".#bbbbbbbbbc.",
+".#bbbbbbbbbc.",
+".#bbbbbbbbbc.",
+".#bbbbbbbbbc.",
+".#bbbbbbbbbc.",
+".#bbbbbbbbbc.",
+".ccccccccccc.",
+"............."};

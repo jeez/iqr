@@ -1,0 +1,115 @@
+<!-- VERSION:05 -->
+
+<!ELEMENT Connection ((SubConnection|ConnectionUserDef),Note?, DiagramLine) >
+<!ATTLIST Connection
+        id ID #REQUIRED
+        source IDREF #REQUIRED
+        target IDREF #REQUIRED
+        type  (excitatory|inhibitory|modulatory)  #IMPLIED>
+
+
+<!ELEMENT SubConnection (SourcePattern,TargetPattern,Arborization,WeightFunction,DelayFunction,Synapse?)>
+
+
+<!ELEMENT Arborization (ArbEllipse|ArbRect|ArbEllipseWindow|ArbRectWindow|ArbRandom|ArbAll)>
+<!ATTLIST Arborization
+        initialization_probability NMTOKEN #REQUIRED
+        self_connect  NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED>
+
+
+<!ELEMENT ArbEllipse EMPTY>
+<!ATTLIST ArbEllipse
+        width NMTOKEN #REQUIRED
+        height NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbRect EMPTY>
+<!ATTLIST ArbRect
+        width NMTOKEN #REQUIRED
+        height NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbEllipseWindow EMPTY>
+<!ATTLIST ArbEllipseWindow
+        innerwidth NMTOKEN #REQUIRED
+        innerheight NMTOKEN #REQUIRED
+        outerwidth NMTOKEN #REQUIRED
+        outerheight NMTOKEN #REQUIRED>
+        
+<!ELEMENT ArbRectWindow  EMPTY>
+<!ATTLIST ArbRectWindow
+        innerwidth NMTOKEN #REQUIRED
+        innerheight NMTOKEN #REQUIRED
+        outerwidth NMTOKEN #REQUIRED
+        outerheight NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbRandom EMPTY>
+<!ATTLIST ArbRandom
+        count  NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbAll EMPTY>
+
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!ELEMENT WeightFunction (FunGaussian|FunLinear|FunBlock|FunRandom|FunUniform|FunKernel)>
+
+<!ELEMENT DelayFunction (FunGaussian|FunLinear|FunBlock|FunRandom|FunUniform|FunKernel)>
+
+<!ELEMENT FunGaussian EMPTY>
+<!ATTLIST FunGaussian
+        min NMTOKEN #REQUIRED
+        max NMTOKEN #REQUIRED
+        sigma NMTOKEN #REQUIRED>
+        
+<!ELEMENT FunLinear EMPTY>
+<!ATTLIST FunLinear
+        min NMTOKEN #REQUIRED
+        max NMTOKEN #REQUIRED>
+
+<!ELEMENT FunBlock EMPTY>
+<!ATTLIST FunBlock
+        min NMTOKEN #REQUIRED
+        max NMTOKEN #REQUIRED
+        width NMTOKEN #REQUIRED
+        height NMTOKEN #REQUIRED>
+
+<!ELEMENT FunRandom EMPTY>
+<!ATTLIST FunRandom
+        probability  NMTOKEN #REQUIRED>
+
+<!ELEMENT FunUniform EMPTY>
+<!ATTLIST FunUniform
+        value  NMTOKEN #REQUIRED>
+
+<!ELEMENT FunKernel (PointV*)>
+
+<!ELEMENT PointV EMPTY>
+<!ATTLIST PointV
+        x  NMTOKEN #REQUIRED
+        y  NMTOKEN #REQUIRED
+        value NMTOKEN #REQUIRED>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+
+<!ELEMENT SourcePattern (Region|Point+|All)>
+<!ELEMENT TargetPattern (Region|Point+|All)>
+
+<!ELEMENT Region EMPTY>
+<!ATTLIST Region
+        xstart  NMTOKEN #REQUIRED
+        ystart  NMTOKEN #REQUIRED
+        xend  NMTOKEN #REQUIRED
+        yend  NMTOKEN #REQUIRED>
+
+
+<!ELEMENT All EMPTY>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!ELEMENT ConnectionUserDef (Parameter*)>
+<!ATTLIST ConnectionUserDef
+          name CDATA #REQUIRED
+          filename CDATA #REQUIRED>
+
+
+
+

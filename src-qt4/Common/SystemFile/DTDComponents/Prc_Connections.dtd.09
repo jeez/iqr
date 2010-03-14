@@ -1,0 +1,122 @@
+<!-- VERSION:08 -->
+
+<!ELEMENT Connection (Pattern,Arborization,DelayFunction,Synapse?,Note?, DiagramLine)>
+<!ATTLIST Connection
+        name CDATA #REQUIRED
+        id ID #REQUIRED
+        source IDREF #REQUIRED
+        target IDREF #REQUIRED
+        type  (excitatory|inhibitory|modulatory)  #IMPLIED>
+
+
+<!ELEMENT Pattern ((PatternMapped|PatternForeach|PatternTuples)) >
+
+<!ELEMENT PatternMapped ((Region|All),(Region|All))>
+<!ATTLIST PatternMapped
+        type  (center|all)  #IMPLIED>
+
+<!ELEMENT PatternForeach ((Region|All|List),(Region|All|List))>
+
+<!ELEMENT PatternTuples (Tuple+)>
+<!ELEMENT Tuple (SourceList, TargetList)>
+
+<!ELEMENT List (Point+)>
+<!ELEMENT SourceList (Point+)>
+<!ELEMENT TargetList (Point+)>
+
+
+<!ELEMENT Region EMPTY>
+<!ATTLIST Region
+        xstart  NMTOKEN #REQUIRED
+        ystart  NMTOKEN #REQUIRED
+        height  NMTOKEN #REQUIRED
+        width  NMTOKEN #REQUIRED>
+
+<!ELEMENT All EMPTY>
+
+<!ELEMENT Arborization (ArbEllipse|ArbRect|ArbEllipseWindow|ArbRectWindow|ArbRandom|ArbAll)>
+
+
+<!ELEMENT ArbEllipse EMPTY>
+<!ATTLIST ArbEllipse
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED
+        width NMTOKEN #REQUIRED
+        height NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbRect EMPTY>
+<!ATTLIST ArbRect
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED
+        width NMTOKEN #REQUIRED
+        height NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbEllipseWindow EMPTY>
+<!ATTLIST ArbEllipseWindow
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED
+        innerwidth NMTOKEN #REQUIRED
+        innerheight NMTOKEN #REQUIRED
+        outerwidth NMTOKEN #REQUIRED
+        outerheight NMTOKEN #REQUIRED>
+        
+<!ELEMENT ArbRectWindow  EMPTY>
+<!ATTLIST ArbRectWindow
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED
+        innerwidth NMTOKEN #REQUIRED
+        innerheight NMTOKEN #REQUIRED
+        outerwidth NMTOKEN #REQUIRED
+        outerheight NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbRandom EMPTY>
+<!ATTLIST ArbRandom
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED
+        count  NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbAll EMPTY>
+<!ATTLIST ArbAll
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED>
+
+
+<!ELEMENT DelayFunction (FunGaussian|FunLinear|FunBlock|FunRandom|FunUniform|FunKernel)>
+
+<!ELEMENT FunGaussian EMPTY>
+<!ATTLIST FunGaussian
+        min NMTOKEN #REQUIRED
+        max NMTOKEN #REQUIRED
+        sigma NMTOKEN #REQUIRED>
+        
+<!ELEMENT FunLinear EMPTY>
+<!ATTLIST FunLinear
+        min NMTOKEN #REQUIRED
+        max NMTOKEN #REQUIRED>
+
+<!ELEMENT FunBlock EMPTY>
+<!ATTLIST FunBlock
+        min NMTOKEN #REQUIRED
+        max NMTOKEN #REQUIRED
+        width NMTOKEN #REQUIRED
+        height NMTOKEN #REQUIRED>
+
+<!ELEMENT FunRandom EMPTY>
+<!ATTLIST FunRandom
+        probability  NMTOKEN #REQUIRED>
+
+<!ELEMENT FunUniform EMPTY>
+<!ATTLIST FunUniform
+        value  NMTOKEN #REQUIRED>
+
+<!ELEMENT FunKernel (PointV*)>
+
+<!ELEMENT PointV EMPTY>
+<!ATTLIST PointV
+        x  NMTOKEN #REQUIRED
+        y  NMTOKEN #REQUIRED
+        value NMTOKEN #REQUIRED>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+

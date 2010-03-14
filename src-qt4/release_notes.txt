@@ -1,0 +1,16 @@
+iqr 2.x release notes
+---------------------
+
+Version 2.x is the latest version of iqr, and based on Qt 4.5. 
+At the moment this is release is still alpha.
+
+Backwards compatibility
+.......................
+Warning: Due to the change from Qt3 to Qt4, some of the modules might not work anymore.
+
+Updates
+.......
+The most visible change in the GUI is the logic of re-routing connections, the ability
+to assign custom colors to processes and groups, and the new filter dialog for the system
+browser.
+

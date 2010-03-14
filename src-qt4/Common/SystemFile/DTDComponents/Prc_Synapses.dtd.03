@@ -1,0 +1,13 @@
+<!-- VERSION:03 -->
+
+
+<!ELEMENT Synapse ((SynapseHebbian), Note?)>
+
+
+<!ELEMENT SynapseHebbian EMPTY>
+
+<!ATTLIST SynapseHebbian 
+          learningrate NMTOKEN #REQUIRED
+          decay NMTOKEN #REQUIRED
+          inputtype (acitvity|membranepotential|excitation)  #IMPLIED>
+

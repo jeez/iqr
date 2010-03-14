@@ -1,0 +1,237 @@
+<!-- XML iqr421_System DTD
+        DTD for iqr421 systems
+        AUTHOR:  Ulysses Bernardet & J. Mark Blanchard
+        VERSION: 080702050905040202 
+        DATE: 2005-05-25 0:2:39
+ -->
+<!-- VERSION:08 -->
+
+<!ELEMENT System ( Note?, Process*, Connection*)>
+
+<!ATTLIST System
+          id ID #REQUIRED
+          name CDATA #REQUIRED
+          date CDATA #REQUIRED
+          author CDATA #REQUIRED
+          cylesPerSecond NMTOKEN #REQUIRED
+	  syncPlots NMTOKEN #IMPLIED
+	  port NMTOKEN #IMPLIED>
+
+
+<!-- VERSION:07 -->
+<!ELEMENT Process (Module?, Note?, DiagramIcon, Group*) >
+<!ATTLIST Process 
+          name CDATA #REQUIRED
+       	  id ID #REQUIRED
+          hostname CDATA #REQUIRED
+          port NMTOKEN #REQUIRED
+	  enableModule NMTOKEN #IMPLIED>
+
+
+<!-- VERSION:02 -->
+
+<!ELEMENT Module (Parameter*, XRefHolder*, Note?)>
+<!ATTLIST Module
+          name CDATA #REQUIRED>
+
+<!-- VERSION:05 -->
+<!ELEMENT Group (Topology, Neuron, Note?, DiagramIcon)>
+
+<!ATTLIST Group 
+          name CDATA #REQUIRED
+          id ID #REQUIRED>
+
+<!ELEMENT Topology (TopologyRect|TopologyHex|TopologySparse)>
+
+<!ELEMENT TopologyRect EMPTY>
+<!ATTLIST TopologyRect
+          hcount NMTOKEN #REQUIRED
+          vcount NMTOKEN #REQUIRED
+	  cylinderHor NMTOKEN #REQUIRED
+	  cylinderVert NMTOKEN #REQUIRED>
+
+<!ELEMENT TopologyHex EMPTY>
+<!ATTLIST TopologyHex 
+          hcount NMTOKEN #REQUIRED
+          vcount NMTOKEN #REQUIRED
+          orientation NMTOKEN #REQUIRED
+          offset NMTOKEN #REQUIRED>
+
+<!ELEMENT TopologySparse (Point+)>
+
+
+
+<!-- VERSION:09 -->
+
+<!ELEMENT Connection (Pattern,Arborization,AttenuationFunction,DelayFunction,Synapse?,Note?, DiagramLine)>
+<!ATTLIST Connection
+        name CDATA #REQUIRED
+        id ID #REQUIRED
+        source IDREF #REQUIRED
+        target IDREF #REQUIRED
+        type  (excitatory|inhibitory|modulatory)  #IMPLIED>
+
+
+<!ELEMENT Pattern ((PatternMapped|PatternForeach|PatternTuples)) >
+
+<!ELEMENT PatternMapped ((Region|All),(Region|All))>
+<!ATTLIST PatternMapped
+        type  (center|all)  #IMPLIED>
+
+<!ELEMENT PatternForeach ((Region|All|List),(Region|All|List))>
+
+<!ELEMENT PatternTuples (Tuple+)>
+<!ELEMENT Tuple (SourceList, TargetList)>
+
+<!ELEMENT List (Point+)>
+<!ELEMENT SourceList (Point+)>
+<!ELEMENT TargetList (Point+)>
+
+
+<!ELEMENT Region EMPTY>
+<!ATTLIST Region
+        xstart  NMTOKEN #REQUIRED
+        ystart  NMTOKEN #REQUIRED
+        height  NMTOKEN #REQUIRED
+        width  NMTOKEN #REQUIRED>
+
+<!ELEMENT All EMPTY>
+
+<!ELEMENT Arborization (ArbEllipse|ArbRect|ArbEllipseWindow|ArbRectWindow|ArbRandom|ArbAll)>
+
+
+<!ELEMENT ArbEllipse EMPTY>
+<!ATTLIST ArbEllipse
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED
+        width NMTOKEN #REQUIRED
+        height NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbRect EMPTY>
+<!ATTLIST ArbRect
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED
+        width NMTOKEN #REQUIRED
+        height NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbEllipseWindow EMPTY>
+<!ATTLIST ArbEllipseWindow
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED
+        innerwidth NMTOKEN #REQUIRED
+        innerheight NMTOKEN #REQUIRED
+        outerwidth NMTOKEN #REQUIRED
+        outerheight NMTOKEN #REQUIRED>
+        
+<!ELEMENT ArbRectWindow  EMPTY>
+<!ATTLIST ArbRectWindow
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED
+        innerwidth NMTOKEN #REQUIRED
+        innerheight NMTOKEN #REQUIRED
+        outerwidth NMTOKEN #REQUIRED
+        outerheight NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbRandom EMPTY>
+<!ATTLIST ArbRandom
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED
+        count  NMTOKEN #REQUIRED>
+
+<!ELEMENT ArbAll EMPTY>
+<!ATTLIST ArbAll
+        initialization_probability NMTOKEN #REQUIRED
+        direction  (RF|PF)  #IMPLIED>
+
+
+<!ELEMENT DelayFunction (FunGaussian|FunLinear|FunBlock|FunRandom|FunUniform|FunKernel)>
+<!ELEMENT AttenuationFunction (FunGaussian|FunLinear|FunBlock|FunRandom|FunUniform|FunKernel)>
+
+<!ELEMENT FunGaussian EMPTY>
+<!ATTLIST FunGaussian
+        min NMTOKEN #REQUIRED
+        max NMTOKEN #REQUIRED
+        sigma NMTOKEN #REQUIRED>
+        
+<!ELEMENT FunLinear EMPTY>
+<!ATTLIST FunLinear
+        min NMTOKEN #REQUIRED
+        max NMTOKEN #REQUIRED>
+
+<!ELEMENT FunBlock EMPTY>
+<!ATTLIST FunBlock
+        min NMTOKEN #REQUIRED
+        max NMTOKEN #REQUIRED
+        width NMTOKEN #REQUIRED
+        height NMTOKEN #REQUIRED>
+
+<!ELEMENT FunRandom EMPTY>
+<!ATTLIST FunRandom
+        probability  NMTOKEN #REQUIRED>
+
+<!ELEMENT FunUniform EMPTY>
+<!ATTLIST FunUniform
+        value  NMTOKEN #REQUIRED>
+
+<!ELEMENT FunKernel (PointV*)>
+
+<!ELEMENT PointV EMPTY>
+<!ATTLIST PointV
+        x  NMTOKEN #REQUIRED
+        y  NMTOKEN #REQUIRED
+        value NMTOKEN #REQUIRED>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+
+
+<!-- VERSION:05 -->
+
+<!ELEMENT Neuron (Parameter*, Note?)>
+<!ATTLIST Neuron 
+          name CDATA #REQUIRED>
+<!-- VERSION:04 -->
+
+<!ELEMENT Synapse (Parameter*, XRefHolder*, Note?)>
+<!ATTLIST Synapse 
+          name CDATA #REQUIRED>
+
+
+
+<!-- VERSION:02 -->
+
+<!ELEMENT DiagramIcon EMPTY>
+<!ATTLIST DiagramIcon
+          x NMTOKEN #REQUIRED
+          y NMTOKEN #REQUIRED
+          width NMTOKEN #IMPLIED
+          height NMTOKEN #IMPLIED>
+
+<!ELEMENT DiagramLine (Point*)>
+<!ATTLIST DiagramLine
+          APSource NMTOKEN #IMPLIED
+          APTarget NMTOKEN #IMPLIED>
+
+<!ELEMENT Note (#PCDATA)>
+<!-- VERSION:02 -->
+
+<!ELEMENT Parameter EMPTY>
+<!ATTLIST Parameter  
+          name CDATA #REQUIRED
+          value CDATA #REQUIRED>
+
+<!ELEMENT Point EMPTY>
+<!ATTLIST Point
+        x  NMTOKEN #REQUIRED
+        y  NMTOKEN #REQUIRED>
+
+
+<!ELEMENT XRefHolder (XRef*)>
+<!ATTLIST XRefHolder
+        name  NMTOKEN #REQUIRED>
+
+
+<!ELEMENT XRef EMPTY>
+<!ATTLIST XRef
+        name  NMTOKEN #REQUIRED
+        target CDATA #REQUIRED> <!-- allows invalid references... -->

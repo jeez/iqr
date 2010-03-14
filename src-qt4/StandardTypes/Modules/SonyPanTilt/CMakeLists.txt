@@ -1,0 +1,47 @@
+SET(CMAKE_INSTALL_PREFIX /opt/iqr)
+SET(CMAKE_VERBOSE_MAKEFILE TRUE) 
+
+IF(CMAKE_OSX_ARCHITECTURES)
+SET(CMAKE_CXX_FLAGS 
+"${CMAKE_CXX_FLAGS}  -undefined dynamic_lookup"
+)                           
+ENDIF(CMAKE_OSX_ARCHITECTURES)
+
+
+ADD_DEFINITIONS(-DQT_THREAD_SUPPORT -D_REENTRANT -DQT_NO_DEBUG -DIQRMODULE)
+
+SET(QT_MT_REQUIRED TRUE)
+FIND_PACKAGE(Qt4 REQUIRED)
+
+
+
+SET (libSrc 
+  moduleSonyPanTilt.cpp
+  com.cc
+# demo.cc
+  sony_evi.cc
+)
+
+
+INCLUDE_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/../Common
+  ${CMAKE_CURRENT_SOURCE_DIR}/../../../
+  ${QT_INCLUDE_DIR}
+)
+
+
+ADD_LIBRARY(moduleSonyPanTilt SHARED ${libSrc})
+
+
+SET_TARGET_PROPERTIES(moduleSonyPanTilt PROPERTIES PREFIX "")
+
+INSTALL(TARGETS 
+  moduleSonyPanTilt
+#  LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../../../lib/Modules/ 
+#  LIBRARY DESTINATION lib/Modules/ 
+  LIBRARY DESTINATION lib/iqr/Modules/ 
+  ARCHIVE DESTINATION lib/iqr/Modules/
+  RUNTIME DESTINATION bin 
+)
+

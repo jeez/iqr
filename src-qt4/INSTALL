@@ -1,0 +1,25 @@
+Manual installation of iqr in user directory
+--------------------------------------------
+
+1) unpack the iqr archive (e.g. "tar xfvz iqr-XXX.tar.gz")
+2) set the environment variable IQR_HOME to point to the directory where iqr was unpacked into
+e.g. 
+"export IQR_HOME=/home/ulysses/iqr-2.0.0-i686_fullbin"
+3) set the environment variable LD_LIBRARY_PATH to include $IQR_HOME/lib 
+e.g. 
+"export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$IQR_HOME/lib"
+
+(To set the environment variables permanently, add the above lines to your .bashrc file)
+
+4) Move the directories
+$IQR_HOME/lib/iqr/Modules
+$IQR_HOME/lib/iqr/Neurons
+$IQR_HOME/lib/iqr/Synapses 
+to ~/iqr/lib/
+e.g.
+"mkdir -p ~/iqr/lib/
+mv $IQR_HOME/lib/iqr/Modules  ~/iqr/lib/
+mv $IQR_HOME/lib/iqr/Neurons  ~/iqr/lib/
+mv $IQR_HOME/lib/iqr/Synapses  ~/iqr/lib/"
+
+5) run iqr in $IQR_HOME/bin

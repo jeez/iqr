@@ -1,0 +1,15 @@
+<!-- VERSION:02 -->
+
+<!ELEMENT DiagramIcon EMPTY>
+<!ATTLIST DiagramIcon
+          x NMTOKEN #REQUIRED
+          y NMTOKEN #REQUIRED
+          width NMTOKEN #IMPLIED
+          height NMTOKEN #IMPLIED>
+
+<!ELEMENT DiagramLine (Point*)>
+<!ATTLIST DiagramLine
+          APSource NMTOKEN #IMPLIED
+          APTarget NMTOKEN #IMPLIED>
+
+<!ELEMENT Note (#PCDATA)>

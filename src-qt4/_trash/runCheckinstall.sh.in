@@ -1,0 +1,24 @@
+#!/bin/bash 
+checkinstall \
+--pkgname=@PROJECT_NAME@ \
+--pkgversion=@IQR_MAJOR@ \
+--pkgrelease=@IQR_REL@.@LinuxDistro@  \
+--pkggroup="X11/KDE/Applications" \
+--provides=@PROJECT_NAME@ \
+--requires="xerces-c,qt" \
+--nodoc \
+--deldoc=no \
+--deldesc=no \
+--delspec=yes \
+--review-spec \
+--stripso=yes \
+--strip=yes \
+--backup=no
+
+
+#checkinstall--spec=iqr.spec \
+#--nodoc \
+#--strip=yes \ 
+#--deldoc=no \
+#--deldesc=no \
+#--delspec=no

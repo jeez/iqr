@@ -1,0 +1,23 @@
+/* XPM */
+const char *prc_sfp[]={
+"14 14 6 1",
+". c None",
+"# c #000000",
+"a c #008080",
+"b c #00c0c0",
+"c c #00ffff",
+"d c #ffffff",
+"..............",
+"....######....",
+"...##aaaa##...",
+"..#aaaaaaaa#..",
+".#aaaabbbbba#.",
+".#aaabbbbbba#.",
+".#aabbbcccba#.",
+".#aabbccccca#.",
+".#aabbcccdca#.",
+".#aabbccddda#.",
+"..#abbbccdb#..",
+"...##aaaa##...",
+"....######....",
+".............."};

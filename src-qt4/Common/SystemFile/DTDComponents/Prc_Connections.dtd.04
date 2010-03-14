@@ -1,0 +1,115 @@
+<!-- VERSION:04 -->
+
+<!ELEMENT Connection (SubConnection|ConnectionUserDef)>
+<!ATTLIST Connection
+        id ID #REQUIRED
+        source IDREF #REQUIRED
+        target IDREF #REQUIRED
+        type  (excitatory|inhibitory|modulatory)  #IMPLIED>
+
+
+<!ELEMENT SubConnection (SourcePattern,TargetPattern,Arborization,WeightFunction,DelayFunction,Synapse?)>
+
+
+<!ELEMENT Arborization (ArbEllipse|ArbRect|ArbEllipseWindow|ArbRectWindow|ArbRandom|ArbAll)>
+<!ATTLIST Arborization
+        initialization_probability CDATA #REQUIRED
+        self_connect  CDATA #REQUIRED
+        direction  (RF|PF)  #IMPLIED>
+
+
+<!ELEMENT ArbEllipse EMPTY>
+<!ATTLIST ArbEllipse
+        width CDATA #REQUIRED
+        height CDATA #REQUIRED>
+
+<!ELEMENT ArbRect EMPTY>
+<!ATTLIST ArbRect
+        width CDATA #REQUIRED
+        height CDATA #REQUIRED>
+
+<!ELEMENT ArbEllipseWindow EMPTY>
+<!ATTLIST ArbEllipseWindow
+        innerwidth CDATA #REQUIRED
+        innerheight CDATA #REQUIRED
+        outerwidth CDATA #REQUIRED
+        outerheight CDATA #REQUIRED>
+        
+<!ELEMENT ArbRectWindow  EMPTY>
+<!ATTLIST ArbRectWindow
+        innerwidth CDATA #REQUIRED
+        innerheight CDATA #REQUIRED
+        outerwidth CDATA #REQUIRED
+        outerheight CDATA #REQUIRED>
+
+<!ELEMENT ArbRandom EMPTY>
+<!ATTLIST ArbRandom
+        count  CDATA #REQUIRED>
+
+<!ELEMENT ArbAll EMPTY>
+
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!ELEMENT WeightFunction (FunGaussian|FunLinear|FunBlock|FunRandom|FunUniform|FunKernel)>
+
+<!ELEMENT DelayFunction (FunGaussian|FunLinear|FunBlock|FunRandom|FunUniform|FunKernel)>
+
+<!ELEMENT FunGaussian EMPTY>
+<!ATTLIST FunGaussian
+        min CDATA #REQUIRED
+        max CDATA #REQUIRED
+        sigma CDATA #REQUIRED>
+        
+<!ELEMENT FunLinear EMPTY>
+<!ATTLIST FunLinear
+        min CDATA #REQUIRED
+        max CDATA #REQUIRED>
+
+<!ELEMENT FunBlock EMPTY>
+<!ATTLIST FunBlock
+        min CDATA #REQUIRED
+        max CDATA #REQUIRED
+        width CDATA #REQUIRED
+        height CDATA #REQUIRED>
+
+<!ELEMENT FunRandom EMPTY>
+<!ATTLIST FunRandom
+        probability  CDATA #REQUIRED>
+
+<!ELEMENT FunUniform EMPTY>
+<!ATTLIST FunUniform
+        value  CDATA #REQUIRED>
+
+<!ELEMENT FunKernel (PointV*)>
+
+<!ELEMENT PointV EMPTY>
+<!ATTLIST PointV
+        x  CDATA #REQUIRED
+        y  CDATA #REQUIRED
+        value CDATA #REQUIRED>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+
+<!ELEMENT SourcePattern (Region|Point+|All)>
+<!ELEMENT TargetPattern (Region|Point+|All)>
+
+<!ELEMENT Region EMPTY>
+<!ATTLIST Region
+        xstart  CDATA #REQUIRED
+        ystart  CDATA #REQUIRED
+        xend  CDATA #REQUIRED
+        yend  CDATA #REQUIRED>
+
+
+<!ELEMENT All EMPTY>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!ELEMENT ConnectionUserDef (Parameter*)>
+<!ATTLIST ConnectionUserDef
+          name CDATA #REQUIRED
+          filename CDATA #REQUIRED>
+
+
+
+

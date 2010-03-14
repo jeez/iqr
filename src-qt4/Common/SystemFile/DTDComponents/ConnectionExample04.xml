@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<!DOCTYPE Connection SYSTEM 'Prc_Connections.dtd.07'>
+<!--  msg_banner -->
+<Connection type="excitatory" source="a0" target="a1" id="a1">
+   <Pattern>
+      <Foreach>
+         <List>
+            <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+         </List>
+         <All/>
+      </Foreach>
+   </Pattern>
+   <Arborization>
+      <ArbRectWindow innerheight="4N.Mt-o_3:ken" outerwidth="4N.Mt-o_3:ken" self_connect="4N.Mt-o_3:ken" initialization_probability="4N.Mt-o_3:ken" innerwidth="4N.Mt-o_3:ken" outerheight="4N.Mt-o_3:ken"/>
+   </Arborization>
+   <WeightFunction>
+      <FunKernel>
+         <PointV x="4N.Mt-o_3:ken" value="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+      </FunKernel>
+   </WeightFunction>
+   <DelayFunction>
+      <FunLinear max="4N.Mt-o_3:ken" min="4N.Mt-o_3:ken"/>
+   </DelayFunction>
+   <DiagramLine APSource="4N.Mt-o_3:ken">
+      <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+      <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+   </DiagramLine>
+</Connection>

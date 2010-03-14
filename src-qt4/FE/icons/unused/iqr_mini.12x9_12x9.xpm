@@ -1,0 +1,15 @@
+/* XPM */
+static char *iqr_mini[]={
+"12 9 3 1",
+"a c None",
+"# c #303030",
+". c #a0a0a0",
+".#aaaaaaaaaa",
+"aaaaaaaaaaaa",
+".#a.####a.##",
+".#a.#a.#a.#a",
+".#a.#a.#a.#a",
+".##########a",
+"aaaaaa.#aaaa",
+"aaaaaa.#aaaa",
+"aaaaaa.#aaaa"};

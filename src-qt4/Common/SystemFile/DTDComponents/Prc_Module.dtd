@@ -1,0 +1,5 @@
+<!-- VERSION:02 -->
+
+<!ELEMENT Module (Parameter*, XRefHolder*, Note?)>
+<!ATTLIST Module
+          name CDATA #REQUIRED>

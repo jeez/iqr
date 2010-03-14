@@ -1,0 +1,20 @@
+/* XPM */
+const char *iconNoSplit[]={
+"16 13 4 1",
+". c None",
+"# c #808080",
+"b c #dcdcdc",
+"a c #ffffff",
+"................",
+".##############.",
+".#aaaaaaaaaaaa#b",
+".#aaaaaaaaaaaa#b",
+"b#aaaaaaaaaaaa#b",
+"b#aaaaaaaaaaaa#b",
+"b#aaaaaaaaaaaa#b",
+"b#aaaaaaaaaaaa#b",
+"b#aaaaaaaaaaaa#b",
+".#aaaaaaaaaaaa#.",
+".#aaaaaaaaaaaa#.",
+".##############.",
+"................"};

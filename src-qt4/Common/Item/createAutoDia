@@ -1,0 +1,1 @@
+autodia.pl -z -o autodia.svg  -A -M  -l c++  -i "`find . -name \*.hpp`"

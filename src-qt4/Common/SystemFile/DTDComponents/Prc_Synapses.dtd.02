@@ -1,0 +1,13 @@
+<!-- VERSION:02 -->
+
+
+<!ELEMENT Synapse (SynapseHebbian)>
+
+
+<!ELEMENT SynapseHebbian EMPTY>
+
+<!ATTLIST SynapseHebbian 
+          learningrate CDATA #REQUIRED
+          decay CDATA #REQUIRED
+          inputtype (acitvity|membranepotential|excitation)  #IMPLIED>
+

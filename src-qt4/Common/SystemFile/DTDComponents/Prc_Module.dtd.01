@@ -1,0 +1,15 @@
+<!-- VERSION:01 -->
+
+<!ELEMENT Module (Parameter*, Note?)>
+<!ATTLIST Module 
+          name CDATA #REQUIRED
+          id ID #REQUIRED
+          isUsermodule  (yes|no)  #IMPLIED
+          filename CDATA #IMPLIED>
+
+<!-- 
+<!ELEMENT MParameter EMPTY>
+<!ATTLIST MParameter
+          name  CDATA #REQUIRED
+          value  CDATA #REQUIRED>
+ -->

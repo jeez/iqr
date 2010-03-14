@@ -1,0 +1,22 @@
+/* XPM */
+const char *ring[]={
+"12 12 7 1",
+". c None",
+"# c #000000",
+"a c #004000",
+"b c #008000",
+"c c #00c000",
+"d c #00ff00",
+"e c #ffffff",
+"...######...",
+"..##aaaa##..",
+".#aabbbbbb#.",
+"#aabbcccccb#",
+"#abbccccccb#",
+"#abcccdddcb#",
+"#abccdddddb#",
+"#abccdddedb#",
+"#abccddeeeb#",
+".#bcccddec#.",
+"..##bbbb##..",
+"...######..."};

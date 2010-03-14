@@ -1,0 +1,22 @@
+<!-- VERSION:02 -->
+
+<!ELEMENT Parameter EMPTY>
+<!ATTLIST Parameter  
+          name CDATA #REQUIRED
+          value CDATA #REQUIRED>
+
+<!ELEMENT Point EMPTY>
+<!ATTLIST Point
+        x  NMTOKEN #REQUIRED
+        y  NMTOKEN #REQUIRED>
+
+
+<!ELEMENT XRefHolder (XRef*)>
+<!ATTLIST XRefHolder
+        name  NMTOKEN #REQUIRED>
+
+
+<!ELEMENT XRef EMPTY>
+<!ATTLIST XRef
+        name  NMTOKEN #REQUIRED
+        target CDATA #REQUIRED> <!-- allows invalid references... -->

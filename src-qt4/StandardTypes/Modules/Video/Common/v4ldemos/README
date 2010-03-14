@@ -1,0 +1,141 @@
+Contents
+--------
+This tarball contains a thin V4L C wrapper, V4L demo programs and utility
+modules to provide a starting base of simple to understand code for anyone
+wanting to learn V4L programming. I wrote them when I was learning myself.
+The demo programs all require V4L driver mmap support.
+
+All code was written by myself, and is licensed on a "do what the hell you want
+with it" basis. If it somehow helps you get rich, send me a cheque.
+
+The files included in this tarball are as follows;
+
+vidrgb.cpp
+vidgrey.cpp
+vidyuv.cpp
+
+Source for the three demo programs: vidrgb, vidgrey and vidyuv. Each program
+displays live V4L video in a re-sizable X window, with an optional 2x/3x/etc
+magnification factor. More details below.
+
+v4l.h
+v4l.c
+
+The V4L C wrapper. Lets you program using more readable C calls rather than
+ioctls, and provides some minimal added convenience.
+
+hi240.h
+hi240.c
+
+Module to build the "Hi 240" color cube palette used by the V4L
+VIDEO_PALETTE_HI240 mode (available in the bttv Bt848 driver, and possibly
+others). This module is used in the vidrgb demo.
+
+image.h
+image.cpp
+
+Module to encapsulate the XImage data structure, with included MITSHM support.
+Used by all 3 demo programs to provide high performance X output.
+
+rgb2yuv.h
+rgb2yuv.cpp
+
+Module to provide reasonably fast sample-at-a-time RGB<->YUV conversions.
+
+types.h
+
+Basic 1/2/4/8 byte integer type definitions.
+
+readme.txt
+
+This file.
+
+The demo programs
+-----------------
+V4L provides three video capture facilities - read() for simple low performance
+applications, mmap() for high performance streaming capture applications, and
+overlay (= DMA directly to video card memory) for low CPU overhead viewing.
+
+These demo programs all use the high performance mmap() interface. They are all
+hard coded to use /dev/video as the capture device, and the camera (composite)
+input as the video source. These can be changed by changing the parameters passed
+to the open() and V4LSetSource() calls. These programs are meant for testing
+with a camera rather than TV source - they do not include any station tuning
+code, although you may be able to use them with a command line utility such
+as xawtv's set-tv.
+
+The core of each program is a simple double frame alternating capture loop:
+
+frame = 0
+start-capture(frame) // V4LMCapture
+for (;;) {
+  wait-until-captured(frame) // V4LMSync
+  next_frame = (frame == 0) ? 1 : 0
+  start-capture(next_frame)
+  process-frame(frame) // whatever you want to do with it
+  frame = next_frame
+}
+
+vidrgb
+
+Demonstrates RGB capture and display. Requires either an 8bpp PseudoColor
+display, or > 8bpp TrueColor display (use xdpyinfo to see what you have). The
+program selects the V4L RGB capture format that exactly matches your X display,
+so that it doesn't need to convert the captured data, and can simply copy it to
+the display. For 8bpp PseudoColor, the VIDEO_PALETTE_HI240 V4L format is used by
+installing an appropriate X colormap.
+
+vidgrey
+
+Demonstrates greyscale (VIDEO_PALETTE_GREY) capture and display. Requires a
+16bpp TrueColor display. Uses a lookup table to convert the captured data to RGB
+pixel values, since VIDEO_PALETTE_GREY is actually a degenerate YUV format that
+returns 8bit Y samples. May easily be converted to support color depths other
+than 16bpp by modifying the DrawY8() routine.
+
+vidyuv
+
+Demonstrates planar YUV capture and display. Requires a 16bpp TrueColor display.
+The capture format is hard coded, but any planar YUV format is supported, and this
+may be changed by updating the "captureFormat" assignment. Displays a quadrant
+consisting of the Y,U,V components (converted using lookup tables), and the
+combined RGB video derived using the rgb2yuv module. May easily be converted to
+support color depths other than 16bpp by modifying the DrawYUVPlanar() routine.
+
+These demo programs are written primarily to be simple - what they lose
+in versatility they gain in ease of understanding! If they don't do what you
+want, then jump in and change them! They have all been tested using Mandrake 7.1
+(2.2.15 kernel) on a PII 266MHz, using a US Robotics BigPicture (Bt848 based) video
+capture card, and the kernel bttv driver. I expect that vidrgb may require hacking
+if you want it to work on a big-endian machine (maybe not - try it!).
+
+Installation
+------------
+Untar the tarball (I guess you already did that!), and build the demos!
+
+No makefiles or batteries included: each demo program builds using gcc with the
+single command line included as a comment at the top of it's source.
+
+Each demo program can then be run with an optional single command line parameter
+to specify the desired display magnification:
+
+vidrgb
+vidyuv 2
+
+If you need any help or explanation, please use any FAQs or support facilities
+where you found this tarball, or the V4L mailing list as a first resort. If all
+else fails, e-mail me, but don't necessarily expect a fast response (or any if
+it's not a relevant V4L question!).
+
+The V4L mailing list is at:
+
+https://listman.redhat.com/mailman/listinfo/video4linux-list
+
+You need to be a member of the list to read the archives.
+
+Happy hacking!
+
+Ben Bridgwater
+
+bennyb@ntplx.net
+benb@basit.com

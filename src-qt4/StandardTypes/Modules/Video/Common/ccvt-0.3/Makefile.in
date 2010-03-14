@@ -1,0 +1,54 @@
+CPPFLAGS=-Wall -g -O3
+CFLAGS=@DEFS@
+CXXFLAGS=-I$(QTDIR)/include @DEFS@
+ASFLAGS=-g
+LDFLAGS=-g @LDFLAGS@
+LIBS=
+QTLIBS=-L$(QTDIR)/lib -lqt
+CC=@CC@
+CXX=@CXX@
+XLIBS=-L/usr/X11R6/lib -lX11
+
+LIBOBJS=	ccvt_@WHAT@.o ccvt_misc.o
+
+
+all: 	libccvt.a
+
+libccvt.a:	$(LIBOBJS)
+	ar rcv $@ $(LIBOBJS)
+	@RANLIB@ $@
+
+bench:	bench_c1 bench_c2 bench_mmx
+show:	show_c1 show_c2 show_mmx
+.PHONY: bench show
+
+bench_c1:	bench.o ccvt_c1.o
+	@CXX@ $(LDFLAGS) -o $@ bench.o ccvt_c1.o
+
+bench_c2:	bench.o ccvt_c2.o
+	@CXX@ $(LDFLAGS) -o $@ bench.o ccvt_c2.o
+
+bench_mmx:	bench.o ccvt_mmx.o
+	@CXX@ $(LDFLAGS) -o $@ bench.o ccvt_mmx.o
+
+show_c1:	show.o ccvt_c1.o
+	@CXX@ $(LDFLAGS) -o $@ show.o ccvt_c1.o $(QTLIBS) $(XLIBS)
+
+show_c2:	show.o ccvt_c2.o
+	@CXX@ $(LDFLAGS) -o $@ show.o ccvt_c2.o $(QTLIBS) $(XLIBS)
+
+show_mmx:	show.o ccvt_mmx.o
+	@CXX@ $(LDFLAGS) -o $@ show.o ccvt_mmx.o $(QTLIBS) $(XLIBS)
+
+.S.o:
+	gcc -c $(CFLAGS) -o $@ $<
+
+clean:
+	rm -f *.o *.so *.a *~ core *.bak
+	rm -f bench_c1 bench_c2 bench_mmx show_c1 show_c2 show_mmx
+
+dep:
+	# dummy
+
+distclean:	clean
+	rm -f config.cache config.status config.log Makefile

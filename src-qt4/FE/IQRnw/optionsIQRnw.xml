@@ -1,0 +1,17 @@
+<!-- 
+    options file for the PrcDaemon
+-->
+<cloxx>
+  <config>
+    <autohelp/>
+  </config>
+  
+  <options>
+    <option id="systemfile" type="string">
+      <name>file</name>
+      <name>f</name>
+      <comment>system file to open</comment>
+    </option>
+  </options>
+
+</cloxx>

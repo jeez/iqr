@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE System PUBLIC "-//INI/iqr421" "iqrSystem.dtd">
+<System author="ulysses" cylesPerSecond="0" date="Wed Nov  9 14:28:17 2005&#xA;" id="L-14612-1131542897-1714636915" name="new system" port="54923" syncPlots="false">
+
+  <Note></Note>
+
+  <Process color="#FFFFFF" enableModule="true" hostname="" id="L-14612-1131542902-1957747793" name="New Process 1" path="" port="54923">
+    <Module name="openCVmpeg">
+      <Parameter name="Video mode" value="No selection"/>
+      <Parameter name="ShowOutput" value="true"/>
+      <Parameter name="File Name" value="C:/home/ulysses/Desktop/iqr-mods/openCVmpeg/test.mpeg"/>
+      <Parameter name="Data file Name" value="C:/home/ulysses/Desktop/iqr-mods/openCVmpeg/unsup.dat"/>
+      <Parameter name="defish" value="true"/>
+      <Parameter name="gain" value="1"/>
+      <Parameter name="xRadius" value="1"/>
+      <Parameter name="yRadius" value="1"/>
+      <Parameter name="xShortRadius" value="0.4"/>
+      <Parameter name="yShortRadius" value="0.4"/>
+      <Parameter name="xCenter" value="0"/>
+      <Parameter name="yCenter" value="0"/>
+      <XRefHolder name="InputFromGroup">
+        <XRef name="Controler" target="L-14612-1131542971-596516649"/>
+      </XRefHolder>
+      <XRefHolder name="OutputToGroup">
+        <XRef name="videoOutput" target="L-14612-1131542906-424238335"/>
+        <XRef name="End of video" target="L-14612-1131542999-1189641421"/>
+        <XRef name="Supervised signal" target="L-14612-1131543000-1025202362"/>
+      </XRefHolder>
+    </Module>
+    <Note></Note>
+    <DiagramIcon height="50" width="50" x="95" y="143"/>
+    <Group color="#FFFFFF" id="L-14612-1131542906-424238335" name="video">
+      <Topology>
+        <TopologyRect cylinderHor="false" cylinderVert="false" hcount="48" vcount="36"/>
+      </Topology>
+      <Neuron name="neuronLinearThreshold">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="95" y="159"/>
+    </Group>
+    <Group color="#FFFFFF" id="L-14612-1131542971-596516649" name="controller">
+      <Topology>
+        <TopologyRect cylinderHor="false" cylinderVert="false" hcount="2" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronLinearThreshold">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="167" y="47"/>
+    </Group>
+    <Group color="#FFFFFF" id="L-14612-1131542999-1189641421" name="eov">
+      <Topology>
+        <TopologyRect cylinderHor="false" cylinderVert="false" hcount="1" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronLinearThreshold">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="319" y="135"/>
+    </Group>
+    <Group color="#FFFFFF" id="L-14612-1131543000-1025202362" name="superv">
+      <Topology>
+        <TopologyRect cylinderHor="false" cylinderVert="false" hcount="1" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronLinearThreshold">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="239" y="231"/>
+    </Group>
+  </Process>
+
+</System>
+

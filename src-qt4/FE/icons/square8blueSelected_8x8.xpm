@@ -1,0 +1,16 @@
+/* XPM */
+const char *square8blueSelected[]={
+"8 8 5 1",
+". c #000000",
+"# c #ffffff",
+"b c #0000ff",
+"c c #000080",
+"a c #7F7FFF",
+"........",
+".#aaaaa.",
+".abbbbc.",
+".abbbbc.",
+".abbbbc.",
+".abbbbc.",
+".accccc.",
+"........"};

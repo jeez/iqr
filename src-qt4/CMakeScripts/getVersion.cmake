@@ -1,0 +1,1 @@
+FILE(READ iqr.version iqrVersion)

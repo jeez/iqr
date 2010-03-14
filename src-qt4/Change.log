@@ -1,0 +1,17 @@
+1.1-4
+- connections and groups are now created with a default type
+- disabling of potentially harmful operations at run-time:
+	- deleting of objects
+	- adding objects
+	
+1.1-3	
+- adapted build system to work with AMD64
+- removed some bugs that crashed iqr when deleting stuff
+- fixed broken copy/paste of connections
+- invalid items are now selected after the system validation
+
+2.1-0
+- implemented pause function
+- cycle per second can be changed while simulation is running
+
+

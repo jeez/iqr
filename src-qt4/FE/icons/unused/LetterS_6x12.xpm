@@ -1,0 +1,18 @@
+/* XPM */
+const char *LetterS[]={
+"6 12 3 1",
+". c None",
+"a c #000000",
+"# c #dcdcdc",
+"......",
+"#aaaa#",
+"aaaaaa",
+"aa..#a",
+"aa....",
+".aaa..",
+"..aaa.",
+"....aa",
+"a#..aa",
+"aaaaaa",
+"#aaaa#",
+"......"};

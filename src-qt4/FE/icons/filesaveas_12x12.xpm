@@ -1,0 +1,19 @@
+/* XPM */
+const char *filesaveas[]={
+"12 12 4 1",
+"# c None",
+". c #000000",
+"a c #808000",
+"b c #c3c3c3",
+".........###",
+".a.bbb.a.###",
+".a.bbb.a.###",
+".a..........",
+".aa.a.bbb.a.",
+".aa.a.bbb.a.",
+".aa.a.bbb.a.",
+".aa.aa...aa.",
+"....aaaaaaa.",
+"###.aa.bb.a.",
+"###.aa.bb.a.",
+"###........."};

@@ -1,0 +1,5 @@
+svn mv ClsPanner.cpp ClsPanner.cpp
+svn mv ClsPanner.h ClsPanner.h
+perl -pi -e 's/ClsPanner/ClsPanner/g' ../../CMakeLists.txt
+perl -pi -e 's/ClsPanner/ClsPanner/g' *
+ 

@@ -1,0 +1,50 @@
+<!-- 
+    options file for the PrcDaemon
+-->
+<cloxx>
+  <config>
+    <autohelp/>
+  </config>
+  
+  <options>
+    <option id="systemfile" type="string">
+      <name>file</name>
+      <name>f</name>
+      <comment>system file to open</comment>
+    </option>
+
+    <option id="configfile" type="string">
+      <name>config</name>
+      <name>c</name>
+      <comment>configuration file to open</comment>
+    </option>
+
+    <option id="harborconfigfile" type="string">
+      <name>harbor</name>
+      <name>p</name>
+      <comment>Harbor configuration file to open</comment>
+    </option>
+
+    <option id="autorun" type="flag">
+       <name>run</name>
+       <name>r</name>
+       <comment>automatically start simulation</comment> 
+    </option>
+
+    <option id="version" type="flag">
+       <name>version</name>
+       <name>v</name>
+       <comment>show version</comment> 
+    </option>
+
+    <option id="logging" type="enum" argname="file | syslog">
+      <name>logging</name>
+      <name>l</name>
+      <enum id="file" name="file"/>
+      <enum id="syslog" name="syslog"/>
+      <comment>Where to write logging messages to</comment>
+    </option>
+
+  </options>
+
+</cloxx>
