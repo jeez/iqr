@@ -1,0 +1,21 @@
+/* XPM */
+const char *filenew[]={
+"14 14 4 1",
+". c None",
+"# c #585858",
+"a c #dcdcdc",
+"b c #ffffff",
+"..#######aaaa.",
+"..#bbbbb##aaa.",
+"..#bbbbb#b#aa.",
+"..#bbbbb#bb#aa",
+"..#bbbbb#####.",
+"..#bbbbbbbbb#.",
+"..#bbbbbbbbb#.",
+"..#bbbbbbbbb#.",
+"..#bbbbbbbbb#.",
+"..#bbbbbbbbb#.",
+"..#bbbbbbbbb#.",
+"..#bbbbbbbbb#.",
+"..#bbbbbbbbb#.",
+"..###########."};

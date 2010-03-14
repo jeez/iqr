@@ -1,0 +1,16 @@
+/* XPM */
+const char *APIcon[]={
+"8 8 5 1",
+". c #000040",
+"c c #c0c000",
+"b c #ffff00",
+"a c #ffffc0",
+"# c #ffffff",
+"........",
+".#aaaaa.",
+".abbbbc.",
+".abbbbc.",
+".abbbbc.",
+".abbbbc.",
+".accccc.",
+"........"};

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Categories=Science;Application;
+Comment=large-scale neuronal systems simulator
+Comment[en_US]=large-scale neuronal systems simulator
+Encoding=UTF-8
+Exec=iqr
+Icon=iqr.xpm
+MimeType=application/iqr
+Name=iqr
+Path=
+StartupNotify=true
+Terminal=true
+TerminalOptions=
+Type=Application

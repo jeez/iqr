@@ -1,0 +1,23 @@
+/* XPM */
+const char *prc_alive[]={
+"14 14 6 1",
+". c None",
+"# c #000000",
+"a c #800080",
+"b c #c000c0",
+"c c #ff00ff",
+"d c #ffffff",
+"..............",
+"....######....",
+"...##aaaa##...",
+"..#aaaaaaaa#..",
+".#aaaabbbbba#.",
+".#aaabbbbbba#.",
+".#aabbbcccba#.",
+".#aabbccccca#.",
+".#aabbcccdca#.",
+".#aabbccddda#.",
+"..#abbbccdb#..",
+"...##aaaa##...",
+"....######....",
+".............."};

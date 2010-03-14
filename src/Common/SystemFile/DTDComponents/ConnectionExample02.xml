@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<!DOCTYPE Connection SYSTEM 'Prc_Connections.dtd.07'>
+<!--  msg_banner -->
+<Connection source="a0" target="a1" id="a1">
+   <Pattern>
+      <Mapped type="center-all">
+         <Region yend="4N.Mt-o_3:ken" ystart="4N.Mt-o_3:ken" xstart="4N.Mt-o_3:ken" xend="4N.Mt-o_3:ken"/>
+         <Region yend="4N.Mt-o_3:ken" ystart="4N.Mt-o_3:ken" xstart="4N.Mt-o_3:ken" xend="4N.Mt-o_3:ken"/>
+      </Mapped>
+   </Pattern>
+   <Arborization>
+      <ArbRandom self_connect="4N.Mt-o_3:ken" initialization_probability="4N.Mt-o_3:ken" count="4N.Mt-o_3:ken"/>
+   </Arborization>
+   <WeightFunction>
+      <FunLinear max="4N.Mt-o_3:ken" min="4N.Mt-o_3:ken"/>
+   </WeightFunction>
+   <DelayFunction>
+      <FunBlock height="4N.Mt-o_3:ken" max="4N.Mt-o_3:ken" min="4N.Mt-o_3:ken" width="4N.Mt-o_3:ken"/>
+   </DelayFunction>
+   <Note>level 1</Note>
+   <DiagramLine>
+      <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+   </DiagramLine>
+</Connection>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE System PUBLIC "-//INI/iqr421" "iqrSystem.dtd">
+<System author="ulysses" cylesPerSecond="20" date="Sun Feb 22 23:30:54 2004 " id="L-14707-1077489054-1804289383" name="new system" port="0" syncPlots="false">
+
+  <Note></Note>
+
+  <Process enableModule="true" hostname="" id="L-14707-1077489063-1957747793" name="New Process 1" port="54923">
+    <Module name="moduleLegoMindStorm">
+      <Parameter name="DeviceName" value="/udev/ttyUSB0"/>
+      <Parameter name="SensorMode1" value="raw"/>
+      <Parameter name="SensorType1" value="rot"/>
+      <Parameter name="SensorMode2" value="raw"/>
+      <Parameter name="SensorType2" value="light"/>
+      <Parameter name="SensorMode3" value="raw"/>
+      <Parameter name="SensorType3" value="rot"/>
+      <XRefHolder name="InputFromGroup">
+        <XRef name="motorInput" target="L-14707-1077489066-424238335"/>
+        <XRef name="floatInput" target="L-14707-1077489067-719885386"/>
+        <XRef name="flipInput" target="L-14707-1077489069-1649760492"/>
+      </XRefHolder>
+      <XRefHolder name="OutputToGroup">
+        <XRef name="SensorOutput" target="L-14707-1077489185-1025202362"/>
+      </XRefHolder>
+    </Module>
+    <Note></Note>
+    <DiagramIcon height="50" width="50" x="127" y="79"/>
+    <Group id="L-13587-1113131369-846930886" name="const input">
+      <Topology>
+        <TopologyRect cylinderHor="false" cylinderVert="false" hcount="3" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronRandomSpike">
+        <Parameter name="probability" value="1"/>
+        <Parameter name="spkAmpl" value="0.1"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="175" y="31"/>
+    </Group>
+    <Group id="L-14707-1077489066-424238335" name="Motor">
+      <Topology>
+        <TopologyRect cylinderHor="false" cylinderVert="false" hcount="3" vcount="2"/>
+      </Topology>
+      <Neuron name="neuronLinearThreshold">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="31" y="31"/>
+    </Group>
+    <Group id="L-14707-1077489067-719885386" name="float">
+      <Topology>
+        <TopologyRect cylinderHor="false" cylinderVert="false" hcount="3" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronIntegrateFire">
+        <Parameter name="excGain" value="0"/>
+        <Parameter name="inhGain" value="0"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="0"/>
+        <Parameter name="threshold" value="0.2"/>
+        <Parameter name="spkAmpl" value="1"/>
+        <Parameter name="vmReset" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="23" y="119"/>
+    </Group>
+    <Group id="L-14707-1077489069-1649760492" name="flip">
+      <Topology>
+        <TopologyRect cylinderHor="false" cylinderVert="false" hcount="3" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronIntegrateFire">
+        <Parameter name="excGain" value="0"/>
+        <Parameter name="inhGain" value="0"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0.2"/>
+        <Parameter name="spkAmpl" value="1"/>
+        <Parameter name="vmReset" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="119" y="119"/>
+    </Group>
+    <Group id="L-14707-1077489185-1025202362" name="sensors">
+      <Topology>
+        <TopologyRect cylinderHor="false" cylinderVert="false" hcount="3" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronIntegrateFire">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="0"/>
+        <Parameter name="threshold" value="0"/>
+        <Parameter name="spkAmpl" value="1"/>
+        <Parameter name="vmReset" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="38" y="208"/>
+    </Group>
+  </Process>
+
+  <Connection id="L-13587-1113131415-1957747793" name="Connection const input->Motor" source="L-13587-1113131369-846930886" target="L-14707-1077489066-424238335" type="excitatory">
+    <Pattern>
+      <PatternMapped type="center">
+        <All/>
+        <Region height="1" width="3" xstart="1" ystart="1"/>
+      </PatternMapped>
+    </Pattern>
+    <Arborization>
+      <ArbRect direction="RF" height="1" initialization_probability="1" width="1"/>
+    </Arborization>
+    <AttenuationFunction>
+      <FunUniform value="0"/>
+    </AttenuationFunction>
+    <DelayFunction>
+      <FunUniform value="0"/>
+    </DelayFunction>
+    <Synapse name="synapseFixedWeight">
+      <Parameter name="weight" value="0"/>
+    </Synapse>
+    <Note></Note>
+    <DiagramLine APSource="12" APTarget="4"/>
+  </Connection>
+
+</System>
+

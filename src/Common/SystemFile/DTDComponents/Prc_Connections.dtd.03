@@ -1,0 +1,117 @@
+<!-- VERSION:03 -->
+
+<!ELEMENT Connection (((RF*,PF*)+)|ConnectionUserDef)>
+<!ATTLIST Connection
+        id ID #REQUIRED
+        source IDREF #REQUIRED
+        target IDREF #REQUIRED
+        type  (excitatory|inhibitory|modulatory)  #IMPLIED>
+
+
+<!ELEMENT RF (TopoField,TopoRegion,Arborization,WeightFunction,DelayFunction,Synapse?)>
+<!ELEMENT PF (TopoRegion,TopoField,Arborization,WeightFunction,DelayFunction,Synapse?)>
+
+
+<!ELEMENT Arborization (ArbEllipse|ArbRect|ArbEllipseWindow|ArbRectWindow|ArbRandom|ArbAll)>
+<!ATTLIST Arborization
+        initialization_probability CDATA #REQUIRED
+        self_connect  CDATA #REQUIRED>
+
+<!ELEMENT ArbEllipse EMPTY>
+<!ATTLIST ArbEllipse
+        width CDATA #REQUIRED
+        height CDATA #REQUIRED>
+
+<!ELEMENT ArbRect EMPTY>
+<!ATTLIST ArbRect
+        width CDATA #REQUIRED
+        height CDATA #REQUIRED>
+
+<!ELEMENT ArbEllipseWindow EMPTY>
+<!ATTLIST ArbEllipseWindow
+        innerwidth CDATA #REQUIRED
+        innerheight CDATA #REQUIRED
+        outerwidth CDATA #REQUIRED
+        outerheight CDATA #REQUIRED>
+        
+<!ELEMENT ArbRectWindow  EMPTY>
+<!ATTLIST ArbRectWindow
+        innerwidth CDATA #REQUIRED
+        innerheight CDATA #REQUIRED
+        outerwidth CDATA #REQUIRED
+        outerheight CDATA #REQUIRED>
+
+<!ELEMENT ArbRandom EMPTY>
+<!ATTLIST ArbRandom
+        count  CDATA #REQUIRED>
+
+<!ELEMENT ArbAll EMPTY>
+
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!ELEMENT WeightFunction (FunGaussian|FunLinear|FunBlock|FunRandom|FunUniform|Template)>
+
+<!ELEMENT DelayFunction (FunGaussian|FunLinear|FunBlock|FunRandom|FunUniform|Template)>
+
+<!ELEMENT FunGaussian EMPTY>
+<!ATTLIST FunGaussian
+        min CDATA #REQUIRED
+        max CDATA #REQUIRED
+        sigma CDATA #REQUIRED>
+        
+<!ELEMENT FunLinear EMPTY>
+<!ATTLIST FunLinear
+        min CDATA #REQUIRED
+        max CDATA #REQUIRED>
+
+<!ELEMENT FunBlock EMPTY>
+<!ATTLIST FunBlock
+        min CDATA #REQUIRED
+        max CDATA #REQUIRED
+        width CDATA #REQUIRED
+        height CDATA #REQUIRED>
+
+<!ELEMENT FunRandom EMPTY>
+<!ATTLIST FunRandom
+        probability  CDATA #REQUIRED>
+
+<!ELEMENT FunUniform EMPTY>
+<!ATTLIST FunUniform
+        value  CDATA #REQUIRED>
+
+<!ELEMENT Template (ArbPointWD+)>
+
+<!ELEMENT ArbPointWD EMPTY>
+<!ATTLIST ArbPointWD
+        x  CDATA #REQUIRED
+        y  CDATA #REQUIRED
+        weight CDATA #REQUIRED
+        delay CDATA #REQUIRED>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+
+<!ELEMENT TopoField (TopoRegion|TopoPoint+|TopoAll)>
+
+<!ELEMENT TopoRegion EMPTY>
+<!ATTLIST TopoRegion
+        xstart  CDATA #REQUIRED
+        ystart  CDATA #REQUIRED
+        xend  CDATA #REQUIRED
+        yend  CDATA #REQUIRED>
+
+<!ELEMENT TopoPoint EMPTY>
+<!ATTLIST TopoPoint
+        x  CDATA #REQUIRED
+        y  CDATA #REQUIRED>
+
+
+<!ELEMENT TopoAll EMPTY>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!ELEMENT ConnectionUserDef (Parameter*)>
+<!ATTLIST ConnectionUserDef
+          name CDATA #REQUIRED
+          filename CDATA #REQUIRED>
+
+

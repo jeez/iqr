@@ -1,0 +1,7 @@
+<!-- VERSION:04 -->
+
+<!ELEMENT Synapse (Parameter*, XRefHolder*, Note?)>
+<!ATTLIST Synapse 
+          name CDATA #REQUIRED>
+
+

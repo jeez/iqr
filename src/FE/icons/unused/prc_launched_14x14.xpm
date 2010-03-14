@@ -1,0 +1,23 @@
+/* XPM */
+const char *prc_launched[]={
+"14 14 6 1",
+". c None",
+"# c #000000",
+"a c #800000",
+"b c #c00000",
+"c c #ff0000",
+"d c #ffffff",
+"..............",
+"....######....",
+"...##aaaa##...",
+"..#aaaaaaaa#..",
+".#aaaabbbbba#.",
+".#aaabbbbbba#.",
+".#aabbbcccba#.",
+".#aabbccccca#.",
+".#aabbcccdca#.",
+".#aabbccddda#.",
+"..#abbbccdb#..",
+"...##aaaa##...",
+"....######....",
+".............."};

@@ -1,0 +1,12 @@
+<!-- VERSION:05 -->
+
+<!ELEMENT System (Process+, Connection*, Note?)>
+
+<!ATTLIST System
+          id ID #REQUIRED
+          name CDATA #REQUIRED
+          date CDATA #REQUIRED
+          author CDATA #REQUIRED
+          port NMTOKEN #REQUIRED>
+
+<!--          hostname CDATA #REQUIRED -->

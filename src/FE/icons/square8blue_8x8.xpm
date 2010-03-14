@@ -1,0 +1,16 @@
+/* XPM */
+const char *square8blue[]={
+"8 8 5 1",
+"c c #000080",
+"b c #0000ff",
+"a c #7f7fff",
+". c #808080",
+"# c #ffffff",
+"........",
+".#aaaaa.",
+".abbbbc.",
+".abbbbc.",
+".abbbbc.",
+".abbbbc.",
+".accccc.",
+"........"};

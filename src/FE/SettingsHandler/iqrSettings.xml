@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- iqr421 settings 20011002 -->
+<iqrSetting> 
+   <port>auto</port>  <!-- {number}|auto -->
+   <lastFilesOpen>
+      <file>/home/ulysses/CodeExec/iqr421_System_0303030204030201_2.xml</file>
+      <file>/home/ulysses/CodeExec/iqr421_System_0303030204030201_3.xml</file>
+   </lastFilesOpen>
+   <debug_level>2</debug_level>
+   <prc_start>manual<prc_start> <!-- auto|manual -->
+</iqrSetting>
+

@@ -1,0 +1,37 @@
+#ifndef CLSQCONNECTION_H
+#define CLSQCONNECTION_H
+
+#include "ClsQGroupView.h"
+#include <iostream.h>
+#include <qobject.h> 
+
+class ClsQConnection : public QObject  {
+    Q_OBJECT
+
+public:
+    ClsQConnection(ClsQGroupView* _clsQGroupViewPre, ClsQGroupView* _clsQGroupViewPost) :
+	clsQGroupViewPre( _clsQGroupViewPre), clsQGroupViewPost(_clsQGroupViewPost){
+	};
+    
+    
+public slots:
+    void setValue( int iX, int iY) {
+    clsQGroupViewPost->setValue(0.7, iX, iY); 
+    cout << "ClsQConnection:clickX: " << iX << endl;
+    cout << "ClsQConnection:clickY: " << iY << endl;
+
+    }
+
+private:
+    
+    ClsQGroupView* clsQGroupViewPre;
+    ClsQGroupView* clsQGroupViewPost;
+};
+
+#endif
+
+
+
+
+
+

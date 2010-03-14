@@ -1,0 +1,26 @@
+<!-- VERSION:05 -->
+<!ELEMENT Group (Topology, Neuron, Note?, DiagramIcon)>
+
+<!ATTLIST Group 
+          name CDATA #REQUIRED
+          id ID #REQUIRED>
+
+<!ELEMENT Topology (TopologyRect|TopologyHex|TopologySparse)>
+
+<!ELEMENT TopologyRect EMPTY>
+<!ATTLIST TopologyRect
+          hcount NMTOKEN #REQUIRED
+          vcount NMTOKEN #REQUIRED
+	  cylinderHor NMTOKEN #REQUIRED
+	  cylinderVert NMTOKEN #REQUIRED>
+
+<!ELEMENT TopologyHex EMPTY>
+<!ATTLIST TopologyHex 
+          hcount NMTOKEN #REQUIRED
+          vcount NMTOKEN #REQUIRED
+          orientation NMTOKEN #REQUIRED
+          offset NMTOKEN #REQUIRED>
+
+<!ELEMENT TopologySparse (Point+)>
+
+

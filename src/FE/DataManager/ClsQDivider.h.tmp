@@ -1,0 +1,31 @@
+
+#__FILE__ _"/home/ulysses/Code/iqr421_Redesign/FE/DataMgr/ClsQDivider.h" 0
+                     
+                     
+
+                        
+                   
+
+class ClsQDivider :  public QFrame  {
+     Q_OBJECT
+
+public: 
+     ClsQDivider(QWidget * parent=0 );
+
+private slots:
+     void slotMove( );
+     
+signals:
+     void clicked(bool bIsRight);
+
+private:
+     bool bIsRight;
+     QPushButton *qbtnMove;
+};
+
+
+      
+
+//// Local Variables: 
+//// mode: c++
+//// End: 

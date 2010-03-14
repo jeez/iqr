@@ -1,0 +1,9 @@
+
+
+currently this module is tested, and works with the following kernel drivers:
+- pwc
+- em28xx
+
+
+in the case of V4L2_PIX_FMT_MJPEG we need a mjpeg decoder... example of how this can be done can be found here:
+http://www.lavrsen.dk/sources/motion//video2.c 

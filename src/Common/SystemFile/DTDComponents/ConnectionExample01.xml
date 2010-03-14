@@ -1,0 +1,35 @@
+<?xml version='1.0'?>
+<!DOCTYPE Connection SYSTEM 'Prc_Connections.dtd.07'>
+<!--  msg_banner -->
+<Connection type="modulatory" source="a0" target="a1" id="a1">
+   <Pattern>
+      <Foreach>
+         <List>
+            <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+            <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+         </List>
+         <List>
+            <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+         </List>
+      </Foreach>
+   </Pattern>
+   <Arborization>
+      <ArbEllipseWindow innerheight="4N.Mt-o_3:ken" outerwidth="4N.Mt-o_3:ken" self_connect="4N.Mt-o_3:ken" initialization_probability="4N.Mt-o_3:ken" innerwidth="4N.Mt-o_3:ken" direction="RF" outerheight="4N.Mt-o_3:ken"/>
+   </Arborization>
+   <WeightFunction>
+      <FunLinear max="4N.Mt-o_3:ken" min="4N.Mt-o_3:ken"/>
+   </WeightFunction>
+   <DelayFunction>
+      <FunLinear max="4N.Mt-o_3:ken" min="4N.Mt-o_3:ken"/>
+   </DelayFunction>
+   <Synapse>
+      <SynapseHebbian learningrate="4N.Mt-o_3:ken" decay="4N.Mt-o_3:ken" inputtype="excitation"/>
+      <Note>level 2</Note>
+   </Synapse>
+   <Note>level 1</Note>
+   <DiagramLine APSource="4N.Mt-o_3:ken">
+      <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+      <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+      <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+   </DiagramLine>
+</Connection>

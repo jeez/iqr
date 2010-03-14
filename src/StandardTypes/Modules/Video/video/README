@@ -1,0 +1,14 @@
+This module requires libv4l for compilation and work properly. Recent linux distributions provide it (Debian lenny through the backports repository, Ubuntu since 8.10, Fedora since 8). Install the packages libv4l and libv4l-dev (libv4l-devel on Fedora). 
+_________________
+Current linux kernel video drivers can be installed from the mercurial linuxtv server:
+
+hg clone http://www.linuxtv.org/hg/v4l-dvb
+cd v4l-dvb
+make
+make rmmod
+make install
+
+TODO: 
+- Remove constraint that requires all output groups to be the same size.
+- Add controls to the display to change image parameters.
+- Correct channel order on big-endian architectures.

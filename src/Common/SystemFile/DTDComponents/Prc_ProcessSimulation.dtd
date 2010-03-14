@@ -1,0 +1,7 @@
+<!-- VERSION:04 -->
+<!ELEMENT ProcessSimulation (Group+, Note?, DiagramIcon) >
+<!ATTLIST ProcessSimulation 
+          name CDATA #REQUIRED
+          id ID #REQUIRED
+          hostname CDATA #REQUIRED
+          port NMTOKEN #REQUIRED>

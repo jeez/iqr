@@ -1,0 +1,19 @@
+2001-02-11  Ulysses Bernardet  <ulysses@ini.phys.ethz.ch>
+
+	* Versioning still is an issue...
+	
+
+
+- in the normal, i.e. Groups have a rectangular shape, case the group needs only one NeuronType entry
+	- this could actually always be true...
+	- sparse groups would the be a special case, where the shape entry of the group also contains a list with 	  neuron positions
+
+- Additinal information to be saved in the System file, which is not required at the Prc end:
+	- Descriptions for
+		- System
+		- Modules
+		- Groups
+		- Userdefined Neurons
+
+	- Formulas for Neurons
+	

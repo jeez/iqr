@@ -1,0 +1,35 @@
+SET(CMAKE_VERBOSE_MAKEFILE TRUE)
+
+ADD_DEFINITIONS(-DQT_THREAD_SUPPORT)
+
+
+SET(QT_MT_REQUIRED TRUE)
+FIND_PACKAGE(Qt3 REQUIRED)
+
+
+INCLUDE_DIRECTORIES(
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/../../
+  ${QT_INCLUDE_DIR}
+)
+
+SET(libUi
+  iqrAbout.ui
+  iqrReleaseNotes.ui
+)
+
+SET(libMocHdr
+  iqrAbout.ui.h
+  iqrReleaseNotes.ui.h
+)
+
+QT_WRAP_UI(HelpDlgs HelpDlgs_HDRS libSrc  ${libUi})
+QT_WRAP_CPP(HelpDlgs libSrc ${libMocHdr} )
+
+ADD_LIBRARY(HelpDlgs STATIC ${libSrc})
+
+TARGET_LINK_LIBRARIES(HelpDlgs ${QT_LIBRARIES})
+
+
+
+

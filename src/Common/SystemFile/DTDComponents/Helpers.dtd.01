@@ -1,0 +1,11 @@
+<!-- VERSION:01 -->
+<!ELEMENT Parameter EMPTY>
+<!ATTLIST Parameter  
+          name CDATA #REQUIRED
+          value CDATA #REQUIRED
+          type (string|int|long|short|double|boolean) #REQUIRED>
+
+<!ELEMENT Point EMPTY>
+<!ATTLIST Point
+        x  NMTOKEN #REQUIRED
+        y  NMTOKEN #REQUIRED>

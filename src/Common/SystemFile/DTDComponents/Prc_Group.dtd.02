@@ -1,0 +1,24 @@
+<!-- VERSION:02 -->
+<!ELEMENT Group (Geometry, NeuronType)>
+
+<!ATTLIST Group 
+          name CDATA #REQUIRED
+          id ID #REQUIRED>
+
+<!ELEMENT Geometry (Rect|Hex|Sparse)>
+
+<!ELEMENT Rect EMPTY>
+<!ATTLIST Rect
+          height CDATA #REQUIRED
+          width CDATA #REQUIRED>
+
+<!ELEMENT Hex EMPTY>
+<!ATTLIST Hex 
+          height CDATA #REQUIRED
+          width CDATA #REQUIRED
+          orientation CDATA #REQUIRED
+          offset CDATA #REQUIRED>
+
+<!ELEMENT Sparse (Point+)>
+
+

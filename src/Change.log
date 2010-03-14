@@ -1,0 +1,14 @@
+1.1-4
+- fixed copy/past bug
+- connections and groups are now created with a default type
+- disabling of potentially harmful operations at run-time:
+	- deleting of objects
+	- adding objects
+	
+1.1-3	
+- adapted build system to work with AMD64
+- removed some bugs that crashed iqr when deleting stuff
+- fixed broken copy/paste of connections
+- invalid items are now selected after the system validation
+
+

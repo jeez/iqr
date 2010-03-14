@@ -1,0 +1,20 @@
+/* XPM */
+const char *iconClone[]={
+"16 13 4 1",
+". c None",
+"# c #808080",
+"a c #dcdcdc",
+"b c #ffffff",
+"....############",
+"...a###b##bbbbb#",
+"...a############",
+"...a#bbbbbbbbbb#",
+"##############b#",
+"###b##bbbbbbb#b#",
+"##############b#",
+"#bbbbbbbbbbbb#b#",
+"#bbbbbbbbbbbb###",
+"#bbbbbbbbbbbb#.a",
+"#bbbbbbbbbbbb#.a",
+"#bbbbbbbbbbbb#.a",
+"##############.."};

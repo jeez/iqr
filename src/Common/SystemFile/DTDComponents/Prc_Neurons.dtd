@@ -1,0 +1,5 @@
+<!-- VERSION:05 -->
+
+<!ELEMENT Neuron (Parameter*, Note?)>
+<!ATTLIST Neuron 
+          name CDATA #REQUIRED>

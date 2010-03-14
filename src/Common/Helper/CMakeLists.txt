@@ -1,0 +1,17 @@
+
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -DLINUX -DNO_DEBUG")
+
+SET (libSrc
+  libraryLoader_unix.cpp
+  pathFunctions_unix.cpp
+  typeManager.cpp)
+
+SET(CMAKE_INSTALL_PREFIX /usr/lib)
+ADD_LIBRARY(IqrHelper SHARED ${libSrc})
+
+INSTALL(TARGETS IqrHelper
+#  LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../../../lib/
+  LIBRARY DESTINATION lib
+#  LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}
+)

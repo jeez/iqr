@@ -1,0 +1,35 @@
+<?xml version='1.0'?>
+<!DOCTYPE Connection SYSTEM 'Prc_Connections.dtd.07'>
+<!--  msg_banner -->
+<Connection type="inhibitory" source="a0" target="a1" id="a1">
+   <Pattern>
+      <Tuples>
+         <Tuple>
+            <SourceList>
+               <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+               <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+            </SourceList>
+            <TargetList>
+               <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+               <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+               <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+            </TargetList>
+         </Tuple>
+      </Tuples>
+   </Pattern>
+   <Arborization>
+      <ArbEllipse height="4N.Mt-o_3:ken" self_connect="4N.Mt-o_3:ken" initialization_probability="4N.Mt-o_3:ken" width="4N.Mt-o_3:ken" direction="RF"/>
+   </Arborization>
+   <WeightFunction>
+      <FunLinear max="4N.Mt-o_3:ken" min="4N.Mt-o_3:ken"/>
+   </WeightFunction>
+   <DelayFunction>
+      <FunGaussian max="4N.Mt-o_3:ken" min="4N.Mt-o_3:ken" sigma="4N.Mt-o_3:ken"/>
+   </DelayFunction>
+   <Synapse>
+      <SynapseHebbian learningrate="4N.Mt-o_3:ken" decay="4N.Mt-o_3:ken"/>
+   </Synapse>
+   <DiagramLine APTarget="4N.Mt-o_3:ken">
+      <Point x="4N.Mt-o_3:ken" y="4N.Mt-o_3:ken"/>
+   </DiagramLine>
+</Connection>

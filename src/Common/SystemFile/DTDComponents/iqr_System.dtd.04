@@ -1,0 +1,10 @@
+<!-- VERSION:04 -->
+
+<!ELEMENT System ((ProcessModule*, ProcessSimulation*)+, Connection*, Note?)>
+
+<!ATTLIST System
+          name CDATA #REQUIRED
+          id ID #REQUIRED
+          hostname CDATA #REQUIRED
+          port NMTOKEN #REQUIRED>
+

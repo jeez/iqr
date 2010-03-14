@@ -1,0 +1,56 @@
+<!-- VERSION:04 -->
+
+<!ELEMENT Neuron ((NeuronLinearThreshold | NeuronTanH | 
+ 		       NeuronIntegFire | NeuronSigmoid | 
+ 		       NeuronRandomSpike | NeuronUserDef),Note?)>
+
+
+<!ELEMENT NeuronLinearThreshold EMPTY>
+<!ATTLIST NeuronLinearThreshold
+          gainExcitatory NMTOKEN #REQUIRED
+          gainInhibitory NMTOKEN #REQUIRED
+          VMPersistence NMTOKEN #REQUIRED
+          delta NMTOKEN #REQUIRED>
+
+
+<!ELEMENT NeuronTanH EMPTY>
+<!ATTLIST NeuronTanH
+          slope NMTOKEN #REQUIRED
+          threshold NMTOKEN #REQUIRED>
+
+
+<!ELEMENT NeuronIntegFire EMPTY>
+<!ATTLIST NeuronIntegFire
+          slope NMTOKEN #REQUIRED
+          probability NMTOKEN #REQUIRED
+          threshold NMTOKEN #REQUIRED
+          VMReset NMTOKEN #REQUIRED>
+
+
+<!ELEMENT NeuronSigmoid EMPTY>
+<!ATTLIST NeuronSigmoid
+          slope NMTOKEN #REQUIRED
+          threshold NMTOKEN #REQUIRED>
+
+
+<!ELEMENT NeuronRandomSpike EMPTY>
+<!ATTLIST NeuronRandomSpike
+          slope NMTOKEN #REQUIRED
+          probability NMTOKEN #REQUIRED>
+
+
+
+<!ELEMENT NeuronUserDef (Parameter*)>
+<!ATTLIST NeuronUserDef
+          name CDATA #REQUIRED
+          filename CDATA #REQUIRED>
+
+<!-- 
+<!ELEMENT NeuronComplex (Soma, Dendrite+, Axon)>
+<!ATTLIST NeuronComplex  
+          test CDATA #REQUIRED>
+ -->
+
+<!-- <!ELEMENT Soma EMPTY> -->
+<!-- <!ELEMENT Dendrite EMPTY> -->
+<!-- <!ELEMENT Axon EMPTY> -->

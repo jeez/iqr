@@ -1,0 +1,94 @@
+
+#__FILE__ _"/home/ulysses/Code/iqr421_Redesign/FE/DataMgr/ClsFEGroupPlot.h" 0
+/****************************************************************************
+ ** $Filename: ClsFEGroupPlot.h
+ ** $Header: /home/ulysses/Code/iqr421_Redesign/FE/DataMgr/ClsFEGroupPlot.h,v 1.1 2001/11/18 22:04:44 ulysses Exp ulysses $
+ **
+ ** Copyright (C) 2001 by Ulysses Bernardet
+ ** $Author: Ulysses Bernardet
+ ** 
+ ** $CreateDate: Fri Oct 26 01:32:22 2001
+ ** $Date: 2001/11/18 22:04:44 $
+ **
+ ** $Keywords:
+ ** $Description:
+ **
+ *****************************************************************************/
+
+
+                        
+                        
+
+                         
+                         
+                   
+                      
+                   
+                   
+
+                         
+
+                         
+                            
+
+                                     
+
+                        
+
+class ClsFEGroupPlot :  public ClsFEBasePlot,  public ClsFEDataClient  {
+     Q_OBJECT
+
+public:
+//     ClsFEGroupPlot(ClsFEDataMgr *clsFEDataMgr, ClsQBaseItem* _Item, string strDataClientID);
+// old      ClsFEGroupPlot(ClsFEDataMgr *clsFEDataMgr, ClsQlstItemGroup* _clsQlstItemGroup, string strDataClientID);
+
+    ClsFEGroupPlot(ClsFEDataMgr *clsFEDataMgr, ClsItemGroup* _clsItemGroup, string strDataClientID);
+
+     void update();     
+public slots:
+     void plotData();
+     void addStateVariableDisplay(string, list<string>, string strRange);
+
+private slots:
+     void slotPlotMouseClick(QEvent::Type qeventtype, QPoint qpointPos, int iButton, int);
+     void slotPlotMenu(int iMenuID);
+     void slotLiveData(bool);
+     void startDragging();
+
+private:
+     enum PLOT_MENU{
+	  MENU_SPACE_PLOT,
+	  MENU_TIME_PLOT,
+	  MENU_LIVE_DATA,
+	  MENU_AUTOSCALE
+     };
+     
+     void dragEnterEvent(QDragEnterEvent* event);
+     void dropEvent(QDropEvent* event);
+
+// old     void addStateVariableDisplay(ClsQlstItemGroup* _clsQlstItemGroup, string strRange);
+// old     void addStateVariableDisplay(ClsQlstItemGroup* _clsQlstItemGroup, list<string> lstSelectedStates, string strRange);
+
+     void addStateVariableDisplay(ClsItemGroup* _clsItemGroup, string strRange);
+     void addStateVariableDisplay(ClsItemGroup* _clsItemGroup, list<string> lstSelectedStates, string strRange);
+
+     void DataSinkAdded(string strID, int iColor);
+
+
+     int iGroupWidth, iGroupHeight;
+
+     ClsIDGenerator clsIDGenerator;
+     WSpacePlot *wSpacePlot;
+     ClsQStateVariableDisplay *clsQStateVariableDisplay;
+};
+
+
+
+      
+
+
+
+//// Local Variables: 
+//// mode: c++
+//// End: 
+

@@ -1,0 +1,7 @@
+the dependencies in runCheckinstall.sh have to be specified dependent on the Linux distribution:
+
+fedora core 5:
+xerces-c,qt
+
+SuSE 10.1
+Xerces-c, qt3

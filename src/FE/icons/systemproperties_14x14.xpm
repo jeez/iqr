@@ -1,0 +1,22 @@
+/* XPM */
+const char *systemproperties[]={
+"14 14 5 1",
+". c None",
+"# c #585858",
+"a c #dcdcdc",
+"c c #ff0000",
+"b c #ffffff",
+"..#######aaaa.",
+"..#bbbbb##aaa.",
+"..#bbbcb#b#aa.",
+"..#bbccc#bb#aa",
+"..#bbbcb####..",
+"..#bbbbbbbb#..",
+"..#bbcccbbb#..",
+"..#bbbccbbb#..",
+"..#bbbccbbb#..",
+"..#bbbccbbb#..",
+"..#bbccccbb#..",
+"..#bbbbbbbb#..",
+"..##########..",
+".............."};

@@ -1,0 +1,24 @@
+<!-- VERSION:03 -->
+<!ELEMENT Group (Geometry, Neuron, Note?, DiagramIcon)>
+
+<!ATTLIST Group 
+          name CDATA #REQUIRED
+          id ID #REQUIRED>
+
+<!ELEMENT Geometry (Rect|Hex|Sparse)>
+
+<!ELEMENT Rect EMPTY>
+<!ATTLIST Rect
+          height NMTOKEN #REQUIRED
+          width NMTOKEN #REQUIRED>
+
+<!ELEMENT Hex EMPTY>
+<!ATTLIST Hex 
+          height NMTOKEN #REQUIRED
+          width NMTOKEN #REQUIRED
+          orientation NMTOKEN #REQUIRED
+          offset NMTOKEN #REQUIRED>
+
+<!ELEMENT Sparse (Point+)>
+
+

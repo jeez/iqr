@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE System PUBLIC "-//INI/iqr421" "iqrSystem.dtd">
+<System author="ulysses" cylesPerSecond="25" date="Tue Jun  7 17:23:56 2005 " id="L-6596-1118157836-1714636915" name="new system" port="54923" syncPlots="false">
+
+  <Note></Note>
+
+  <Process enableModule="true" hostname="" id="L-6596-1118157838-1957747793" name="New Process 1" path="" port="54923">
+    <Module name="moduleJoystick">
+      <Parameter name="DeviceName" value="/dev/input/js0"/>
+      <XRefHolder name="InputFromGroup"/>
+      <XRefHolder name="OutputToGroup">
+        <XRef name="JSOutput" target="L-6596-1118157841-424238335"/>
+      </XRefHolder>
+    </Module>
+    <Note></Note>
+    <DiagramIcon height="50" width="50" x="103" y="127"/>
+    <Group id="L-6596-1118157841-424238335" name="New Group 1">
+      <Topology>
+        <TopologyRect cylinderHor="false" cylinderVert="false" hcount="2" vcount="4"/>
+      </Topology>
+      <Neuron name="neuronLinearThreshold">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="135" y="95"/>
+    </Group>
+  </Process>
+
+</System>
+

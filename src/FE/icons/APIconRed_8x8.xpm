@@ -1,0 +1,19 @@
+/* XPM */
+const char *APIconRed[] = {
+/* columns rows colors chars-per-pixel */
+"8 8 5 1",
+"  c black",
+". c #AA3838",
+"X c #E2AEAE",
+"o c #F7E7E7",
+"O c #FEFCFC",
+/* pixels */
+"        ",
+" Oooooo ",
+" oXXXX. ",
+" oXXXX. ",
+" oXXXX. ",
+" oXXXX. ",
+" o..... ",
+"        "
+};
