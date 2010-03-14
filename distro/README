@@ -1,0 +1,21 @@
+Packaging iqr
+----------
+iqr binary
+..........
+
+Packaging of the iqr binary is done with CPack integrated with cmake to make RPMs and DEBs
+in src/ type "make packages"
+
+
+The subsequent packages should be built in the "distro" directory
+- you will have to define the following in ~/.rpmmacros
+%_topdir <dir to iqr root directory>
+
+
+iqr tools
+..........
+rpmbuild -bb iqr-tools.spec
+
+iqr devel
+..........
+rpmbuild -bb iqr-devel.spec

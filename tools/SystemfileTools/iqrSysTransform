@@ -1,0 +1,96 @@
+#!/bin/bash
+#
+# shell script wrapper for transforming iqr system files via xsltproc
+# ulysses bernardet 2008
+#
+
+print_command()
+{
+    printf "valid commands are:
+\tplotGroups
+\tplotGroupsAER
+\tplotSingleCell
+\tcalculateStatistics
+\tcalculateStatisticsAERhtml\n"
+}
+
+#\tvalidate
+
+
+transformer="xsltproc"
+#iflag=
+#cflag=
+#oflag=
+
+while getopts 'i:c:o:h' OPTION
+do
+    case $OPTION in
+	i) iflag=1
+	    ival="$OPTARG"
+	    ;;
+	c) cflag=1
+	    cval="$OPTARG"
+	    ;;
+	o) oflag=1
+	    oval="$OPTARG"
+	    ;;
+	h) printf "Usage: %s: -i <input file> -c <command> [-o <output file>] \n" $(basename $0) >&2
+	    print_command
+	    exit 2
+	    ;;
+    esac
+done
+shift $(($OPTIND - 1))
+
+
+if [ ! -n "$cflag" ]
+then
+    printf "error: <command> argument mandatory \n" $(basename $0) >&2
+    exit 2
+fi
+
+
+if [ ! -n "$iflag" ]
+then
+    printf "error: <input file> argument mandatory \n" $(basename $0) >&2
+   exit 2
+else
+    if [ ! -f "$ival" ]
+    then
+	printf "error: input file does not exist\n" $(basename $0) >&2
+    fi
+fi
+
+if [ -f "$iflag" ]
+then
+    printf 'Option -i "%s" specified\n' "$ival"
+fi
+
+if [ "$cflag" ]
+then
+    transforms_dir="/opt/iqr/xsl"
+    case $cval in
+	plotGroups) xslt="$transforms_dir/dotPlotGroups.xsl"     
+	    ;;
+	plotGroupsAER) xslt="$transforms_dir/dotPlotGroups-AER.xsl" 
+	    ;;
+	plotSingleCell) xslt="$transforms_dir/dotPlotSingleCell.xsl" 
+	    ;;
+	calculateStatistics) xslt="$transforms_dir/stats.xsl"	     
+	    ;;
+	calculateStatisticsAERhtml) xslt="$transforms_dir/statsAERexportHTML.xsl"
+	    ;;
+	*) printf "error: unknown command\n" $(basename $0) >&2
+	    exit 2
+	    ;;
+    esac
+fi
+
+if [ "$oflag" ]
+then
+    outfile="-o $oval"
+fi
+
+$transformer --novalid  $xslt $ival $outfile
+
+

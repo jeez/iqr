@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE System PUBLIC "-//INI/iqr421" "iqrSystem.dtd">
+<System author="ulysses" cylesPerSecond="0" date="Fri Feb  4 11:32:44 2005 " id="L-6648-1107513164-752392754" name="new system" syncPlots="false">
+
+  <Note></Note>
+
+  <Process hostname="" id="L-6648-1107513172-1474612399" name="New Process 1" port="0">
+    <Note></Note>
+    <DiagramIcon height="50" width="50" x="45" y="105"/>
+    <Group id="L-6648-1107513181-2053999932" name="G7">
+      <Topology>
+        <TopologyRect hcount="1" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronLTShuntingInhib">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="inhThreshold" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="223" y="463"/>
+    </Group>
+    <Group id="L-6648-1107513273-1843993368" name="G6">
+      <Topology>
+        <TopologyRect hcount="1" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronIFadaptingTH">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="0"/>
+        <Parameter name="spkAmpl" value="1"/>
+        <Parameter name="threshold" value="0"/>
+        <Parameter name="THincrement" value="0"/>
+        <Parameter name="THdecay" value="0"/>
+        <Parameter name="THthreshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="39" y="423"/>
+    </Group>
+    <Group id="L-7666-1107525070-424238335" name="G0">
+      <Topology>
+        <TopologyRect hcount="1" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronIFadaptingTH">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="0"/>
+        <Parameter name="spkAmpl" value="1"/>
+        <Parameter name="threshold" value="0"/>
+        <Parameter name="THincrement" value="0"/>
+        <Parameter name="THdecay" value="0"/>
+        <Parameter name="THthreshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="39" y="71"/>
+    </Group>
+    <Group id="L-7666-1107525070-719885386" name="G1">
+      <Topology>
+        <TopologyRect hcount="1" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronLTShuntingInhib">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="inhThreshold" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="191" y="71"/>
+    </Group>
+    <Group id="L-7666-1107525083-1649760492" name="G2">
+      <Topology>
+        <TopologyRect hcount="1" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronIFadaptingTH">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="0"/>
+        <Parameter name="spkAmpl" value="1"/>
+        <Parameter name="threshold" value="0"/>
+        <Parameter name="THincrement" value="0"/>
+        <Parameter name="THdecay" value="0"/>
+        <Parameter name="THthreshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="31" y="143"/>
+    </Group>
+    <Group id="L-7666-1107525083-596516649" name="G3">
+      <Topology>
+        <TopologyRect hcount="1" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronLTShuntingInhib">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="inhThreshold" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="191" y="143"/>
+    </Group>
+    <Group id="L-7666-1107525090-1025202362" name="G5">
+      <Topology>
+        <TopologyRect hcount="1" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronLTShuntingInhib">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="inhThreshold" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="1"/>
+        <Parameter name="threshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="199" y="319"/>
+    </Group>
+    <Group id="L-7666-1107525090-1189641421" name="G4">
+      <Topology>
+        <TopologyRect hcount="1" vcount="1"/>
+      </Topology>
+      <Neuron name="neuronIFadaptingTH">
+        <Parameter name="excGain" value="1"/>
+        <Parameter name="inhGain" value="1"/>
+        <Parameter name="vmPrs" value="0"/>
+        <Parameter name="clipVm" value="false"/>
+        <Parameter name="vmMin" value="0"/>
+        <Parameter name="vmMax" value="1"/>
+        <Parameter name="probability" value="0"/>
+        <Parameter name="spkAmpl" value="1"/>
+        <Parameter name="threshold" value="0"/>
+        <Parameter name="THincrement" value="0"/>
+        <Parameter name="THdecay" value="0"/>
+        <Parameter name="THthreshold" value="0"/>
+      </Neuron>
+      <Note></Note>
+      <DiagramIcon height="50" width="50" x="39" y="223"/>
+    </Group>
+  </Process>
+
+  <Connection id="L-6648-1107513304-943947739" name="New Connection -279" source="L-7666-1107525090-1025202362" target="L-6648-1107513181-2053999932" type="excitatory">
+    <Pattern>
+      <PatternMapped type="center">
+        <All/>
+        <All/>
+      </PatternMapped>
+    </Pattern>
+    <Arborization>
+      <ArbRect direction="RF" height="1" initialization_probability="1" width="1"/>
+    </Arborization>
+    <DelayFunction>
+      <FunUniform value="1000"/>
+    </DelayFunction>
+    <Synapse name="synapseFixedWeight">
+      <Parameter name="weight" value="1"/>
+    </Synapse>
+    <Note></Note>
+    <DiagramLine APSource="11" APTarget="13"/>
+  </Connection>
+
+  <Connection id="L-7666-1107525098-1350490027" name="Copy of New Connection -279" source="L-6648-1107513273-1843993368" target="L-7666-1107525090-1189641421" type="excitatory">
+    <Pattern>
+      <PatternMapped type="center">
+        <All/>
+        <All/>
+      </PatternMapped>
+    </Pattern>
+    <Arborization>
+      <ArbRect direction="RF" height="1" initialization_probability="1" width="1"/>
+    </Arborization>
+    <DelayFunction>
+      <FunUniform value="1000"/>
+    </DelayFunction>
+    <Synapse name="synapseFixedWeight">
+      <Parameter name="weight" value="1"/>
+    </Synapse>
+    <Note></Note>
+    <DiagramLine APSource="4" APTarget="11"/>
+  </Connection>
+
+  <Connection id="L-7666-1107525103-2044897763" name="Copy of New Connection -279" source="L-6648-1107513273-1843993368" target="L-7666-1107525090-1025202362" type="excitatory">
+    <Pattern>
+      <PatternMapped type="center">
+        <All/>
+        <All/>
+      </PatternMapped>
+    </Pattern>
+    <Arborization>
+      <ArbRect direction="RF" height="1" initialization_probability="1" width="1"/>
+    </Arborization>
+    <DelayFunction>
+      <FunUniform value="1000"/>
+    </DelayFunction>
+    <Synapse name="synapseFixedWeight">
+      <Parameter name="weight" value="1"/>
+    </Synapse>
+    <Note></Note>
+    <DiagramLine APSource="6" APTarget="12"/>
+  </Connection>
+
+  <Connection id="L-7666-1107525107-1540383426" name="Copy of New Connection -279" source="L-7666-1107525083-1649760492" target="L-6648-1107513181-2053999932" type="excitatory">
+    <Pattern>
+      <PatternMapped type="center">
+        <All/>
+        <All/>
+      </PatternMapped>
+    </Pattern>
+    <Arborization>
+      <ArbRect direction="RF" height="1" initialization_probability="1" width="1"/>
+    </Arborization>
+    <DelayFunction>
+      <FunUniform value="1000"/>
+    </DelayFunction>
+    <Synapse name="synapseFixedWeight">
+      <Parameter name="weight" value="1"/>
+    </Synapse>
+    <Note></Note>
+    <DiagramLine APSource="4" APTarget="13"/>
+  </Connection>
+
+  <Connection id="L-7666-1107525128-278722862" name="Copy of New Connection -279" source="L-7666-1107525083-1649760492" target="L-7666-1107525083-596516649" type="excitatory">
+    <Pattern>
+      <PatternMapped type="center">
+        <All/>
+        <All/>
+      </PatternMapped>
+    </Pattern>
+    <Arborization>
+      <ArbRect direction="RF" height="1" initialization_probability="1" width="1"/>
+    </Arborization>
+    <DelayFunction>
+      <FunUniform value="1000"/>
+    </DelayFunction>
+    <Synapse name="synapseFixedWeight">
+      <Parameter name="weight" value="1"/>
+    </Synapse>
+    <Note></Note>
+    <DiagramLine APSource="6" APTarget="14"/>
+  </Connection>
+
+</System>
+

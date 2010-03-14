@@ -1,0 +1,14 @@
+\begin{equation}
+  v_i(t+1) = \mbox{VmPrs}_i v_i(t)
+           + \mbox{ExcGain}_i \sum_{j=1}^{m} w_{ij} a_j(t-\delta_{ij})
+           - \mbox{InhGain}_i \sum_{k=1}^{n} w_{ik} a_k(t-\delta_{ik})
+\end{equation}
+
+
+\begin{equation}
+  a_i(t+1) = \left\{
+    \begin{array}{ll}
+      v_i(t+1) & \mbox{with probability Prob for $v_i(t+1) \geq$ ThSet}\\
+      0      & \mbox{otherwise}
+    \end{array} \right.
+\end{equation}

@@ -1,0 +1,257 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel} %das Letzte ist default
+\usepackage{paralist}
+\usepackage{treelist}
+\selectlanguage{english}
+
+\begin{document}
+
+\section{System TestSystem}
+
+%%%---------------
+\subsection{Process PrcM1}
+
+
+\subsubsection{Module UserModule1}
+Process PrcM1 has a UserModule \emph{UserModule1} which resides in
+\verb!blabla.so!.
+
+\begin{center}
+\begin{tabular}{l|c|c}
+Name & Type & Value\\\hline
+ModuleParameter1 & short & 0.1100\\
+ModuleParameter2 & string & value\\
+ModuleParameter3 & int & 4510\\
+\end{tabular}
+\end{center}
+
+\subsubsection{Group GroupA}
+\label{sec:Group_g0}
+
+\paragraph*{Geometry}
+
+The geometry of group GroupA is \emph{sparse}, and defined
+by the following points:
+\begin{compactitem}
+   \item point: (10, 10)
+   \item point: (20, 20)
+\end{compactitem}
+
+\paragraph*{Cell Type}
+The cell type of the group is \emph{"Sigmoid"}.
+
+%%%---------------
+\subsection{Process PrcM2}
+
+
+\subsubsection{Module ModulePrcM2}
+Process PrcM2 has a UserModule \emph{ModulePrcM2} which resides in
+\verb!defaultCDATA85!.
+
+\begin{center}
+\begin{tabular}{l|c|c}
+Name & Type & Value\\\hline
+ModuleParam0 & string & string\\
+ModuleParam1 & int & 100\\
+ModuleParam2 & double & 10010.22\\
+\end{tabular}
+\end{center}
+
+\subsubsection{Group Group0PrcM2}
+\label{sec:Group_g1}
+
+\paragraph*{Geometry}
+
+The geometry of group Group0PrcM2 is a \emph{rectangle} with
+$height= 12$, and $width= 17$.
+
+\paragraph*{Cell Type}
+The cell type of the group is \emph{"Sigmoid"}.
+\paragraph*{Connections to other groups}
+\begin{compactenum}
+\item to group Group0PrcS3 (see \ref{sec:Group_g8})
+\item to group Group0PrcS2 (see \ref{sec:Group_g5})
+\item to group Group0PrcS1 (see \ref{sec:Group_g3})
+\end{compactenum}
+
+\subsubsection{Group Group1PrcM2}
+\label{sec:Group_g2}
+
+\paragraph*{Geometry}
+
+The geometry of group Group1PrcM2 is \emph{hexagonal}, with
+the following parameters
+\begin{compactitem}
+    \item height: defaultCDATA56
+    \item width: defaultCDATA58
+    \item offset: defaultCDATA59
+    \item orientation: defaultCDATA57
+\end{compactitem}
+
+\paragraph*{Cell Type}
+The cell type of the group is \emph{"User Defined"} called \emph{MyNeuronType} 
+and is loaded from \verb!myneuron.o!.
+
+
+The neuron has the following parameters:
+
+\begin{center}
+\begin{tabular}{l|c|c}
+Name & Type & Value\\\hline
+MyParam & int & 100\\
+\end{tabular}
+\end{center}
+
+\paragraph*{Connections to other groups}
+\begin{compactenum}
+\item to group Group0PrcM2 (see \ref{sec:Group_g1})
+\item to group GroupA (see \ref{sec:Group_g0})
+\end{compactenum}
+
+
+%%%---------------
+\subsection{Process PrcS1}
+
+
+\subsubsection{Group Group0PrcS1}
+\label{sec:Group_g3}
+
+\paragraph*{Geometry}
+
+The geometry of group Group0PrcS1 is a \emph{rectangle} with
+$height= 30$, and $width= 30$.
+
+\paragraph*{Cell Type}
+The cell type of the group is \emph{"User Defined"} called \emph{YAUDNT} 
+and is loaded from \verb!myneuron2.o!.
+
+
+The neuron has the following parameters:
+
+\begin{center}
+\begin{tabular}{l|c|c}
+Name & Type & Value\\\hline
+UDNParameter & int & 100\\
+UDNParameter2 & short & 0.001\\
+UDNParameter3 & string & blabla\\
+\end{tabular}
+\end{center}
+
+\paragraph*{Connections to other groups}
+\begin{compactenum}
+\item to group Group0PrcM2 (see \ref{sec:Group_g1})
+\item to group Group2PrcS2 (see \ref{sec:Group_g7})
+\item to group Group0PrcS3 (see \ref{sec:Group_g8})
+\end{compactenum}
+
+\subsubsection{Group Group1PrcS1}
+\label{sec:Group_g4}
+
+\paragraph*{Geometry}
+
+The geometry of group Group1PrcS1 is \emph{sparse}, and defined
+by the following points:
+\begin{compactitem}
+   \item point: (0, 1)
+\end{compactitem}
+
+\paragraph*{Cell Type}
+The cell type of the group is \emph{"Random Spike"}.
+
+%%%---------------
+\subsection{Process PrcS2}
+
+
+\subsubsection{Group Group0PrcS2}
+\label{sec:Group_g5}
+
+\paragraph*{Geometry}
+
+The geometry of group Group0PrcS2 is a \emph{rectangle} with
+$height= 100$, and $width= 100$.
+
+\paragraph*{Cell Type}
+The cell type of the group is \emph{"Linear Threshold"}.
+\paragraph*{Connections to other groups}
+\begin{compactenum}
+\item to group Group0PrcM2 (see \ref{sec:Group_g1})
+\item to group Group1PrcM2 (see \ref{sec:Group_g2})
+\item to group Group0PrcS1 (see \ref{sec:Group_g3})
+\end{compactenum}
+
+\subsubsection{Group Group1PrcS2}
+\label{sec:Group_g6}
+
+\paragraph*{Geometry}
+
+The geometry of group Group1PrcS2 is \emph{sparse}, and defined
+by the following points:
+\begin{compactitem}
+   \item point: (1, 2)
+   \item point: (2, 3)
+   \item point: (4, 5)
+\end{compactitem}
+
+\paragraph*{Cell Type}
+The cell type of the group is \emph{"Integrate and Fire"}.
+\paragraph*{Connections to other groups}
+\begin{compactenum}
+\item to group Group0PrcS3 (see \ref{sec:Group_g8})
+\item to group Group2PrcS2 (see \ref{sec:Group_g7})
+\end{compactenum}
+
+\subsubsection{Group Group2PrcS2}
+\label{sec:Group_g7}
+
+\paragraph*{Geometry}
+
+The geometry of group Group2PrcS2 is \emph{hexagonal}, with
+the following parameters
+\begin{compactitem}
+    \item height: 200
+    \item width: 300
+    \item offset: 10
+    \item orientation: horizontal
+\end{compactitem}
+
+\paragraph*{Cell Type}
+The cell type of the group is \emph{"TanH"}.
+\paragraph*{Connections to other groups}
+\begin{compactenum}
+\item to group Group0PrcM2 (see \ref{sec:Group_g1})
+\end{compactenum}
+
+
+%%%---------------
+\subsection{Process PrcS3}
+
+
+\subsubsection{Group Group0PrcS3}
+\label{sec:Group_g8}
+
+\paragraph*{Geometry}
+
+The geometry of group Group0PrcS3 is \emph{sparse}, and defined
+by the following points:
+\begin{compactitem}
+   \item point: (20, 2)
+\end{compactitem}
+
+\paragraph*{Cell Type}
+The cell type of the group is \emph{"TanH"}.
+\paragraph*{Connections to other groups}
+\begin{compactenum}
+\item to group Group1PrcS1 (see \ref{sec:Group_g4})
+\end{compactenum}
+
+
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+

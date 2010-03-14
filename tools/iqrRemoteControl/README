@@ -1,0 +1,37 @@
+iqr remote control syntax
+-------------------------
+
+SYNTAX
+------
+the general syntax is:
+"[cmd:><COMMAND>;][itemType:CONN;[itemName:<ITEM NAME>][itemID:<ITEM NAME>];paramID:<ID>;value:<VALUE>;]"
+
+cmd:
+start, stop, quit, param, startsampler, stopsampler
+-> the "param" command need arguments
+
+itemType:
+	PROCESS
+	MODULE
+	GROUP
+	NEURON
+	CONNECTION
+	SYNAPSE
+
+itemName: OR itemID:
+items can be addressed either by their name or their ID. In the case of name, all items with this name are changed...
+
+paramID:
+This is the name of the parameter as shown in the GUI
+
+value:
+
+
+EXAMPLES
+--------
+"cmd:start;"
+"cmd:stop;"
+"cmd:quit;"
+
+cmd:param;itemType:CONNECTION;itemID:L-6648-1107513304-943947739;paramID:type;value:inhibitory;
+

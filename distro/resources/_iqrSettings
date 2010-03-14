@@ -1,0 +1,37 @@
+
+<iqrSettings>
+
+  <DiagramOptions>
+    <BlockDiagramFontName></BlockDiagramFontName>
+    <BlockDiagramFontSize>8</BlockDiagramFontSize>
+  </DiagramOptions>
+
+  <NeuronPath>
+    <UseLocalNeurons>false</UseLocalNeurons>
+    <UseUserNeurons>false</UseUserNeurons>
+    <LocalNeuronPath/>
+    <StandardNeuronPath>NEURONS</StandardNeuronPath>
+    <UserNeuronPath/>
+  </NeuronPath>
+
+  <SynapsePath>
+    <UseLocalSynapses>false</UseLocalSynapses>
+    <UseUserSynapses>false</UseUserSynapses>
+    <LocalSynapsePath/>
+    <StandardSynapsePath>SYNAPSES</StandardSynapsePath>
+    <UserSynapsePath/>
+  </SynapsePath>
+
+  <ModulePath>
+    <UseLocalModules>false</UseLocalModules>
+    <UseUserModules>false</UseUserModules>
+    <LocalModulePath/>
+    <StandardModulePath>MODULES</StandardModulePath>
+    <UserModulePath/>
+  </ModulePath>
+
+  <lastFilesOpen>
+    <File/>
+  </lastFilesOpen>
+
+</iqrSettings>

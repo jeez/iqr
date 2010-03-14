@@ -1,0 +1,6 @@
+This program converts iqr data files to mpeg and a unsupervised signal data file.
+  assumptions:
+   - 1. column: time, 2. column: unsupervised
+   - video data has predefined group size
+
+You'll need openCV compiled with ffmpeg for this program to compile/run.

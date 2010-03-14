@@ -1,0 +1,306 @@
+
+\begin{compacttreelist}
+\item System
+\begin{compacttreelist}
+    \item name: defaultCDATA0
+    \item id: a0
+\end{compacttreelist}
+
+\begin{compacttreelist}
+\item Group
+    \begin{compacttreelist}
+    \item name: defaultCDATA1
+    \item id: a1
+    \item Geometry: Rect
+    \begin{compacttreelist}
+        \item height: defaultCDATA3
+        \item width: defaultCDATA2
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a3
+        \item target: a2
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a4
+        \item target: a3
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a5
+        \item target: a4
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a6
+        \item target: a5
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a10
+        \item target: a9
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a11
+        \item target: a10
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a12
+        \item target: a11
+    \end{compacttreelist}
+
+    \item Neuron Type: NeuronTanH
+
+\end{compacttreelist}
+\end{compacttreelist}
+
+\begin{compacttreelist}
+\item Group
+    \begin{compacttreelist}
+    \item name: defaultCDATA5
+    \item id: a2
+    \item Geometry: Sparse
+    \begin{compacttreelist}
+
+        \item point: (defaultCDATA7, defaultCDATA6)
+
+        \item point: (defaultCDATA9, defaultCDATA8)
+
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a3
+        \item target: a2
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a4
+        \item target: a3
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a5
+        \item target: a4
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a6
+        \item target: a5
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a10
+        \item target: a9
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a11
+        \item target: a10
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a12
+        \item target: a11
+    \end{compacttreelist}
+
+    \item Neuron Type: NeuronIntegFire
+
+\end{compacttreelist}
+\end{compacttreelist}
+
+\begin{compacttreelist}
+\item Group
+    \begin{compacttreelist}
+    \item name: defaultCDATA59
+    \item id: a7
+    \item Geometry: Hex
+    \begin{compacttreelist}
+        \item height: defaultCDATA62
+        \item width:
+        \item offset: defaultCDATA63
+        \item orientation: defaultCDATA61
+     \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a3
+        \item target: a2
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a4
+        \item target: a3
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a5
+        \item target: a4
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a6
+        \item target: a5
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a10
+        \item target: a9
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a11
+        \item target: a10
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a12
+        \item target: a11
+    \end{compacttreelist}
+
+    \item Neuron Type: NeuronLinearThreshold
+
+\end{compacttreelist}
+\end{compacttreelist}
+
+\begin{compacttreelist}
+\item Group
+    \begin{compacttreelist}
+    \item name: defaultCDATA65
+    \item id: a8
+    \item Geometry: Rect
+    \begin{compacttreelist}
+        \item height: defaultCDATA67
+        \item width: defaultCDATA66
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a3
+        \item target: a2
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a4
+        \item target: a3
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a5
+        \item target: a4
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a6
+        \item target: a5
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a10
+        \item target: a9
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a11
+        \item target: a10
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a12
+        \item target: a11
+    \end{compacttreelist}
+
+    \item Neuron Type: NeuronRandomSpike
+
+\end{compacttreelist}
+\end{compacttreelist}
+
+\begin{compacttreelist}
+\item Group
+    \begin{compacttreelist}
+    \item name: defaultCDATA69
+    \item id: a9
+    \item Geometry: Hex
+    \begin{compacttreelist}
+        \item height: defaultCDATA72
+        \item width:
+        \item offset: defaultCDATA73
+        \item orientation: defaultCDATA71
+     \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a3
+        \item target: a2
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a4
+        \item target: a3
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a5
+        \item target: a4
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a6
+        \item target: a5
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a10
+        \item target: a9
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a11
+        \item target: a10
+    \end{compacttreelist}
+
+    \item ConnectionTo
+    \begin{compacttreelist}
+        \item id: a12
+        \item target: a11
+    \end{compacttreelist}
+
+    \item Neuron Type: NeuronUserDef
+
+\end{compacttreelist}
+\end{compacttreelist}
+
+\end{compacttreelist}

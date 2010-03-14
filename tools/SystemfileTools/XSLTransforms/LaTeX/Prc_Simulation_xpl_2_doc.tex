@@ -1,0 +1,124 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel} %das Letzte ist default
+\usepackage{paralist}
+\usepackage{treelist}
+
+\selectlanguage{english}
+
+
+\begin{document}
+
+\section{System TestSystem}
+
+\subsection{Group Group0}
+\label{sec:Group_a1}
+
+\subsubsection*{Geometry}
+
+The geometry of group Group0 is a \textbf{rectangle} with
+$height= 10$, and $width= 12$.
+
+\subsubsection*{Cell Type}
+The cell type of the group is \textbf{"TanH"}.
+
+\subsubsection*{Connections to other groups}
+\begin{compactenum}
+\item to group Group1 (see \ref{sec:Group_a2})
+\item to group Group4 (see \ref{sec:Group_a9})
+\end{compactenum}
+
+\subsection{Group Group1}
+\label{sec:Group_a2}
+
+\subsubsection*{Geometry}
+
+The geometry of group Group1 is \textbf{sparse}, and defined
+by the following points:
+\begin{compactitem}
+   \item point: (1, 1)
+   \item point: (2, 2)
+   \item point: (3, 3)
+\end{compactitem}
+
+\subsubsection*{Cell Type}
+The cell type of the group is \textbf{"Integrate and Fire"}.
+
+\subsubsection*{Connections to other groups}
+\begin{compactenum}
+\item to group Group1 (see \ref{sec:Group_a2})
+\item to group Group4 (see \ref{sec:Group_a9})
+\end{compactenum}
+
+\subsection{Group Group2}
+\label{sec:Group_a7}
+
+\subsubsection*{Geometry}
+
+The geometry of group Group2 is \textbf{hexagonal}, with
+the following parameters
+\begin{compactitem}
+    \item height: 20
+    \item width: 30
+    \item offset: odd
+    \item orientation: horizontal
+\end{compactitem}
+
+\subsubsection*{Cell Type}
+The cell type of the group is \textbf{"Linear Threshold"}.
+
+\subsubsection*{Connections to other groups}
+\begin{compactenum}
+\item to group Group1 (see \ref{sec:Group_a2})
+\item to group Group4 (see \ref{sec:Group_a9})
+\end{compactenum}
+
+\subsection{Group Group3}
+\label{sec:Group_a8}
+
+\subsubsection*{Geometry}
+
+The geometry of group Group3 is a \textbf{rectangle} with
+$height= 15$, and $width= 15$.
+
+\subsubsection*{Cell Type}
+The cell type of the group is \textbf{"Random Spike"}.
+
+\subsubsection*{Connections to other groups}
+\begin{compactenum}
+\item to group Group1 (see \ref{sec:Group_a2})
+\item to group Group4 (see \ref{sec:Group_a9})
+\end{compactenum}
+
+\subsection{Group Group4}
+\label{sec:Group_a9}
+
+\subsubsection*{Geometry}
+
+The geometry of group Group4 is \textbf{hexagonal}, with
+the following parameters
+\begin{compactitem}
+    \item height: 6
+    \item width: 5
+    \item offset: odd
+    \item orientation: vertical
+\end{compactitem}
+
+\subsubsection*{Cell Type}
+The cell type of the group is \textbf{"User Defined"}.
+
+\subsubsection*{Connections to other groups}
+\begin{compactenum}
+\item to group Group1 (see \ref{sec:Group_a2})
+\item to group Group4 (see \ref{sec:Group_a9})
+\end{compactenum}
+
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+           "DTD/xhtml1-transitional.dtd">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mi>a</mi><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">(</mo><mi>t</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>=</mo><mrow><mo>{</mo>
+<mtable>
+<mtr><mtd><mrow>
+<mtext>Slope</mtext>
+</mrow></mtd><mtd><mrow>
+<mtext>with probability Prob</mtext>
+</mrow></mtd></mtr>
+<mtr><mtd><mrow><mn>0</mn></mrow></mtd><mtd><mrow>
+<mtext>otherwise</mtext>
+</mrow></mtd></mtr></mtable>
+
+<mo> </mo></mrow></mrow>
+<mrow>&emsp;&emsp;&emsp;&emsp;&emsp;<mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow>
+</math>

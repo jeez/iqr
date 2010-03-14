@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>&Delta;W</mi>
+  <msub>
+    <mi>ij</mi>
+  </msub>
+  <mo>=</mo>
+  <mi>&eta;</mi>
+  <msub>
+    <mi>a</mi>
+    <mi>i</mi>
+  </msub>
+  <msub>
+    <mi>a</mi>
+    <mi>j</mi>
+  </msub>
+  <mo>-</mo>
+  <mi>&epsiv;</mi>
+  <mo>(</mo>
+  <mi>Wij</mi>
+  <msub>
+    <none/>
+  </msub>
+  <msub>
+    <mi>a</mi>
+    <mi>i</mi>
+  </msub>
+  <mo>)</mo>
+  <mtext></mtext>
+</math>

@@ -1,0 +1,105 @@
+/****************************************************************************
+** UicManager meta object code from reading C++ file 'process.cpp'
+**
+** Created: Thu Feb 10 11:21:18 2005
+**      by: The Qt MOC ($Id: qt/moc_yacc.cpp   3.3.3   edited Aug 5 16:40 $)
+**
+** WARNING! All changes made in this file will be lost!
+*****************************************************************************/
+
+#include <qmetaobject.h>
+#include <qapplication.h>
+
+#include <private/qucomextra_p.h>
+#if !defined(Q_MOC_OUTPUT_REVISION) || (Q_MOC_OUTPUT_REVISION != 26)
+#error "This file was generated using the moc from 3.3.3. It"
+#error "cannot be used with the include files from this version of Qt."
+#error "(The moc has changed too much.)"
+#endif
+
+const char *UicManager::className() const
+{
+    return "UicManager";
+}
+
+QMetaObject *UicManager::metaObj = 0;
+static QMetaObjectCleanUp cleanUp_UicManager( "UicManager", &UicManager::staticMetaObject );
+
+#ifndef QT_NO_TRANSLATION
+QString UicManager::tr( const char *s, const char *c )
+{
+    if ( qApp )
+	return qApp->translate( "UicManager", s, c, QApplication::DefaultCodec );
+    else
+	return QString::fromLatin1( s );
+}
+#ifndef QT_NO_TRANSLATION_UTF8
+QString UicManager::trUtf8( const char *s, const char *c )
+{
+    if ( qApp )
+	return qApp->translate( "UicManager", s, c, QApplication::UnicodeUTF8 );
+    else
+	return QString::fromUtf8( s );
+}
+#endif // QT_NO_TRANSLATION_UTF8
+
+#endif // QT_NO_TRANSLATION
+
+QMetaObject* UicManager::staticMetaObject()
+{
+    if ( metaObj )
+	return metaObj;
+    QMetaObject* parentObject = QVBox::staticMetaObject();
+    static const QUMethod slot_0 = {"readFromStdout", 0, 0 };
+    static const QUMethod slot_1 = {"readFromStderr", 0, 0 };
+    static const QUMethod slot_2 = {"appEnded", 0, 0 };
+    static const QMetaData slot_tbl[] = {
+	{ "readFromStdout()", &slot_0, QMetaData::Public },
+	{ "readFromStderr()", &slot_1, QMetaData::Public },
+	{ "appEnded()", &slot_2, QMetaData::Public }
+    };
+    metaObj = QMetaObject::new_metaobject(
+	"UicManager", parentObject,
+	slot_tbl, 3,
+	0, 0,
+#ifndef QT_NO_PROPERTIES
+	0, 0,
+	0, 0,
+#endif // QT_NO_PROPERTIES
+	0, 0 );
+    cleanUp_UicManager.setMetaObject( metaObj );
+    return metaObj;
+}
+
+void* UicManager::qt_cast( const char* clname )
+{
+    if ( !qstrcmp( clname, "UicManager" ) )
+	return this;
+    return QVBox::qt_cast( clname );
+}
+
+bool UicManager::qt_invoke( int _id, QUObject* _o )
+{
+    switch ( _id - staticMetaObject()->slotOffset() ) {
+    case 0: readFromStdout(); break;
+    case 1: readFromStderr(); break;
+    case 2: appEnded(); break;
+    default:
+	return QVBox::qt_invoke( _id, _o );
+    }
+    return TRUE;
+}
+
+bool UicManager::qt_emit( int _id, QUObject* _o )
+{
+    return QVBox::qt_emit(_id,_o);
+}
+#ifndef QT_NO_PROPERTIES
+
+bool UicManager::qt_property( int id, int f, QVariant* v)
+{
+    return QVBox::qt_property( id, f, v);
+}
+
+bool UicManager::qt_static_property( QObject* , int , int , QVariant* ){ return FALSE; }
+#endif // QT_NO_PROPERTIES
