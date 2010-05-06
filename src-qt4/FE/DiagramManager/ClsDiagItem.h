@@ -54,7 +54,15 @@ public:
 
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event);
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event);
-    
+
+    /* this is strange; so far It seemed not necessary to implement this function.... ulysses:20100504*/
+    void mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
+	for(unsigned int ii=0; ii<vectorAPs.size(); ii++){
+	    vectorAPs[ii]->moveChildren();
+	}
+	QGraphicsItem::mouseMoveEvent ( event ) ;
+    }
+
     virtual QVariant itemChange ( GraphicsItemChange change, const QVariant & value );
 
     virtual void drawShadow();

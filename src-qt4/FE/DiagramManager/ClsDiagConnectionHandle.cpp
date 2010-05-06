@@ -124,6 +124,22 @@ QVariant ClsDiagConnectionHandle::itemChange ( GraphicsItemChange change, const 
     return QGraphicsItem::itemChange(change,value);
 }
 
+/* this is strange; so far It seemed not necessary to implement this function.... ulysses:20100504*/
+void ClsDiagConnectionHandle:: mouseMoveEvent ( QGraphicsSceneMouseEvent * event ){
+	QPointF newPos = pos();
+
+	QGraphicsLineItem *qlinePre = dynamic_cast<ClsDiagConnection*>(parentItem())->getPrevSegment(this);
+	if(qlinePre!=NULL){
+	    qlinePre->setLine(qlinePre->line().p1().x(), qlinePre->line().p1().y(), newPos.x()+HANDLESIZE/2, newPos.y()+HANDLESIZE/2);
+	}
+	
+	QGraphicsLineItem *qlinePost = dynamic_cast<ClsDiagConnection*>(parentItem())->getNextSegment(this);
+	if(qlinePost!=NULL){
+	    qlinePost->setLine(newPos.x()+HANDLESIZE/2, newPos.y()+HANDLESIZE/2, qlinePost->line().p2().x(), qlinePost->line().p2().y());
+	}
+	QGraphicsItem::mouseMoveEvent ( event ) ;
+}
+
 
 
 

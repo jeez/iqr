@@ -38,6 +38,7 @@ public:
     
     void setConnectionType(int _iConnectionType);
     
+
     void contextMenuEvent ( QGraphicsSceneContextMenuEvent * event ){
 //	cout << "ClsDiagConnectionHandle::contextMenuEvent ( QGraphicsSceneContextMenuEvent * event )" << endl;
 	Q3PopupMenu* qpopupMenu = new Q3PopupMenu( );
@@ -52,7 +53,7 @@ public:
 
     QVariant itemChange ( GraphicsItemChange change, const QVariant & value );
 
-
+    void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
 
 private:
     QPixmap qpmCurrent;
