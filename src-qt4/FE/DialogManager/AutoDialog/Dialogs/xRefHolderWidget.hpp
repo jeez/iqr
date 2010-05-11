@@ -1,4 +1,5 @@
 #include <QtGui/qwidget.h>
+#include <QScrollArea>
 
 #include "item.hpp"
 #include "xRefHolder.hpp"
@@ -13,7 +14,7 @@ using namespace iqrcommon;
 namespace iqrfe {
     class ClsXRefWidget;
     
-    class ClsXRefHolderWidget : public  QWidget
+    class ClsXRefHolderWidget : public  QScrollArea /*QWidget*/
     {
 	Q_OBJECT
 	
@@ -30,8 +31,8 @@ namespace iqrfe {
 
 	int iOwnerType;
 	string strOwnerParentID;
-
-
+	QWidget *qwgtContainer;
+ 
 
     };
 }

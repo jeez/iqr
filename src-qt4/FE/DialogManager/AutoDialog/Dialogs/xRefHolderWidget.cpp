@@ -25,11 +25,17 @@ static const bool bDebugXRefHolderWidget = false;
 #include "synapse.hpp"
 
 iqrfe::ClsXRefHolderWidget::ClsXRefHolderWidget(ClsItem& _item, const ClsXRefHolder* xRefHolder, QWidget *_pqwgtParent, const char *_pcName) :
-    QWidget(_pqwgtParent /*, _pcName*/) {
+//    QWidget(_pqwgtParent /*, _pcName*/) {
+QScrollArea(_pqwgtParent /*, _pcName*/) {
 
 //    dynamic_cast<ClsFEConnection*>(&_item);
-    iOwnerType = -1;
+    iOwnerType = -1; 
     strOwnerParentID = "";
+
+
+qwgtContainer = new QWidget();
+
+
 
     if(dynamic_cast<ClsSynapse*>(&_item)){
 	if (bDebugXRefHolderWidget) {
@@ -54,7 +60,7 @@ iqrfe::ClsXRefHolderWidget::ClsXRefHolderWidget(ClsItem& _item, const ClsXRefHol
 	    cout << "lstXRefValues.size(): " << lstXRefValues.size() << endl;
 	}
 	QVBoxLayout *pqlayTabLayout;
-	pqlayTabLayout = new QVBoxLayout(this /*, TAB_BORDER*/);
+	pqlayTabLayout = new QVBoxLayout(qwgtContainer /*, TAB_BORDER*/);
 	ClsXRefWidget* clsXRefWidget;
 	XRefList xRefList = xRefHolder->getListXRefs();
 
@@ -78,6 +84,8 @@ iqrfe::ClsXRefHolderWidget::ClsXRefHolderWidget(ClsItem& _item, const ClsXRefHol
 	}
 	pqlayTabLayout->addStretch(TAB_V_STRETCH);
     }
+    setWidget(qwgtContainer);
+    setWidgetResizable ( true);
 }
 
 void iqrfe::ClsXRefHolderWidget::apply(){
