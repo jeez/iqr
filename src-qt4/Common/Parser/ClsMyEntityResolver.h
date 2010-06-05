@@ -2,7 +2,13 @@
 #define CLSMYENTITYRESOLVER_H
 
 
+
+
+#if XERCES_VERSION_MAJOR >= 3
+#include <xercesc/sax/EntityResolver.hpp>
+#else
 #include <dom/DOMEntityResolver.hpp>
+#endif
 
 //#include "iqr421_System_050501040704030101_dtd.cpp"
 #include "iqr421_System_050602040805040202_dtd.cpp"

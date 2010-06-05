@@ -207,18 +207,38 @@ string ClsFESerializer::getProcessesAsXML(list<string> lstIDs) {
 	}
     }
 
+#if XERCES_VERSION_MAJOR >= 3
+    DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
+    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true))
+	theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true);
+
+    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true))
+	theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#else
     DOMWriter* theSerializer = ((DOMImplementationLS*)impl)->createDOMWriter();
     if (theSerializer->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
 	theSerializer->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
 
     if (theSerializer->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
 	theSerializer->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#endif
 
     MemBufFormatTarget *myFormTarget = new MemBufFormatTarget();
+#if XERCES_VERSION_MAJOR >= 3
+    DOMLSOutput* theOutput = ((DOMImplementationLS*)impl)->createLSOutput();
+    theOutput->setByteStream(myFormTarget);
+#endif
+
+
+
     try {
 	// do the serialization through DOMWriter::writeNode();
-//	theSerializer->writeNode(myFormTarget, *delemProcess);
+#if XERCES_VERSION_MAJOR >= 3
+	theSerializer->write(delemClipboard, theOutput);
+#else
 	theSerializer->writeNode(myFormTarget, *delemClipboard);
+#endif
+
 
     }
     catch (const XMLException& toCatch) {
@@ -264,16 +284,38 @@ string ClsFESerializer::getConnectionsAsXML(list<string> lstIDs) {
 	delemClipboard->appendChild(delemConnection);
     }
 
+
+#if XERCES_VERSION_MAJOR >= 3
+     DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
+   if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true))
+	theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true);
+
+    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true))
+	theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#else
     DOMWriter* theSerializer = ((DOMImplementationLS*)impl)->createDOMWriter();
     if (theSerializer->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
 	theSerializer->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
 
     if (theSerializer->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
 	theSerializer->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#endif
+
 
     MemBufFormatTarget *myFormTarget = new MemBufFormatTarget();
+
+#if XERCES_VERSION_MAJOR >= 3
+    DOMLSOutput* theOutput = ((DOMImplementationLS*)impl)->createLSOutput();
+    theOutput->setByteStream(myFormTarget);
+#endif
+
+
     try {
+#if XERCES_VERSION_MAJOR >= 3
+	theSerializer->write(delemClipboard, theOutput);
+#else
 	theSerializer->writeNode(myFormTarget, *delemClipboard);
+#endif
     }
     catch (const XMLException& toCatch) {
 	char* message = XMLString::transcode(toCatch.getMessage());
@@ -319,25 +361,39 @@ string ClsFESerializer::getGroupsAsXML(list<string> lstIDs) {
 	delemClipboard->appendChild(delemGroup);
     }
     
-
+#if XERCES_VERSION_MAJOR >= 3
+    DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
+    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true)){
+	theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true);
+    }
+    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true)){
+	theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+    }
+#else
     DOMWriter* theSerializer = ((DOMImplementationLS*)impl)->createDOMWriter();
-
-
     if (theSerializer->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true)){
 	theSerializer->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
     }
-    
-
     if (theSerializer->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true)){
 	theSerializer->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
     }
-    
+#endif
 
     MemBufFormatTarget *myFormTarget = new MemBufFormatTarget();
+
+#if XERCES_VERSION_MAJOR >= 3
+    DOMLSOutput* theOutput = ((DOMImplementationLS*)impl)->createLSOutput();
+    theOutput->setByteStream(myFormTarget);
+#endif
+
     try {
 	// do the serialization through DOMWriter::writeNode();
+#if XERCES_VERSION_MAJOR >= 3
+	theSerializer->write(delemClipboard, theOutput);
+#else
 	theSerializer->writeNode(myFormTarget, *delemClipboard);
-    }
+#endif
+}
     catch (const XMLException& toCatch) {
 	char* message = XMLString::transcode(toCatch.getMessage());
 	cout << "Exception message is: \n"
@@ -389,17 +445,34 @@ string ClsFESerializer::getGroupsWidthConnectionsAsXML(list<string> lstIDGroups,
 	    delemClipboard->appendChild(delemConnection);
 	}
 	
-
+#if XERCES_VERSION_MAJOR >= 3
+	DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
+	if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true))
+	    theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true);
+	
+	if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true))
+	    theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#else
 	DOMWriter* theSerializer = ((DOMImplementationLS*)impl)->createDOMWriter();
 	if (theSerializer->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
 	    theSerializer->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
 	
 	if (theSerializer->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
 	    theSerializer->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#endif
 	
 	MemBufFormatTarget *myFormTarget = new MemBufFormatTarget();
+#if XERCES_VERSION_MAJOR >= 3
+    DOMLSOutput* theOutput = ((DOMImplementationLS*)impl)->createLSOutput();
+    theOutput->setByteStream(myFormTarget);
+#endif
+
 	try {
+#if XERCES_VERSION_MAJOR >= 3
+	    theSerializer->write(delemClipboard, theOutput);
+#else
 	    theSerializer->writeNode(myFormTarget, *delemClipboard);
+#endif
 	}
 	catch (const XMLException& toCatch) {
 	    char* message = XMLString::transcode(toCatch.getMessage());
@@ -570,23 +643,36 @@ int ClsFESerializer::serializeToAER(string strExportFilename){
 
 //    DOMImplementation *
     impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"LS"));
+#if XERCES_VERSION_MAJOR >= 3
+    DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
+    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true))
+	theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true);
+
+    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true))
+	theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#else
     DOMWriter* theSerializer = ((DOMImplementationLS*)impl)->createDOMWriter();
-
-
-    // optionally you can set some features on this serializer
     if (theSerializer->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
 	theSerializer->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
 
     if (theSerializer->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
 	theSerializer->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#endif
 
-//    XMLFormatTarget *myFormTarget = new StdOutFormatTarget();
-//    MemBufFormatTarget *myFormTarget = new MemBufFormatTarget();
     LocalFileFormatTarget *myFormTarget = new LocalFileFormatTarget(strExportFilename.c_str());
+#if XERCES_VERSION_MAJOR >= 3
+    DOMLSOutput* theOutput = ((DOMImplementationLS*)impl)->createLSOutput();
+    theOutput->setByteStream(myFormTarget);
+#endif
+
 
     try {
 	// do the serialization through DOMWriter::writeNode();
+#if XERCES_VERSION_MAJOR >= 3
+	theSerializer->write(ddocAERSystem, theOutput);
+#else
 	theSerializer->writeNode(myFormTarget, *ddocAERSystem);
+#endif
     }
     catch (const XMLException& toCatch) {
 	char* message = XMLString::transcode(toCatch.getMessage());
@@ -746,34 +832,36 @@ int ClsFESerializer::SerializeDOMTree(string &strSystemCont)  {
     
 
     DOMImplementation *impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"LS"));
-    DOMWriter* theSerializer = ((DOMImplementationLS*)impl)->createDOMWriter();
+#if XERCES_VERSION_MAJOR >= 3
+  DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
+    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true))
+	theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true);
 
-    // optionally you can set some features on this serializer
+    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true))
+	theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#else
+    DOMWriter* theSerializer = ((DOMImplementationLS*)impl)->createDOMWriter();
     if (theSerializer->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
 	theSerializer->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
 
     if (theSerializer->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
 	theSerializer->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#endif
 
-    // optionally you can implement your DOMWriterFilter (e.g. MyDOMWriterFilter)
-    // and set it to the serializer
-//    DOMWriterFilter* myFilter = new myDOMWriterFilter();
-//    theSerializer->setFilter(myFilter);
 
-    // optionally you can implement your DOMErrorHandler (e.g. MyDOMErrorHandler)
-    // and set it to the serializer
-//    DOMErrorHandler* errHandler = new myDOMErrorHandler();
-//    theSerializer->setErrorHandler(myErrorHandler);
-
-    // StdOutFormatTarget prints the resultant XML stream
-    // to stdout once it receives any thing from the serializer.
-
-//    XMLFormatTarget *myFormTarget = new StdOutFormatTarget();
     MemBufFormatTarget *myFormTarget = new MemBufFormatTarget();
+#if XERCES_VERSION_MAJOR >= 3
+    DOMLSOutput* theOutput = ((DOMImplementationLS*)impl)->createLSOutput();
+    theOutput->setByteStream(myFormTarget);
+#endif
 
     try {
 	// do the serialization through DOMWriter::writeNode();
+#if XERCES_VERSION_MAJOR >= 3
+	theSerializer->write(ddocSystem, theOutput);
+#else
 	theSerializer->writeNode(myFormTarget, *ddocSystem);
+#endif
     }
     catch (const XMLException& toCatch) {
 	char* message = XMLString::transcode(toCatch.getMessage());

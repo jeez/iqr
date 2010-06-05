@@ -1,5 +1,5 @@
 EXEC_PROGRAM(bash
-  ARGS "../distro/scripts/extractLinuxDistroInfo.sh"
+  ARGS "extractLinuxDistroInfo.sh"
   OUTPUT_VARIABLE LINUX_DISTRO
 )
 

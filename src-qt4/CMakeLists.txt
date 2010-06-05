@@ -427,7 +427,7 @@ ENDIF(FULL_BIN)
 
 
 IF(UNIX)
-  SET(CPACK_RESOURCE_FILE_README "../../README")
+  SET(CPACK_RESOURCE_FILE_README "README")
 ENDIF(UNIX)
 
 SET(CPACK_SOURCE_IGNORE_FILES "CMakeFiles;\\\\.tar\\\\.gz$;/_CPack_Packages/;CMakeCache;\\\\.o$;\\\\.so$;/CVS/;/\\\\.svn/;\\\\.swp$;\\\\.#;/#;.*~;cscope.*")

@@ -1,0 +1,47 @@
+Introduction
+----------
+iqr is a simulation software to design and control large-scale neuronal models with a graphical
+interface. The modelled systems can be connected to various hardware devices, e.g. to
+control the behavior of a robot or read input from a camera. 
+
+
+iqr versions
+------------
+The sources of iqr 1.x are in the 'src' directory. The directory 'src-qt4' contains iqr
+version 2.x which is ported to qt 4
+
+Requirements
+----------
+to compile iqr, you need the standard compile suite for c++ (gcc-c++, libstdc++, etc), 
+cmake, and the following devel packages:
+- Xerces-c version 2.7 (http://xerces.apache.org/xerces-c/)
+- qt (http://qt.nokia.com/products) (version 3.x for iqr 1.x, version 4.5 for iqr 2.x)
+
+on windows you additionally need
+- pthreads (http://sourceware.org/pthreads-win32/)
+and if you want to create an installer: NSIS (http://nsis.df.net)
+
+
+Compiling iqr
+----------
+- the build system of iqr is based on cmake (http://www.cmake.org/)
+- to generate the Makefiles run 'cmake .' in the 'src' directory
+
+- compiling on Windows
+  - compilation on windows works with MinGW/MSys (http://www.mingw.org/)
+  - the 'xerces-c' library needs to be recompile with MinGW
+
+
+Installation
+------------
+The best way is to create installation packages, and then install them:
+- creating packages
+  - for creating packages, we use CPack, integrated with CMake
+  - 'make package' will create RPM and DEB packages on Linux, and an NSIS installer on Windows
+
+- alternatively iqr can be installed system wide with 'make install' 
+- if you do not use 'make install':
+  you'll have to set the environment variable 'LD_LIBRARY_PATH' (on Linux) to
+  include the '../lib' directory. This can be done by e.g. adding 'export
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/home/iqr/lib' to ~/.bashrc. The executable (iqr) resides in 'bin/'
+
