@@ -228,7 +228,7 @@ void iqrfe::ClsFESettings::setDefaultSettings() {
   string strSynapseDirectory("Synapses");
   string strModuleDirectory("Modules");
 
-  string strStandardPath(addDirectorySeparator("/opt/iqr/lib/")); //FIX
+  string strStandardPath(addDirectorySeparator("/usr/lib/iqr/")); //FIX
   string strStandardNeuronPath  = addDirectorySeparator(strStandardPath + strNeuronDirectory);
   string strStandardSynapsePath = addDirectorySeparator(strStandardPath + strSynapseDirectory);
   string strStandardModulePath  = addDirectorySeparator(strStandardPath + strModuleDirectory);

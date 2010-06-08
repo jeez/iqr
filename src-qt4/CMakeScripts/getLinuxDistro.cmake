@@ -1,5 +1,5 @@
 EXEC_PROGRAM(bash
-  ARGS "extractLinuxDistroInfo.sh"
+  ARGS "CMakeScripts/extractLinuxDistroInfo.sh"
   OUTPUT_VARIABLE LINUX_DISTRO
 )
 
