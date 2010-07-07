@@ -616,14 +616,6 @@ void iqrMainWindow::slotOpenSystem(){
     cout << "iqrMainWindow::slotOpenSystem()" << endl;
 #endif
 
-//zzz    QString qstrFileName = QFileDialog::getOpenFileName(
-//zzz	"",
-//zzz	"Systemfile(*.iqr)",
-//zzz	this,
-//zzz	"Open File"
-//zzz	"Choose a file" );
-
-
     QString qstrFileName = QFileDialog::getOpenFileName(
 	this,
 	"Open File",
@@ -1370,19 +1362,27 @@ void iqrMainWindow::slotRemoteCommand(const QString& qstrMessage){
        cmd:start
        cmd:stop
        cmd:quit
+       cmd:startsampler
+       cmd:stopsampler
        cmd:param;itemtype:<>;itemName:<>;paramName:<>;value<>
        cmd:param;itemtype:<>;itemID:<>;paramID:<>;value<>
+NEW:
+       cmd:plot;itemtype:<>;itemID:<>;paramID:<>
 
     */
 
     QString qstrCommand = "";
     QRegExp qRegExp;
 //    qRegExp.setPattern("(cmd:)(.*?)(;)");
-    qRegExp.setPattern("(cmd:)(start|stop|quit|startsampler|stopsampler|param)");
+    qRegExp.setPattern("(cmd:)(start|stop|quit|startsampler|stopsampler|param|plot)");
     int pos = qRegExp.search(qstrMessage);
     if( pos > -1 ) {
-	qstrCommand = qRegExp.cap( 2 );  // "cm"
+	qstrCommand = qRegExp.cap( 2 );  
     }
+
+    cout << "Command received: " << qstrCommand.latin1() << endl;
+
+
 
     if(!qstrCommand.compare("start")){
 	cout << "START" << endl;
@@ -1409,7 +1409,6 @@ void iqrMainWindow::slotRemoteCommand(const QString& qstrMessage){
 	ClsFEDataManager::Instance()->stopDataSampler(true);
     } else if(!qstrCommand.compare("param")){
 	cout << "PARAM" << endl;
-//qRegExp.setPattern("(.*;)(itemType:)(.*)(;itemID:)(.*)(;paramID:)(.*)(;value:)(.*)(;)");
 	qRegExp.setPattern("(.*;)(itemType:)(.*)(;)(itemID|itemName)(:)(.*)(;)(paramID|paramName)(:)(.*)(;value:)(.*)(;)");
 	pos = qRegExp.search(qstrMessage);
 //	cout << "pos: " << pos << endl;
@@ -1480,6 +1479,37 @@ void iqrMainWindow::slotRemoteCommand(const QString& qstrMessage){
 		} else {
 		    cerr << "Unknown Item Identifier Type: " << strItemIdentifierType << endl;
 		}
+	    }
+	}
+    }  else if(!qstrCommand.compare("plot")){
+	cout << "PLOT" << endl;
+	qRegExp.setPattern("(.*;)(itemType:)(.*)(;)(itemID)(:)(.*)(;)(paramID)(:)(.*)(;)");
+	pos = qRegExp.search(qstrMessage);
+	cout << "pos: " << pos << endl;
+	if( pos > -1 ) {
+	    string strItemType = qRegExp.cap(3).toStdString();
+	    string strItemIdentifierType = qRegExp.cap(5).toStdString();
+	    string strItemIdentifier = qRegExp.cap(7).toStdString();
+	    string strParamIdentifierType = qRegExp.cap(9).toStdString();
+	    string strParamIdentifier = qRegExp.cap(11).toStdString();
+	    
+	    if(!strItemType.compare("GROUP")){
+		cout << "Open plot for GROUP: " << strItemIdentifier << " parameter: " << strParamIdentifier << endl;
+		if(!strItemIdentifierType.compare("itemID")){
+		    ClsFEDataManager::Instance()->DataClientCreate(ClsFEDataClient::CLIENT_SPACEPLOT, strItemIdentifier, strParamIdentifier, "");
+		} else {
+		    cerr << "Unknown Item Identifier Type: " << strItemIdentifierType << endl;
+		}
+	    } 
+	    else if(!strItemType.compare("CONNECTION")){
+		cout << "Open plot for CONNECTION: " << strItemIdentifier << " parameter: " << strParamIdentifier  << endl;
+		if(!strItemIdentifierType.compare("itemID")){
+		    ClsFEDataManager::Instance()->DataClientCreate(diagramTypes::DIAGRAM_CONNECTION, strItemIdentifier, strParamIdentifier, "");
+		} else {
+		    cerr << "Unknown Item Identifier Type: " << strItemIdentifierType << endl;
+		}
+	    } else {
+		cout << "unknown itenType: " << strItemType << endl;
 	    }
 	}
     } else {
