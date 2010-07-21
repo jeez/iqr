@@ -11,7 +11,7 @@ IF(NOT WIN32)
   IF(NOT CMAKE_OSX_ARCHITECTURES) # most hardware related modules do not work wit Darwin...
     ADD_SUBDIRECTORY(Modules/Joystick/)
     ADD_SUBDIRECTORY(Modules/Robots/KRobots/Khepera/)
-#    ADD_SUBDIRECTORY(Modules/Robots/KRobots/EPuck/)
+    ADD_SUBDIRECTORY(Modules/Robots/KRobots/EPuckAdvanced/)
     ADD_SUBDIRECTORY(Modules/Robots/KRobots/EPuck_qextserialport/)
 
 #    ADD_SUBDIRECTORY(Modules/Robots/KRobots/KoalaW/)
