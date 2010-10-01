@@ -7,8 +7,18 @@ the general syntax is:
 "[cmd:><COMMAND>;][itemType:CONN;[itemName:<ITEM NAME>][itemID:<ITEM NAME>];paramID:<ID>;value:<VALUE>;]"
 
 cmd:
-start, stop, quit, param, startsampler, stopsampler
--> the "param" command need arguments
+start, stop, quit, param, startsampler, stopsampler, plot
+
+-> the "plot" command takes the following arguments
+itemType:
+	GROUP
+	SYNAPSE
+
+itemID and paramID
+
+
+
+-> the "param" command takes the following arguments
 
 itemType:
 	PROCESS
