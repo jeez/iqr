@@ -31,7 +31,12 @@
 #include <list>
 #include <deque>
 
+
+#ifdef RC_TCP
 #include "ipcserver.h"
+#else
+#include <QUdpSocket>
+#endif
 
 namespace iqrcommon  {
     class ClsSysFileParser;
@@ -129,6 +134,10 @@ private slots:
 
     void slotRemoteCommand(const QString&);
 
+#ifndef RC_TCP
+    void slotReadRCUDP();
+#endif
+
     void slotShortCuts(QAction * _qact);
 
 private:
@@ -142,7 +151,7 @@ private:
     void stopSimulation();
     void pauseSimulation(bool b);
 
-    void setupRCServer();
+    void setupRCServer(int iPort);
     void startPdfHelp(int iType);
 
     void importORLinkProcess(bool);
@@ -253,7 +262,12 @@ private:
 
     QAction *qaccelMainWindow;
 
-    IpcServer *rcServer;
+#ifdef RC_TCP
+    IpcServer *serverRC;
+#else
+    QUdpSocket *socketRC;
+#endif
+
 
     bool bSimulationRunning;
     friend class ClsFEDialogManager;

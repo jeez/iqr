@@ -169,10 +169,20 @@ iqrMainWindow::iqrMainWindow(QWidget * parent, const char * name, Qt::WindowFlag
 
     connect(ClsFESystemManager::Instance(), SIGNAL(sigItemUnDeleted(int, string) ), clsQSystemBrowser, SLOT(slotItemUnDeleted(int, string) ));
 
+/*
+    serverRC = new IpcServer( ipcPort, this );
+    connect( serverRC, SIGNAL(receivedText(const QString&)), this, SLOT(slotRemoteCommand(const QString&)) );
+*/
 
-    rcServer = new IpcServer( ipcPort, this );
-    connect( rcServer, SIGNAL(receivedText(const QString&)), this, SLOT(slotRemoteCommand(const QString&)) );
+#ifdef RC_TCP
+    serverRC = NULL;
+#else
+    socketRC = NULL;
+#endif
 
+
+
+    setupRCServer(ipcPort);
 
     qactgrpShortCuts = new QActionGroup(this);
 
@@ -605,7 +615,7 @@ void iqrMainWindow::openSystem(string s) {
 	    progress->reset();
 	    lblStatusBar->setText("");
 	    this->setCaption(QString("iqr: ") + QString(strSystemFileName.c_str()));
-	    setupRCServer();
+	    setupRCServer(ClsFESystemManager::Instance()->getSystemPort());
 	}
     }
 }
@@ -642,7 +652,7 @@ void iqrMainWindow::slotOpenSystem(){
 //		qmenuFile->setItemParameter( iID, iID );
 		lblStatusBar->setText("");
 		this->setCaption(QString("iqr: ") + QString(strSystemFileName.c_str()));
-		setupRCServer();
+		setupRCServer(ClsFESystemManager::Instance()->getSystemPort());
 	    }
 	}
     }
@@ -676,7 +686,7 @@ void iqrMainWindow::slotOpenOldFile(int ii) {
 
 		lblStatusBar->setText("");
 		this->setCaption(QString("iqr: ") + QString(strSystemFileName.c_str()));
-		setupRCServer();
+		setupRCServer(ClsFESystemManager::Instance()->getSystemPort());
 		updateLFO(strSystemFileName);
 	    }
 	}
@@ -1351,6 +1361,21 @@ void iqrMainWindow::exportProcess(string strID){
 
 }
 
+#ifndef RC_TCP
+void iqrMainWindow::slotReadRCUDP(){
+
+    QByteArray datagram;
+    datagram.resize(socketRC->pendingDatagramSize());
+    QHostAddress sender;
+    quint16 senderPort;
+    
+    socketRC->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+    
+    
+    
+    slotRemoteCommand(datagram);
+}
+#endif
 
 void iqrMainWindow::slotRemoteCommand(const QString& qstrMessage){
 #ifdef DEBUG_IQRMAINWINDOW
@@ -1647,17 +1672,34 @@ void iqrMainWindow::slotShortCuts(QAction * _qact){
     }
 }
 
-void iqrMainWindow::setupRCServer(){
+void iqrMainWindow::setupRCServer(int iPort){
 #ifdef DEBUG_IQRMAINWINDOW
-    cout << "iqrMainWindow::setupRCServer()" << endl;
+    cout << "iqrMainWindow::setupRCServer(int iPort)" << endl;
 #endif
-    if(rcServer != NULL){
-	delete rcServer;
+
+#ifdef RC_TCP
+    if(serverRC != NULL){
+	delete serverRC;
     }
-    int iPort = ClsFESystemManager::Instance()->getSystemPort();
-    cout << "iqr listening on port: " << iPort << endl;
-    rcServer = new IpcServer( iPort, this );
-    connect( rcServer, SIGNAL(receivedText(const QString&)), this, SLOT(slotRemoteCommand(const QString&)) );
+    cout << "iqr listening on TCP/IP port: " << iPort << endl;
+    serverRC = new IpcServer( iPort, this );
+    connect( serverRC, SIGNAL(receivedText(const QString&)), this, SLOT(slotRemoteCommand(const QString&)) );
+#else
+    if(socketRC != NULL){
+	delete socketRC;
+    }
+
+    cout << "iqr listening on UDP port: " << iPort << endl;
+    socketRC = new QUdpSocket(this);
+    socketRC->bind(QHostAddress::LocalHost, iPort);
+
+    connect(socketRC, SIGNAL(readyRead()), this, SLOT(slotReadRCUDP()));
+
+#endif
+
+
+
+
 }
 
 
