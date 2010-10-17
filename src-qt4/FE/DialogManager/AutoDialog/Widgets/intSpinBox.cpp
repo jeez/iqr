@@ -44,25 +44,25 @@ iqrfe::ClsIntSpinBox::ClsIntSpinBox(int _iMin, int _iMax, int _iStep,
  * checked.
  */
 void iqrfe::ClsIntSpinBox::rangeChange() {
-    if (bDebugIntSpinBox) {
-	qDebug("ClsIntSpinBox::rangeChange: %s, " " checking whether value is within range", objectName());
-	qDebug(" value is %d, range is %d,%d", value(), minimum(), maximum());
-    }
+//--    if (bDebugIntSpinBox) {
+//--	qDebug("ClsIntSpinBox::rangeChange: %s, " " checking whether value is within range", objectName());
+//--	qDebug(" value is %d, range is %d,%d", value(), minimum(), maximum());
+//--    }
 
     if (value() <= minimum()) {	
 	setValue(minimum());
 
-	if (bDebugIntSpinBox) {
-	    qDebug("ClsIntSpinBox::rangeChange: %s, value set to minimum, %d", objectName(), value());
-	}
+//--	if (bDebugIntSpinBox) {
+//--	    qDebug("ClsIntSpinBox::rangeChange: %s, value set to minimum, %d", objectName(), value());
+//--	}
 
     }
 
     if (value() >= maximum()) {
 	setValue(maximum());
-	if (bDebugIntSpinBox) {
-	    qDebug("ClsIntSpinBox::rangeChange: %s value set to maximum, %d", objectName(), value());
-	}
+//--	if (bDebugIntSpinBox) {
+//--	    qDebug("ClsIntSpinBox::rangeChange: %s value set to maximum, %d", objectName(), value());
+//--	}
     } 
 
     setToolTip(getRangeAsString());

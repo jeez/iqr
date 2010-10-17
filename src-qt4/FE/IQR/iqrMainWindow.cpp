@@ -330,6 +330,10 @@ iqrMainWindow::iqrMainWindow(QWidget * parent, const char * name, Qt::WindowFlag
     qactDataSampler->setActionGroup(qactgrpDAV );
     qmenuData->addAction(qactDataSampler);
 
+    qactDataBroadcaster = new QAction("Data Broadcaster", this);
+    qactDataBroadcaster->setActionGroup(qactgrpDAV );
+    qmenuData->addAction(qactDataBroadcaster);
+
     qmenuData->addSeparator();
     
     qactApplyConfig = new QAction("Open Configuration", this);
@@ -560,6 +564,10 @@ void iqrMainWindow::slotDAVMenu(QAction * _qact){
     else if(_qact == qactHarbor){
 	ClsFEParamRelais::Instance()->showHarbor();
     }
+    else if(_qact == qactDataBroadcaster){
+	ClsFEDataManager::Instance()->DataClientCreate(ClsFEDataClient::CLIENT_DATABROADCASTER , "", "", "");
+    }
+
 };
 
 void iqrMainWindow::slotHelpMenu(QAction * _qact){

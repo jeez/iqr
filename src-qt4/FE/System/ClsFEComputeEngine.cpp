@@ -9,13 +9,14 @@
 #include "ClsFEGroup.h"
 #include "ClsFEConnection.h"
 #include "ClsFEDataSampler.h"
-#include "ClsFEDataManager.h" //NEW 20050131
+//xxx #include "ClsFEDataBroadcaster.h"
+#include "ClsFEDataManager.h" 
 
 #include "ClsQCPSCustomEvent.h"
 
 //#define DEBUG_CLSFECOMPUTEENGINE 
 
-double fCPSCurrent; //NEW 2008/08/03
+double fCPSCurrent; 
 
 ClsFEComputeEngine* ClsFEComputeEngine::_instanceComputeEngine = NULL;
 
@@ -33,10 +34,10 @@ ClsFEComputeEngine* ClsFEComputeEngine::Instance(){
 ClsFEComputeEngine::ClsFEComputeEngine(QWidget* _parent, QMutex* _qmutexSysGUI, QWaitCondition* _qWaitCondition) : 
     parent(_parent), qmutexSysGUI(_qmutexSysGUI), qWaitCondition(_qWaitCondition) {
     clsFEDataSampler = NULL;
+//xxx     clsFEDataBroadcaster = NULL;
     iSamplerInterval = 1;
-//--    iSamplerCount = 0;
+//xxx     iBroadcasterInterval = 1;
     iRoundCounter = 0;
-//--    iSamplerUpdatesCounter = 0;
     stopped = FALSE;
     paused = FALSE;
     bSyncPlots = false;
@@ -52,6 +53,15 @@ void ClsFEComputeEngine::setDataSampler(ClsFEDataSampler* _clsFEDataSampler, int
 }
 
 
+//xxx void ClsFEComputeEngine::setDataBroadcaster(ClsFEDataBroadcaster* _clsFEDataBroadcaster, int iInterval/*, int iCount*/){
+//xxx #ifdef DEBUG_CLSFECOMPUTEENGINE 
+//xxx     cout << "ClsFEComputeEngine::setDataBroadcaster(ClsFEDataBroadcaster* _clsFEDataBroadcaster, int iInterval)" << endl;
+//xxx #endif
+//xxx     clsFEDataBroadcaster = _clsFEDataBroadcaster;
+//xxx     iBroadcasterInterval = iInterval;
+//xxx }
+
+
 void ClsFEComputeEngine::prepare(bool _bSyncPlots ) {
 #ifdef DEBUG_CLSFECOMPUTEENGINE 
     cout << "ClsFEComputeEngine::prepare( )" << endl;
@@ -60,22 +70,15 @@ void ClsFEComputeEngine::prepare(bool _bSyncPlots ) {
     bSyncPlots = _bSyncPlots;
 
     for(miGroup = ClsFESystemManager::Instance()->mapFEGroups.begin(); miGroup!=ClsFESystemManager::Instance()->mapFEGroups.end(); ++miGroup){
-//	    cout << "prepare group: " << miGroup->first << endl;
-//	    miGroup->second->setMutex(&mutex);
 	miGroup->second->setMutex(qmutexSysGUI);
     }
     
     /* loop here over process to start the (potentially) threaded modules */
     for(miProcess = ClsFESystemManager::Instance()->mapFEProcesses.begin(); miProcess!=ClsFESystemManager::Instance()->mapFEProcesses.end(); ++miProcess){
-	/* 20040227 */
 	miProcess->second->setMutex(qmutexSysGUI);
-	/* --------- */
 	miProcess->second->startModule();
     }
     
-//	cout << "exit ClsFEComputeEngine::prepare( )" << endl;
-//--	iSamplerUpdatesCounter = 0;
-
 }
 
 void ClsFEComputeEngine::run( ) {
@@ -136,16 +139,23 @@ void ClsFEComputeEngine::run( ) {
 	}
 	
 	if(clsFEDataSampler!=NULL && iSamplerInterval > 0){
-//	    cout << "iSamplerInterval: " << iSamplerInterval << endl;
 	    if(iRoundCounter%iSamplerInterval == 0 ){
-//		    clsFEDataSampler->saveData();
 		QEvent *qceDS = new QEvent((QEvent::Type)ClsFEDataSampler::EVENT_SAVEDATA);
 		QApplication::postEvent( clsFEDataSampler, qceDS ); 
 	    }
 	}
 
+//xxx 	if(clsFEDataBroadcaster!=NULL && iBroadcasterInterval > 0){
+//xxx #ifdef DEBUG_CLSFECOMPUTEENGINE 
+//xxx 	    cout << "QApplication::postEvent( clsFEDataBroadcaster, qceBC )" << endl;
+//xxx #endif
+//xxx 	    if(iRoundCounter%iBroadcasterInterval == 0 ){
+//xxx 		QEvent *qceBC = new QEvent((QEvent::Type)ClsFEDataBroadcaster::EVENT_SAVEDATA);
+//xxx 		QApplication::postEvent( clsFEDataBroadcaster, qceBC ); 
+//xxx 	    }
+//xxx 	}
+
 	
-	// NEW 20050131 -> try avoiding to reinstantiate the event at every update loop...
 	if(bSyncPlots){
 	    QEvent *qceDM = new QEvent((QEvent::Type)ClsFEDataManager::EVENT_UPDATE);
 	    QApplication::postEvent( ClsFEDataManager::Instance(), qceDM ); 

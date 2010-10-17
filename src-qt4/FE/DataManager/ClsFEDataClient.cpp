@@ -22,36 +22,18 @@ ClsFEDataClient::ClsFEDataClient(ClsFEDataManager *_clsFEDataManager, QMutex *_q
     clsFEDataManager(_clsFEDataManager), qmutexSysGUI(_qmutexSysGUI), strDataClientID(_strDataClientID) {
 }
 
-//-- void ClsFEDataClient::addDataSink(string strID, string strGroupID, string strParamname, string strRange){ // id, paramtername, range, groupsize, (the two are mutaly redundant)
-//--      cout << " ClsFEDataClient::addDataSink(string strID, string strGroupID, string strParamname, string strRange)" << endl;
-//-- 
-//-- //     clsFEDataManager->createDataSink( clsFEDataSinkTemp);//, strGroupID, strParamname, strRange );
-//--      ClsBaseDataSink *clsDataSinkTemp = clsFEDataManager->createDataSink( strGroupID, strParamname, strRange );
-//-- 
-//-- 
-//--      int iColor = clsColorPicker.getColor();
-//--      clsDataSinkTemp->setColor(iColor);
-//--      pair<string, ClsBaseDataSink* > pairTemp(strID, clsDataSinkTemp );
-//--      mapDataSinks.insert(pairTemp);
-//-- 
-//--      DataSinkAdded(strID, iColor);
-//-- };
-//-- 
 
 void ClsFEDataClient::addDataSink(string strID, ClsItem* clsItem, string strParamname, string strRange){
 //    cout << "ClsFEDataClient::addDataSink(string strID, ClsItem* clsItem, string strParamname, string strRange)" << endl;
 //    cout << "\tstrID: " << strID << endl;
 
-//     ClsBaseDataSink *clsDataSinkTemp = clsFEDataManager->createDataSink( clsItem, strParamname, strRange );
     ClsDataSinkCopying *clsDataSinkTemp = clsFEDataManager->createDataSink( clsItem, strParamname, strRange );
 
 
     int iColor = clsColorPicker.getColor();
     clsDataSinkTemp->setColor(iColor);
-//     pair<string, ClsBaseDataSink* > pairTemp(strID, clsDataSinkTemp );
     pair<string, ClsDataSinkCopying* > pairTemp(strID, clsDataSinkTemp );
     mapDataSinks.insert(pairTemp);
-//     cout << "mapDataSinks.size(): " << mapDataSinks.size() << endl;
     DataSinkAdded(strID, iColor);
 };
 
@@ -65,8 +47,6 @@ void ClsFEDataClient::removeDataSink(string strID){
 	clsColorPicker.putColor((mapDataSinks.find(strID)->second)->getColor());
 	mapDataSinks.erase(strID);
     }
-//  	     clsFEDataManager->cancelDataRequest( ClsFEDataSink *clsFEDataSink, string strGroupID, string strParamName, string strRange  ) { //TODO, TO IMPLEMENT
-
 
 //     cout << "mapDataSinks.size(): " << mapDataSinks.size() << endl;
 
@@ -86,14 +66,9 @@ int ClsFEDataClient::getDataSinkColor(string strID)  {
 void ClsFEDataClient::groupChanged(string _strGroupID){
 //    cout << "ClsFEDataClient::groupChanged(string strGroupID)" << endl;
 
-//    map<string, ClsBaseDataSink* >::iterator it;
     map<string, ClsDataSinkCopying* >::iterator it;
     for(it=mapDataSinks.begin(); it!=mapDataSinks.end(); it++){
 	if(!_strGroupID.compare(it->second->getItemID())){
-/*
-  int iSize = ClsFESystemManager::Instance()->getFEGroup(_strGroupID)->getNumberOfNeurons();
-  it->second->resize(iSize);
-*/
 	    it->second->changeSize();
 	}
     }

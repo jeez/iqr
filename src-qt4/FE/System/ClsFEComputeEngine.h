@@ -38,7 +38,7 @@ class ClsFEProcess;
 class ClsFEConnection;
 class ClsFESystemManager; 
 class ClsFEDataSampler;
-
+//xxx class ClsFEDataBroadcaster;
 
 
 class ClsFEComputeEngine : public QThread {
@@ -52,6 +52,7 @@ public:
 
 
     void setDataSampler(ClsFEDataSampler* _clsFEDataSampler, int iInterval /*, int iCount*/);
+//xxx     void setDataBroadcaster(ClsFEDataBroadcaster* _clsFEDataBroadcaster, int iInterval /*, int iCount*/);
     void prepare(bool _bSyncPlots);
     void run();
     void stop();
@@ -81,6 +82,8 @@ private:
 
     ClsFEDataSampler* clsFEDataSampler;
     int iSamplerInterval;
+//xxx     ClsFEDataBroadcaster* clsFEDataBroadcaster;
+//xxx     int iBroadcasterInterval;
     QWaitCondition* qWaitCondition;
     bool bSyncPlots;
 

@@ -114,21 +114,21 @@ iqrfe::ClsBoolWidget::setEnabled(bool _bEnable)
     QWidget::setEnabled(_bEnable);
 
     if (_bEnable) {
-	if (bDebugBoolWidget) {
-	    qDebug("ClsBoolWidget::setEnabled: %s: "
-		   " widget enabled, %sabling all connected widgets",
-		   objectName(), pqchkValueWidget->isChecked() ? "en" : "dis");
-	}	
+//--	if (bDebugBoolWidget) {
+//--	    qDebug("ClsBoolWidget::setEnabled: %s: "
+//--		   " widget enabled, %sabling all connected widgets",
+//--		   objectName(), pqchkValueWidget->isChecked() ? QString("en") : QString("dis"));
+//--	}	
 
 	// Emit the widget's current state in order to control
 	// dependent widgets correctly.
 	emit selected(pqchkValueWidget->isChecked());
     } else {
-	if (bDebugBoolWidget) {
-	    qDebug("ClsBoolWidget::setEnabled: %s:"
-		   " widget disabled, disabling all connected widgets",
-		   objectName());
-	}	
+//--	if (bDebugBoolWidget) {
+//--	    qDebug("ClsBoolWidget::setEnabled: %s:"
+//--		   " widget disabled, disabling all connected widgets",
+//--		   objectName());
+//--	}	
 
 	// Disable all dependent widgets.  If this widget isn't
 	// enabled, they must all be disabled.
@@ -165,9 +165,9 @@ void iqrfe::ClsBoolWidget::setValueChanged() {
 
 void iqrfe::ClsBoolWidget::showEvent(QShowEvent *_e) {
     if (!_e->spontaneous()) {
-	if (bDebugBoolWidget) {
-	    qDebug("ClsBoolWidget::showEvent: %s", objectName());
-	}
+//--	if (bDebugBoolWidget) {
+//--	    qDebug("ClsBoolWidget::showEvent: %s", objectName());
+//--	}
 
 	if (isEnabled()) {	 
 	    // Emit the current state, so that dependent widgets are

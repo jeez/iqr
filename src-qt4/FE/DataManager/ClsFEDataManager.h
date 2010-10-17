@@ -31,6 +31,7 @@ class ClsFEBasePlot;
 class ClsFEGroup;
 class ClsDataSinkCopying;
 class ClsFEDataSampler;
+class ClsFEDataBroadcaster;
 
 #define SINGLE_DATASAMPLER 
 
@@ -113,6 +114,10 @@ private:
     map<string, ClsFEDataSampler*> mapDataSamplers;
 #endif
 
+    ClsFEDataBroadcaster* clsFEDataBroadcaster;
+    string strDataBroadcasterID;
+
+
     friend class ClsFEDataSampler;
 
     bool bPaused;
@@ -122,5 +127,6 @@ private:
 
 //// Local Variables:
 //// mode: c++
-//// compile-command: "cd /home/ulysses/Code/iqr421_Redesign/FE/IQR/ && make -k "
+//// compile-command: "cd ../../ && make -k "
 //// End:
+

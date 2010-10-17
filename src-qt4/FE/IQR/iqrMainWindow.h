@@ -243,6 +243,7 @@ private:
     QAction *qactApplyConfig;
     QAction *qactSaveConfig;
     QAction *qactDataSampler;
+    QAction *qactDataBroadcaster;
     QAction *qactHarbor;
 
     QActionGroup *qactgrpDAV;

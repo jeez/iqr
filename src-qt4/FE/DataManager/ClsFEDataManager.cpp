@@ -20,6 +20,7 @@
 #include <ClsFEDataClient.h>
 #include <ClsFEGroupPlot.h>
 #include <ClsFETimePlot.h>
+#include <ClsFEDataBroadcaster.h>
 #include <ClsFEDataSampler.h>
 
 #include "ClsQLogWindow.h"
@@ -65,6 +66,9 @@ ClsFEDataManager::ClsFEDataManager(QWidget *_parent, const char * name, QMutex* 
     clsFEDataSampler = NULL;
     strDataSamplerID = "";
 #endif
+
+    clsFEDataBroadcaster = NULL;
+    strDataBroadcasterID = "";
 
     bSyncPlots = false;
 
@@ -174,7 +178,38 @@ void ClsFEDataManager::DataClientCreate(int iClientType , string strSystemElemen
 	connect(dynamic_cast<ClsFEPlotFramework*>(clsFEDataSampler), SIGNAL(sigPlotClosed(string)),
 		this, SLOT( slotPlotClosed(string)));
 #endif
+
+	if(clsFEDataBroadcaster!= NULL){
+	    clsFEDataBroadcaster->raise();
+	} else {
+	    clsFEDataBroadcaster = new ClsFEDataBroadcaster(this, qmutexSysGUI, strClientID);
+	    strDataBroadcasterID = strClientID;
+	    connect(clsFEDataBroadcaster, SIGNAL(sigPlotClosed(string)),
+		    this, SLOT( slotPlotClosed(string)));
+	}
+
+
     }
+
+//----------------------
+    else if(iClientType  == ClsFEDataClient::CLIENT_DATABROADCASTER){
+//--	string strPrcID = "";
+//--	ClsFEGroup *clsFEGroup = NULL;
+//--	if(strSystemElementID.size() > 0){
+//--	    clsFEGroup = ClsFESystemManager::Instance()->getFEGroup(strSystemElementID);
+//--	    strPrcID = clsFEGroup->getProcessID();
+//--	}
+	strClientID = "DataBroadcaster:" + strBaseID + (string)":" + iqrUtils::int2string(iDataClientCounter);
+	if(clsFEDataBroadcaster!= NULL){
+	    clsFEDataBroadcaster->raise();
+	} else {
+	    clsFEDataBroadcaster = new ClsFEDataBroadcaster(this, qmutexSysGUI, strClientID);
+	    strDataBroadcasterID = strClientID;
+	    connect(clsFEDataBroadcaster, SIGNAL(sigPlotClosed(string)),
+		    this, SLOT( slotPlotClosed(string)));
+	}
+    }
+//----------------------
 
     else if(iClientType== diagramTypes::DIAGRAM_CONNECTION){
 
@@ -320,12 +355,16 @@ void ClsFEDataManager::slotItemChanged(int iType, string strID ) {
 	for(it=mapPlots.begin(); it != mapPlots.end(); it++){
 	    it->second->groupChanged(strID);
 	}
-
+	
 #ifdef SINGLE_DATASAMPLER
 	if(clsFEDataSampler!=NULL){
 	    clsFEDataSampler->groupChanged(strID);
 	}
 #endif
+	if(clsFEDataBroadcaster!=NULL){
+	    clsFEDataBroadcaster->groupChanged(strID);
+	}
+
     } else if(iType == ClsFESystemManager::ITEM_CONNECTION){
 	map<string, ClsFEBasePlot*>::iterator it;
 	for(it=mapPlots.begin(); it != mapPlots.end(); it++){
@@ -352,6 +391,10 @@ void ClsFEDataManager::slotItemDeleted(int iType, string strID ) {
 	    clsFEDataSampler->groupDeleted(strID);
 	}
 #endif
+	if(clsFEDataBroadcaster!=NULL){
+	    clsFEDataBroadcaster->groupDeleted(strID);
+	}
+
     } else if(iType == ClsFESystemManager::ITEM_CONNECTION){
 	map<string, ClsFEBasePlot*>::iterator mapIteratorPlots;
 	for(mapIteratorPlots = mapPlots.begin(); mapIteratorPlots!=mapPlots.end(); ++mapIteratorPlots){
@@ -500,7 +543,11 @@ void ClsFEDataManager::slotPlotClosed(string strID){
 
     if(!strID.compare(strDataSamplerID)){
 	clsFEDataSampler = NULL;
-    } else {
+    } 
+    else if(!strID.compare(strDataBroadcasterID)){
+	clsFEDataBroadcaster = NULL;
+    } 
+    else {
 	map<string, ClsFEBasePlot*>::iterator it;
 	it = mapPlots.find(strID);
 	if(it!=mapPlots.end()){
@@ -534,6 +581,10 @@ void ClsFEDataManager::closeAllPlots(){
     }
 
 #endif
+
+    if(clsFEDataBroadcaster!=NULL){
+	clsFEDataBroadcaster->close();
+    }
 
 
 

@@ -37,7 +37,8 @@ public:
 	  CLIENT_TIMEPLOT,
 	  CLIENT_BARPLOT,
 	  CLIENT_CORRPLOT,
-	  CLIENT_DATASAMPLER
+	  CLIENT_DATASAMPLER,
+	  CLIENT_DATABROADCASTER
      };
      
      void setClientType(int iType) { iDataClientType =  iType; };

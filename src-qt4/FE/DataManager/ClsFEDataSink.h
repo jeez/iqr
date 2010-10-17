@@ -26,7 +26,7 @@
 using namespace std;
 using namespace iqrcommon;
 
-//class ClsFEDataSink : public vector<double>, public ClsBaseDataSink {
+
 class ClsFEDataSink : public ClsBaseDataSink {
 
 public:

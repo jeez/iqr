@@ -133,6 +133,7 @@ SET(appSRC
   FE/DataManager/ClsFEGroupPlot.cpp 
   FE/DataManager/ClsFEPlotFramework.cpp 
   FE/DataManager/ClsFETimePlot.cpp 
+  FE/DataManager/ClsFEDataBroadcaster.cpp 
   FE/DataManager/ClsQBaseStateVariableDisplay.cpp 
   FE/DataManager/ClsQDivider.cpp 
   FE/DataManager/ClsQDragHandle.cpp 
@@ -183,6 +184,7 @@ SET(appMOC_HDR
   FE/DataManager/ClsFEGroupPlot.h 
   FE/DataManager/ClsFEPlotFramework.h 
   FE/DataManager/ClsFETimePlot.h 
+  FE/DataManager/ClsFEDataBroadcaster.h
   FE/DataManager/ClsQDivider.h 
   FE/DataManager/ClsQDragHandle.h 
   FE/DataManager/ClsQNeuronStateVariableDisplay.h 
