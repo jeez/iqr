@@ -4,7 +4,6 @@ iqr is a simulation software to design and control large-scale neuronal models w
 interface. The modelled systems can be connected to various hardware devices, e.g. to
 control the behavior of a robot or read input from a camera. 
 
-
 iqr versions
 ------------
 The sources of iqr 1.x are in the 'src' directory. The directory 'src-qt4' contains iqr
@@ -15,7 +14,9 @@ Requirements
 to compile iqr, you need the standard compile suite for c++ (gcc-c++, libstdc++, etc), 
 cmake, and the following devel packages:
 - Xerces-c version 2.7 (http://xerces.apache.org/xerces-c/)
-- qt (http://qt.nokia.com/products) (version 3.x for iqr 1.x, version 4.5 for iqr 2.x)
+- Qt Framework (http://qt.nokia.com/products) (version 3.x for iqr 1.x, version >= 4.5 for iqr 2.x)
+- Video4Linux library (libv4l-devel)
+- OpenCV
 
 on windows you additionally need
 - pthreads (http://sourceware.org/pthreads-win32/)
