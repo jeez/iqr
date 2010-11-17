@@ -1,0 +1,11 @@
+moc_*
+*.swp
+*.cxx
+*.cmake
+*.so
+*.a
+ui_*
+Makefile
+CMakeCache.txt
+# Can also ignore all directories and files in a directory.
+#tmp/**/* 
