@@ -1134,6 +1134,8 @@ void iqrMainWindow::closeEvent( QCloseEvent *e) {
 #endif
     if(slotQuitIQR()){
 	e->accept();
+    } else {
+        e->ignore();
     }
 };
 
