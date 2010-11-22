@@ -64,9 +64,7 @@ MAKE_MODULE_DLL_INTERFACE(iqrcommon::openCVmpeg,"OpenCV mpeg Video Player")
 
 iqrcommon::openCVmpeg::~openCVmpeg(){ 
 //    cout << "openCVmpeg::~openCVmpeg()" << endl;
-  cvReleaseCapture( &capture );
-  cvDestroyWindow("video");
-
+  cleanup();
 }
 
 void iqrcommon::openCVmpeg::init(){
@@ -224,6 +222,10 @@ void iqrcommon::openCVmpeg::cleanup(){
     cvWaitKey(10);
     cvDestroyAllWindows();
     cvWaitKey(10);
+    if(capture!=NULL){
+      cvReleaseCapture( &capture );
+    }
+
 }
 
 
