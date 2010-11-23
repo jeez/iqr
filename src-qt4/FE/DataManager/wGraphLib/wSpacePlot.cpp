@@ -444,9 +444,9 @@ void WSpacePlot::checkDataRange() {
 void WSpacePlot::drawContent(QPainter &p,bool) {
 //std::cout << "WSpacePlot::drawContent(QPainter &p,bool)" << std::endl;
 
-    QBrush brush;
     QColor color;
-    int hue, selectHue; //s, v;
+    int hue = 0; //s
+    int selectHue = 0; //v
   
 //ZZZ    paintColor.getHsv(hue,s,v);
 //ZZZ    palette().highlight().color().getHsv(selectHue,s,v); //ZZZ FIX??
@@ -469,7 +469,6 @@ void WSpacePlot::drawContent(QPainter &p,bool) {
 	palette.setColor(backgroundRole(),  QColor(64,64,64));
 	setPalette(palette);
 	p.fillRect(p.window(),QBrush(Qt::black,Qt::Dense6Pattern));
-
 
 	for (it=cellData.begin(); it!=end; ++it){
 	    if (it->visible) {
