@@ -121,7 +121,7 @@ ADD_LIBRARY(AutoDialog STATIC ${libSrc})
 #this is a nasty hack for minGW...
 IF(WIN32)
   TARGET_LINK_LIBRARIES(AutoDialog
-  C:/home/ulysses/Desktop/iqr-src/src-qt4/Common/Item/libIqrItem.dll.a
+  ${CMAKE_CURRENT_SOURCE_DIR}/../../../Common/Item/libIqrItem.dll.a
   )
 ENDIF(WIN32)
 
