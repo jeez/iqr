@@ -19,14 +19,7 @@ SET(QT_MT_REQUIRED TRUE)
 FIND_PACKAGE(Qt4 REQUIRED)
 INCLUDE(${QT_USE_FILE})
 
-
-IF(WIN32)
-set(OpenCV_ROOT_DIR "c:/OpenCV2.0")
-ENDIF(WIN32)
-
-FIND_PACKAGE(OpenCV COMPONENTS CV CXCORE CVAUX HIGHGUI CVCAM)
-
-
+FIND_PACKAGE(OpenCV REQUIRED)
 
 SET (libSrc
 openCVvideo.cpp
@@ -41,24 +34,11 @@ INCLUDE_DIRECTORIES(
 )
 
 
-
 ADD_LIBRARY(openCVvideo SHARED ${libSrc})
-
-#there are some problems with OpenCV_LIBRARIES on windows...
-IF (NOT OpenCV_LIBRARIES )
-  set (OpenCV_LIBRARIES 
-  libcv200
-  libcvaux200
-  libcxcore200
-  libcxts200
-  libhighgui200
-  libml200
-  )
-ENDIF (NOT OpenCV_LIBRARIES )
 
 
 TARGET_LINK_LIBRARIES(openCVvideo
-  ${OpenCV_LIBRARIES}
+  ${OpenCV_LIBS}
   ${QT_LIBRARIES}
   ${CMAKE_CURRENT_SOURCE_DIR}/../../../../Common/Item/libIqrItem.dll
 )
