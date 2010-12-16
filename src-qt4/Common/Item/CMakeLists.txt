@@ -47,7 +47,7 @@ ADD_LIBRARY(IqrItem SHARED ${libSrc})
 
 IF(WIN32)
   TARGET_LINK_LIBRARIES(IqrItem
-  C:/pthreads.2/lib/pthreadVC2.dll
+  pthreadGCE2
   )
 ENDIF(WIN32)
 
