@@ -3,9 +3,13 @@ cmake_minimum_required(VERSION 2.6)
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/config)
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeScripts)
 
-
 SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
+IF(APPLE)
+  SET(CMAKE_CXX_FLAGS
+  "${CMAKE_CXX_FLAGS}  -undefined dynamic_lookup"
+  )
+ENDIF(APPLE)
 
 ADD_DEFINITIONS(
   -DQT_THREAD_SUPPORT 
@@ -36,13 +40,20 @@ INCLUDE_DIRECTORIES(
 
 ADD_LIBRARY(openCVvideo SHARED ${libSrc})
 
+IF (WIN32)
+  TARGET_LINK_LIBRARIES(openCVvideo
+    ${OpenCV_LIBS}
+    ${QT_LIBRARIES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../../Common/Item/libIqrItem.dll
+  )
+ENDIF(WIN32)
 
-TARGET_LINK_LIBRARIES(openCVvideo
-  ${OpenCV_LIBS}
-  ${QT_LIBRARIES}
-  ${CMAKE_CURRENT_SOURCE_DIR}/../../../../Common/Item/libIqrItem.dll
-)
-
+IF (UNIX OR APPLE)
+  TARGET_LINK_LIBRARIES(openCVvideo
+    ${OpenCV_LIBS}
+    ${QT_LIBRARIES}
+  )
+ENDIF(UNIX OR APPLE)
 
 #replace this with ENV variable
 
