@@ -8,7 +8,8 @@ ADD_SUBDIRECTORY(Synapses)
 IF(NOT WIN32)
   ADD_SUBDIRECTORY(Modules/SonyPanTilt/)
   ADD_SUBDIRECTORY(Modules/Robots/LegoMindStorm/)
-  IF(NOT CMAKE_OSX_ARCHITECTURES) # most hardware related modules do not work wit Darwin...
+  ADD_SUBDIRECTORY(Modules/openCVmpeg)
+  IF(NOT APPLE) # most hardware related modules do not work wit Darwin...
     ADD_SUBDIRECTORY(Modules/Joystick/)
     ADD_SUBDIRECTORY(Modules/Robots/KRobots/Khepera/)
     ADD_SUBDIRECTORY(Modules/Robots/KRobots/EPuckAdvanced/)
@@ -17,7 +18,6 @@ IF(NOT WIN32)
 #    ADD_SUBDIRECTORY(Modules/Robots/KRobots/KoalaW/)
 
     ADD_SUBDIRECTORY(Modules/Video/video)
-    ADD_SUBDIRECTORY(Modules/openCVmpeg)
 
 #    ADD_SUBDIRECTORY(Modules/Video/bttvVideo)
 #    ADD_SUBDIRECTORY(Modules/Video/bttvVideoColor)
@@ -31,7 +31,7 @@ IF(NOT WIN32)
 #    ADD_SUBDIRECTORY(Modules/Video/v4l2video)
 #    ADD_SUBDIRECTORY(Modules/Video/video)
 
-  ENDIF(NOT CMAKE_OSX_ARCHITECTURES)
+  ENDIF(NOT APPLE)
 ENDIF(NOT WIN32)
 
 

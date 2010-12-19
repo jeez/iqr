@@ -2,6 +2,8 @@ TEMPLATE	= app
 CONFIG		= qt thread release 
 DEFINES         = LINUX 
 
+QT += xml
+
 INCLUDEPATH     = ../ \
                   ../../common
 

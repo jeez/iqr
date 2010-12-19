@@ -2,11 +2,11 @@ SET(CMAKE_INSTALL_PREFIX /opt/iqr)
 SET(CMAKE_VERBOSE_MAKEFILE TRUE) 
 
 
-IF(CMAKE_OSX_ARCHITECTURES)
+IF(APPLE)
 SET(CMAKE_CXX_FLAGS 
 "${CMAKE_CXX_FLAGS}  -undefined dynamic_lookup"
 )                           
-ENDIF(CMAKE_OSX_ARCHITECTURES)
+ENDIF(APPLE)
 
 
 SET (ApicalShuntSrc        synapseApicalShunt.cpp)  
