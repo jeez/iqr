@@ -39,7 +39,7 @@ IF(WIN32)
   TARGET_LINK_LIBRARIES(moduleJoystick
     ${QT_LIBRARIES}
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../Common/Item/libIqrItem.dll
-    WinMM
+    winmm
   )
 ENDIF(WIN32)
 
