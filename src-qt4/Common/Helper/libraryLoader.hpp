@@ -23,7 +23,7 @@
 #ifndef LIBRARYLOADER_HPP
 #define LIBRARYLOADER_HPP
 
-#ifdef LINUX
+#if defined(LINUX) || defined(_APPLE)
 #include "libraryLoader_unix.hpp"
 #endif
 

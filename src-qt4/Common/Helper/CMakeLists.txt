@@ -11,6 +11,16 @@ IF(UNIX)
   ADD_DEFINITIONS(-DLINUX) 
 ENDIF(UNIX)
 
+IF(APPLE)
+  SET (libSrc
+    libraryLoader_unix.cpp
+    pathFunctions_unix.cpp
+    typeManager.cpp)
+
+  ADD_DEFINITIONS(-D_APPLE) 
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -undefined dynamic_lookup")
+ENDIF(APPLE)
+
 IF(WIN32)
   SET (libSrc
     libraryLoader_windows.cpp

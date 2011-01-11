@@ -43,7 +43,11 @@ iqrcommon::getExtensionSeparator()
 string
 iqrcommon::getLibraryExtension()
 {
+#if defined(_APPLE)
+    return string(1, getExtensionSeparator()) + "dylib";
+#elif defined(LINUX)
     return string(1, getExtensionSeparator()) + "so";
+#endif
 }
 //
 //////////////////////////////////
