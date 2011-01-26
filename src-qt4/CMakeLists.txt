@@ -3,6 +3,10 @@ PROJECT(iqr)
 # with this variable we can create all inclusive binary distributions that include all the
 # required libs...
 SET(FULL_BIN false)
+SET(APP_BUNDLE false)
+IF(APPLE AND APP_BUNDLE)
+  MESSAGE(STATUS "Building on Mac OS X as a Bundle")
+ENDIF(APPLE AND APP_BUNDLE)
 
 cmake_minimum_required(VERSION 2.6)
 
@@ -270,8 +274,21 @@ ADD_SUBDIRECTORY(FE/DialogManager/AutoDialog )#FE/DialogManager/AutoDialog )
 ADD_SUBDIRECTORY(FE/DialogManager/HelpDlgs   )#FE/DialogManager/HelpDlgs   )
 ADD_SUBDIRECTORY(StandardTypes)
 
-
-ADD_EXECUTABLE(iqr ${appSRC})
+IF(APP_BUNDLE)
+  IF(APPLE)
+    # set how it shows up in the Info.plist file
+    SET(MACOSX_BUNDLE_ICON_FILE iqr-icon.icns)
+    # set where in the bundle to put the icns file
+    SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/inst_files/iqr-icon.icns PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+    # include the icns file in the target
+    SET(appSRC ${appSRC} ${CMAKE_CURRENT_SOURCE_DIR}/inst_files/iqr-icon.icns)
+    ADD_EXECUTABLE(iqr MACOSX_BUNDLE ${appSRC})
+  ELSE(APPLE)
+    ADD_EXECUTABLE(iqr ${appSRC})
+  ENDIF(APPLE)
+ELSE(APP_BUNDLE)
+  ADD_EXECUTABLE(iqr ${appSRC})
+ENDIF(APP_BUNDLE)
 
 IF(UNIX)
 TARGET_LINK_LIBRARIES(iqr
@@ -317,10 +334,49 @@ TARGET_LINK_LIBRARIES(iqr
 ENDIF(WIN32)
 
 
+#--------------------------------------------------------------------------------
+# Now the installation instructions
+#--------------------------------------------------------------------------------
+IF(APPLE)
+  IF(APP_BUNDLE)
+    SET(plugin_dest_dir bin)
+    SET(qtconf_dest_dir bin)
+    SET(APPS "\${CMAKE_INSTALL_PREFIX}/bin/iqr")
 
+    SET(plugin_dest_dir iqr.app/Contents/MacOS)
+    SET(qtconf_dest_dir iqr.app/Contents/Resources)
+    SET(APPS "\${CMAKE_INSTALL_PREFIX}/iqr.app")
 
+    INSTALL(TARGETS iqr
+        BUNDLE DESTINATION . COMPONENT Runtime
+        RUNTIME DESTINATION bin COMPONENT Runtime
+        )
 
-IF(UNIX)
+    INSTALL(CODE "
+        file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"\")
+        " COMPONENT Runtime)
+
+    SET(DIRS ${QT_LIBRARY_DIRS})
+
+    INSTALL(CODE "
+        file(GLOB_RECURSE QTPLUGINS
+        \"\${CMAKE_INSTALL_PREFIX}/${plugin_dest_dir}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
+        include(BundleUtilities)
+        fixup_bundle(\"${APPS}\" \"\${QTPLUGINS}\" \"${DIRS}\")
+        " COMPONENT Runtime)
+
+  ELSE(APP_BUNDLE)
+    INSTALL(TARGETS iqr RUNTIME DESTINATION bin )
+    INSTALL(FILES  ${PROJECT_SOURCE_DIR}/iqr.version                     DESTINATION lib/iqr)
+    INSTALL(FILES  ${PROJECT_SOURCE_DIR}/inst_files/iqr-logo.gif         DESTINATION lib/iqr)
+    INSTALL(FILES  ${PROJECT_SOURCE_DIR}/inst_files/iqr-logo-lg.gif      DESTINATION lib/iqr)
+    INSTALL(FILES  ${PROJECT_SOURCE_DIR}/inst_files/iqr.desktop          DESTINATION share/applications/)
+    INSTALL(FILES  ${PROJECT_SOURCE_DIR}/inst_files/iqr.xpm              DESTINATION share/icons/)
+    INSTALL(FILES  ${PROJECT_SOURCE_DIR}/doc/iqrUserManual.pdf           DESTINATION share/doc/iqr)
+  ENDIF(APP_BUNDLE)
+ENDIF(APPLE)
+
+IF(UNIX AND NOT APPLE)
   INSTALL(TARGETS iqr RUNTIME DESTINATION bin )
 
   IF(FULL_BIN)
@@ -349,7 +405,7 @@ IF(UNIX)
     INSTALL(FILES  ${PROJECT_SOURCE_DIR}/inst_files/iqr.xpm              DESTINATION share/icons/)
     INSTALL(FILES  ${PROJECT_SOURCE_DIR}/doc/iqrUserManual.pdf           DESTINATION share/doc/iqr)
   ENDIF(FULL_BIN)
-ENDIF(UNIX)
+ENDIF(UNIX AND NOT APPLE)
 
 IF(WIN32)
   INSTALL(FILES  ${PROJECT_SOURCE_DIR}/iqr.version                         DESTINATION lib/..  COMPONENT applications)
@@ -408,23 +464,20 @@ IF(WIN32)
 ENDIF(WIN32)
 
 
-
 SET_TARGET_PROPERTIES(iqr PROPERTIES VERSION ${IQR_MAJOR}-${IQR_REL})
 
-IF(UNIX)
-SET(CPACK_GENERATOR TGZ;RPM;DEB)
+IF(UNIX AND NOT APPLE)
+  SET(CPACK_GENERATOR TGZ;RPM;DEB)
 
-IF(FULL_BIN)
-SET(CPACK_GENERATOR TGZ)
-ELSE(FULL_BIN)
-SET(CPACK_GENERATOR RPM;DEB)
-ENDIF(FULL_BIN)
-
-
-ENDIF(UNIX)
+  IF(FULL_BIN)
+    SET(CPACK_GENERATOR TGZ)
+  ELSE(FULL_BIN)
+    SET(CPACK_GENERATOR RPM;DEB)
+  ENDIF(FULL_BIN)
+ENDIF(UNIX AND NOT APPLE)
 
 IF(WIN32)
-SET(CPACK_GENERATOR NSIS)
+  SET(CPACK_GENERATOR NSIS)
 ENDIF(WIN32)
 
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "large-scale neuronal systems simulator")
@@ -432,17 +485,16 @@ SET(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
 SET(CPACK_PACKAGE_VERSION ${IQR_MAJOR}.${IQR_REL})
 
 IF(NOT WIN32)
-SET(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}.${LINUX_DISTRO}.${CMAKE_SYSTEM_PROCESSOR}")
+  SET(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}.${LINUX_DISTRO}.${CMAKE_SYSTEM_PROCESSOR}")
 ENDIF(NOT WIN32)
 
 IF(WIN32)
-SET(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_PROCESSOR}_setup")
+  SET(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_PROCESSOR}_setup")
 ENDIF(WIN32)
 
 IF(FULL_BIN)
-SET(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_PROCESSOR}_fullbin")
+  SET(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_PROCESSOR}_fullbin")
 ENDIF(FULL_BIN)
-
 
 IF(UNIX)
   SET(CPACK_RESOURCE_FILE_README "README")
@@ -452,41 +504,35 @@ SET(CPACK_SOURCE_IGNORE_FILES "CMakeFiles;\\\\.tar\\\\.gz$;/_CPack_Packages/;CMa
 SET(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-src")
 
 SET(CPACK_STRIP_FILES "bin/iqr")
-
-SET(CPACK_BINARY_RPM "ON")
-SET(CPACK_BINARY_STGZ "OFF")
-SET(CPACK_BINARY_TBZ2 "OFF")
-SET(CPACK_BINARY_TGZ "OFF")
-SET(CPACK_BINARY_TZ "OFF")
-SET(CPACK_SOURCE_TBZ2 "OFF")
-SET(CPACK_SOURCE_TGZ "ON")
-SET(CPACK_SOURCE_TZ "OFF")
-
 SET(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/gpl-3.0.txt")
 
+IF(UNIX AND NOT APPLE)
+  SET(CPACK_BINARY_RPM "ON")
+  SET(CPACK_BINARY_STGZ "OFF")
+  SET(CPACK_BINARY_TBZ2 "OFF")
+  SET(CPACK_BINARY_TGZ "OFF")
+  SET(CPACK_BINARY_TZ "OFF")
+  SET(CPACK_SOURCE_TBZ2 "OFF")
+  SET(CPACK_SOURCE_TGZ "ON")
+  SET(CPACK_SOURCE_TZ "OFF")
 
+  SET(CPACK_RPM_PACKAGE_DESCRIPTION_SUMMARY "large-scale neuronal systems simulator")
+  SET(CPACK_RPM_PACKAGE_GROUP "X11/KDE/Applications")
+  SET(CPACK_RPM_PACKAGE_LICENSE "GPL")
+  SET(CPACK_RPM_PACKAGE_VENDOR "specs@upf")
+  SET(CPACK_RPM_PACKAGE_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
+  SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Ulysses Bernardet")
+ENDIF(UNIX AND NOT APPLE)
 
-SET(CPACK_RPM_PACKAGE_DESCRIPTION_SUMMARY "large-scale neuronal systems simulator")
-SET(CPACK_RPM_PACKAGE_GROUP "X11/KDE/Applications")
-SET(CPACK_RPM_PACKAGE_LICENSE "GPL")
-SET(CPACK_RPM_PACKAGE_VENDOR "specs@upf")
-
-SET(CPACK_RPM_PACKAGE_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
-
-
-
-SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Ulysses Bernardet")
 SET(CPACK_PACKAGE_CONTACT "bernuly@gmail.com")
-
 
 #NEW STUFF FOR NSIS INSTALLER
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "iqr")
-
 set(CPACK_NSIS_MUI_ICON "${PROJECT_SOURCE_DIR}/inst_files/iqr.ico")
 
 IF(WIN32)
-#ist of pairs of executables and labels. Used by the NSIS generator to create Start Menu shortcuts.
-set(CPACK_PACKAGE_EXECUTABLES "..\\\\iqr" "iqr" )
+  #ist of pairs of executables and labels. Used by the NSIS generator to create Start Menu shortcuts.
+  set(CPACK_PACKAGE_EXECUTABLES "..\\\\iqr" "iqr" )
 ENDIF(WIN32)
 
 # Tell CPack all of the components to install. The "ALL"
@@ -532,6 +578,7 @@ set(CPACK_COMPONENT_HEADERS_INSTALL_TYPES Developer Full)
 set(CPACK_COMPONENT_APPLICATIONS_INSTALL_TYPES Full)
 
 
+set(CPACK_BINARY_DRAGNDROP ON)
 INCLUDE(CPack)
 
 
