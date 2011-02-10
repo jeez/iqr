@@ -539,53 +539,59 @@ void ClsFEConnectionDiagram::update(){
 	}
 */
 
-	if(iIndexSourceCell>=0){
+        if(iIndexSourceCell>=0){
 	    valarray<size_t> vaMaskSyn = pre2post[iIndexSourceCell].maskSyn;
 	    valarray<size_t> vaMaskPost = pre2post[iIndexSourceCell].maskPost;
-	    ClsDataSinkCopying *clsDataSink = mapDataSinks.begin()->second;
+            ClsDataSinkCopying *clsDataSink = mapDataSinks.begin()->second;
 	    /* 
 	       not necessary, we access the state array pointer 
 	       clsDataSink->update();
 	    */
 
-	    qmutexSysGUI->lock(); //NEW 2004/04/12
-	    valarray<double> vaData = (*clsDataSink->getStateArray())[0][vaMaskSyn];
-	    qmutexSysGUI->unlock();//NEW 2004/04/12
 
-	    double fMaxVal =  vaData.max()*1.2 + .1;
-	    clsQStateArrayViewTarget->setMaxValue(fMaxVal);
-	    clsQStateArrayViewTarget->setValue(vaMaskPost, vaData);
-	    clsRangeGradient->setMaxValue(fMaxVal);
+            if (clsDataSink && clsDataSink->getStateArray()) {
+                qmutexSysGUI->lock(); //NEW 2004/04/12
+                valarray<double> vaData = (*clsDataSink->getStateArray())[0][vaMaskSyn];
+                qmutexSysGUI->unlock();//NEW 2004/04/12
+
+                double fMaxVal =  vaData.max()*1.2 + .1;
+                clsQStateArrayViewTarget->setMaxValue(fMaxVal);
+                clsQStateArrayViewTarget->setValue(vaMaskPost, vaData);
+                clsRangeGradient->setMaxValue(fMaxVal);
+            }
 /*
-	    cout << "vaMaskPost: " << vaMaskPost << endl;
-	    cout << "vaData: " << vaData << endl;
+            cout << "vaMaskPost: " << vaMaskPost << endl;
+            cout << "vaData: " << vaData << endl;
 */
 
-	} else if(iIndexTargetCell>=0){ 
-	    valarray<size_t> vaMaskSyn = post2pre[iIndexTargetCell].maskSyn;
-	    valarray<size_t> vaMaskPre = post2pre[iIndexTargetCell].maskPre;
-	    
-	    ClsDataSinkCopying *clsDataSink = mapDataSinks.begin()->second;
-	    /* 
-	       not necessary, we access the state array pointer 
-	       clsDataSink->update();
-	    */
+        } else if(iIndexTargetCell>=0){
+            valarray<size_t> vaMaskSyn = post2pre[iIndexTargetCell].maskSyn;
+            valarray<size_t> vaMaskPre = post2pre[iIndexTargetCell].maskPre;
 
-	    qmutexSysGUI->lock(); //NEW 2004/04/12
-	    valarray<double> vaData = (*clsDataSink->getStateArray())[0][vaMaskSyn];
-	    qmutexSysGUI->unlock();//NEW 2004/04/12
+            ClsDataSinkCopying *clsDataSink = mapDataSinks.begin()->second;
+            /*
+               not necessary, we access the state array pointer
+               clsDataSink->update();
+            */
 
-	    double fMaxVal =  vaData.max()*1.2 + .1;
-	    clsQStateArrayViewSource->setMaxValue(fMaxVal);
-	    clsQStateArrayViewSource->setValue(vaMaskPre, vaData);
-	    clsRangeGradient->setMaxValue(fMaxVal);
+
+            if (clsDataSink && clsDataSink->getStateArray()) {
+                qmutexSysGUI->lock(); //NEW 2004/04/12
+                valarray<double> vaData = (*clsDataSink->getStateArray())[0][vaMaskSyn];
+                qmutexSysGUI->unlock();//NEW 2004/04/12
+
+                double fMaxVal =  vaData.max()*1.2 + .1;
+                clsQStateArrayViewSource->setMaxValue(fMaxVal);
+                clsQStateArrayViewSource->setValue(vaMaskPre, vaData);
+                clsRangeGradient->setMaxValue(fMaxVal);
 
 #ifdef DEBUG_CLSQSTATEVARIABLEDISPLAY
-	    cout << "vaMaskPre: " << vaMaskPre << endl;
-	    cout << "vaData: " << vaData << endl;
-	    cout << "fMaxVal: " << fMaxVal << endl;
+                cout << "vaMaskPre: " << vaMaskPre << endl;
+                cout << "vaData: " << vaData << endl;
+                cout << "fMaxVal: " << fMaxVal << endl;
 #endif
-	}
+            }
+        }
     }
 }
 
@@ -599,13 +605,13 @@ void ClsFEConnectionDiagram::setConfig(ClsDataClientConfig clsDataClientConfig){
     list<pair<string, string> > lstParameters= clsDataClientConfig.getListParameters();
     list<pair<string, string> >::iterator it;
     for(it=lstParameters.begin();it!=lstParameters.end();it++){
-	string strParamName = it->first;
-	string strParamValue = it->second;
-	if(!strParamName.compare("ConnectionID")){
-	    strConnectionID= strParamValue;
-	} else if(!strParamName.compare("Type")){
-	    iType = iqrUtils::string2int(strParamValue);
-	}
+        string strParamName = it->first;
+        string strParamValue = it->second;
+        if(!strParamName.compare("ConnectionID")){
+            strConnectionID= strParamValue;
+        } else if(!strParamName.compare("Type")){
+            iType = iqrUtils::string2int(strParamValue);
+        }
     }
 
     QString qstrCaption("Connection plot for ");
@@ -616,12 +622,12 @@ void ClsFEConnectionDiagram::setConfig(ClsDataClientConfig clsDataClientConfig){
     list<ClsStateVariableDisplayConfig>lstSVDConfigs =  clsDataClientConfig.getListStateVariableDisplayConfig();
     list<ClsStateVariableDisplayConfig>::iterator itSVD;
     for(itSVD = lstSVDConfigs.begin(); itSVD != lstSVDConfigs.end(); itSVD++){
-	string strSVDID =  (*itSVD).getID();
+        string strSVDID =  (*itSVD).getID();
 
-	if(ClsFESystemManager::Instance()->getFEConnection( strConnectionID )!=NULL){
-	    string strDisplayID = addStateVariableDisplay(ClsFESystemManager::Instance()->getFEConnection( strConnectionID ));
-	    clsQBaseStateVariableDisplay->setConfig((*itSVD));
-	}
+        if(ClsFESystemManager::Instance()->getFEConnection( strConnectionID )!=NULL){
+            string strDisplayID = addStateVariableDisplay(ClsFESystemManager::Instance()->getFEConnection( strConnectionID ));
+            clsQBaseStateVariableDisplay->setConfig((*itSVD));
+        }
     }
     createDiagram();
     show();
