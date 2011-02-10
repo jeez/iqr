@@ -1,11 +1,22 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
 moc_*
 *.swp
 *.cxx
 *.cmake
-*.so
-*.a
 ui_*
-Makefile
 CMakeCache.txt
-# Can also ignore all directories and files in a directory.
-#tmp/**/* 
+CMakeFiles
+Makefile
+install_manifest.txt
