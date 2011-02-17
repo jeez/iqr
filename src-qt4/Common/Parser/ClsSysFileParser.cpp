@@ -17,12 +17,12 @@
 //#define DEBUG_CLSSYSFILEPARSER
 
 list<iqrcommon_old::ClsParameter> 
-DomNode2List(DOMNode *dnTop, int iCount, string strSep){
+DomNode2List(QDomNode dnTop, int iCount, string strSep){
     using iqrcommon_old::ClsParameter;
 
     iCount ++;
     strSep += "\t";
-    string strNodeName = XMLString::transcode(dnTop->getNodeName());
+    string strNodeName = dnTop.nodeName().toStdString();
     //  cout << "DomNode2List: " << strSep << iCount << " " << strNodeName  << endl;
 
     iqrcommon_old::ClsParameter clsParameter;
@@ -31,26 +31,24 @@ DomNode2List(DOMNode *dnTop, int iCount, string strSep){
     // node and it's attributes ++++++++++++++++++++
     iqrcommon_old::ClsParameter clsParameterChild;
     list<iqrcommon_old::ClsParameter> lstAtt; // list with attributes
-    DOMNamedNodeMap *dnnmapAtt =  dnTop->getAttributes();
-    for(unsigned int ii=0; ii<dnnmapAtt->getLength();ii++){
-	string strAttName = XMLString::transcode(dnnmapAtt->item(ii)->getNodeName());
-	string strAttValue = XMLString::transcode(dnnmapAtt->item(ii)->getNodeValue());
+    QDomNamedNodeMap dnnmapAtt = dnTop.attributes();
+    for(unsigned int ii=0; ii < dnnmapAtt.length(); ii++){
 	//    cout << "DomNode2List: " << strSep << iCount << " " << "AttName: " << strAttName << ", AttValue: " << strAttValue << endl; 
 	iqrcommon_old::ClsParameter clsParameterAtt;
-	clsParameterAtt.setParameter(strAttName, strAttValue);
+        clsParameterAtt.setParameter(dnnmapAtt.item(ii).nodeName().toStdString(), dnnmapAtt.item(ii).nodeValue().toStdString());
 	lstAtt.push_back(clsParameterAtt);
     }
     clsParameterChild.setParameter(strNodeName, lstAtt);
     lstParam.push_back(clsParameterChild);
     // +++++++++++++++++++++++++++++++++++++++++++++
 
-    DOMNode *dnChild = dnTop->getFirstChild();
-    while(dnChild!=NULL){
-	if(dnChild->getNodeType()==DOMNode::ELEMENT_NODE){
+    QDomNode dnChild = dnTop->firstChild();
+    while(!dnChild.isNull()){
+        if(dnChild.nodeType() == QDomNode::ElementNode){
 	    clsParameterChild.setParameter(strNodeName, DomNode2List(dnChild, iCount, strSep));
 	    lstParam.push_back(clsParameterChild);
 	}
-	dnChild = dnChild->getNextSibling();
+        dnChild = dnChild.nextSibling();
     }
     
 
@@ -101,18 +99,18 @@ void iqrcommon::ClsSysFileParser::setInputBuffer(string _strBuffer) {
 
 
 void iqrcommon::ClsSysFileParser::XMLPlatformUtilsInitialize(){
-    try {
-	XMLPlatformUtils::Initialize();
-    }
+    //try {
+        //XMLPlatformUtils::Initialize();
+    //}
   
-    catch(const XMLException& toCatch) {
-	cerr << "Error during Xerces-c Initialization.\n"
-	     << "  Exception message:"
+    //catch(const XMLException& toCatch) {
+        //cerr << "Error during Xerces-c Initialization.\n"
+          //   << "  Exception message:"
 //	     << DOMString(toCatch.getMessage()) << endl;
-	     << toCatch.getMessage() << endl;
+            // << toCatch.getMessage() << endl;
 	//      return 1;
-	bParserInitialized = false;
-    }
+        //bParserInitialized = false;
+    //}
     bParserInitialized = true;
 };
 
@@ -142,9 +140,16 @@ void iqrcommon::ClsSysFileParser::parseBuffer(bool bValidate)  {
 /* NEW STUFF */
     MyResolver mr;
     
+    QXmlSimpleReader parser;
+    QXmlInputSource *source = new QXmlInputSource(QByteArray(gXMLInMemBuf));
+    //TODO: I NEED TO SET the ContentHandler, the ErrorHandler and parse source
+    // Also, we need to modify MyResolver and set DTD and this things
+    parser.setContentHandler(/*HANDLER*/);
+    parser.setErrorHandler(/*HANDLER*/);
+    parser.parse(source);
 
-    XercesDOMParser* parser = new XercesDOMParser();
-    parser->setEntityResolver(&mr);
+    //XercesDOMParser* parser = new XercesDOMParser();
+    //parser->setEntityResolver(&mr);
     
     if(bValidate){
 	parser->setValidationScheme(XercesDOMParser::Val_Always); 

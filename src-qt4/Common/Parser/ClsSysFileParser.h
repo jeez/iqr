@@ -5,8 +5,8 @@
 //#define XERCES23s
 
 
-#include <util/XMLString.hpp>
-#include <framework/LocalFileInputSource.hpp>
+//#include <util/XMLString.hpp>
+//#include <framework/LocalFileInputSource.hpp>
 #include <map>
 #include "ClsBaseParser.h"
 #include "ClsSysFileNode.h"
@@ -19,7 +19,7 @@
 #include "ClsInfoDiagramIcon.h"
 
 
-using namespace xercesc;  
+//using namespace xercesc;
 
 namespace iqrcommon {
 
@@ -78,11 +78,11 @@ namespace iqrcommon {
 	list<ClsInfoConnection> getListConnectionLocal( ); // which includes mirror groups
 	//---------------------------------------------------
 	
-	ClsSysFileNode getConnectionSubNodes(DOMNodeList *dnlstTop, string _strConnectionID);
-	ClsSysFileNode getConnectionSubNodes(DOMNode *dnConnection);
+        ClsSysFileNode getConnectionSubNodes(QDomNodeList *dnlstTop, string _strConnectionID);
+        ClsSysFileNode getConnectionSubNodes(QDomNode *dnConnection);
 
-	ClsSysFileNode getGroupSubNodes(DOMNodeList *dnlstTop, string _strGroupID);
-	ClsSysFileNode getGroupSubNodes(DOMNode *dnGroup);
+        ClsSysFileNode getGroupSubNodes(QDomNodeList *dnlstTop, string _strGroupID);
+        ClsSysFileNode getGroupSubNodes(QDomNode *dnGroup);
 		
 
 	map<string,string> getMapNotes() {return mapNotes;};
@@ -99,7 +99,7 @@ namespace iqrcommon {
 	string getNotesSynapse(string strConnectionID);
 	string getNotesModule(string strProcessID);
     
-      DOMDocument* getDOMDocSystemFile() {
+      QDomDocument* getDOMDocSystemFile() {
 	      return ddocSystemFile;
 	 };
 	 
@@ -111,29 +111,28 @@ namespace iqrcommon {
 	string getNotesNode(string strNodeName, string strNodeID);
 	string getNotesNode_WorkingButSlow(string strNodeName, string strNodeID);
 	string getNotesNode_old(string strNodeName, string strNodeID);
-	string getNotesNode(DOMNode *dnRoot);
+        string getNotesNode(QDomNode *dnRoot);
 	
-	void buildNotesCache(DOMDocument* ddocRoot);
-	void buildDiagramLineCache(DOMDocument* ddocRoot);
-	void buildDiagramIconCache(DOMDocument* ddocRoot);
+        void buildNotesCache(QDomDocument* ddocRoot);
+        void buildDiagramLineCache(QDomDocument* ddocRoot);
+        void buildDiagramIconCache(QDomDocument* ddocRoot);
 
-	ClsSysFileNode DomNode2SysNode(DOMNode *dnTop, int iCount,string strSep);
-	string findAncestorID( DOMNode *dn);
+        ClsSysFileNode DomNode2SysNode(QDomNode *dnTop, int iCount,string strSep);
+        string findAncestorID(QDomNode *dn);
 	
 	const char*  gXMLInMemBuf;
-	DOMDocument *ddocSystemFile;
-	DOMDocument *ddocClipboard;
-	DOMDocument *ddocLocalPrc;
+        QDomDocument *ddocSystemFile;
+        QDomDocument *ddocClipboard;
+        QDomDocument *ddocLocalPrc;
 	
-	DOMNodeList *dnlstSystemGroups;
-	DOMNodeList *dnlstSystemConnections;
-	DOMNodeList *dnlstLocalPrcGroups;
+        QDomNodeList *dnlstSystemGroups;
+        QDomNodeList *dnlstSystemConnections;
+        QDomNodeList *dnlstLocalPrcGroups;
 	string strPrcID;
 
-
-	DOMNodeList *dnlstClipboardConnections;
-	DOMNodeList *dnlstClipboardProcesses;
-	DOMNodeList *dnlstClipboardGroups;
+        QDomNodeList *dnlstClipboardConnections;
+        QDomNodeList *dnlstClipboardProcesses;
+        QDomNodeList *dnlstClipboardGroups;
 
 	map<string,string> mapNotes;
 	map<string, ClsInfoDiagramLine> mapDiagramLine;
