@@ -100,7 +100,7 @@ namespace iqrcommon {
 	string getNotesModule(string strProcessID);
     
       QDomDocument* getDOMDocSystemFile() {
-	      return ddocSystemFile;
+              return &ddocSystemFile;
 	 };
 	 
     private:
@@ -121,18 +121,18 @@ namespace iqrcommon {
         string findAncestorID(QDomNode *dn);
 	
 	const char*  gXMLInMemBuf;
-        QDomDocument *ddocSystemFile;
-        QDomDocument *ddocClipboard;
-        QDomDocument *ddocLocalPrc;
+        QDomDocument ddocSystemFile;
+        QDomDocument ddocClipboard;
+        QDomDocument ddocLocalPrc;
 	
-        QDomNodeList *dnlstSystemGroups;
-        QDomNodeList *dnlstSystemConnections;
-        QDomNodeList *dnlstLocalPrcGroups;
+        QDomNodeList dnlstSystemGroups;
+        QDomNodeList dnlstSystemConnections;
+        QDomNodeList dnlstLocalPrcGroups;
 	string strPrcID;
 
-        QDomNodeList *dnlstClipboardConnections;
-        QDomNodeList *dnlstClipboardProcesses;
-        QDomNodeList *dnlstClipboardGroups;
+        QDomNodeList dnlstClipboardConnections;
+        QDomNodeList dnlstClipboardProcesses;
+        QDomNodeList dnlstClipboardGroups;
 
 	map<string,string> mapNotes;
 	map<string, ClsInfoDiagramLine> mapDiagramLine;
