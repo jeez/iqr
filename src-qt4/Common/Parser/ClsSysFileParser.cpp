@@ -722,20 +722,20 @@ list<iqrcommon::ClsInfoConnection> iqrcommon::ClsSysFileParser::getListClipboard
 
     ClsInfoConnection clsInfoConnection;
 
-    for(unsigned int ii=0; ii< dnlstClipboardConnections->getLength(); ii++){
-    QDomNode *dnTemp = dnlstClipboardConnections->item(ii);
+    for(unsigned int ii=0; ii < dnlstClipboardConnections.length(); ii++){
+    QDomNode dnTemp = dnlstClipboardConnections.item(ii);
 
-    string strConnectionSource = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionSourceTag(), true);
-    string strConnectionTarget =getAttributeValue(dnTemp, ClsTagLibrary::ConnectionTargetTag(), true);
-    string strConnectionID = getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
-    string strConnectionName = getAttributeValue(dnTemp, ClsTagLibrary::NameTag(), true);
-    string strConnectionType = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionTypeTag(), true); // 06/02/03 [ulysses] set the connection type
+    string strConnectionSource = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionSourceTag(), true);
+    string strConnectionTarget =getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionTargetTag(), true);
+    string strConnectionID = getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
+    string strConnectionName = getAttributeValue(&dnTemp, ClsTagLibrary::NameTag(), true);
+    string strConnectionType = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionTypeTag(), true); // 06/02/03 [ulysses] set the connection type
     clsInfoConnection.setConnectionSourceID(strConnectionSource);
     clsInfoConnection.setConnectionTargetID(strConnectionTarget);
     clsInfoConnection.setConnectionID(strConnectionID);
     clsInfoConnection.setConnectionName(strConnectionName);
 
-    string strNotes = getNotesNode( dnTemp );
+    string strNotes = getNotesNode(&dnTemp);
     clsInfoConnection.setNotes(strNotes);
 
     if(!strConnectionType.compare(ClsTagLibrary::ExcitatoryConnectionTag())) {
@@ -748,10 +748,9 @@ list<iqrcommon::ClsInfoConnection> iqrcommon::ClsSysFileParser::getListClipboard
         iConnectionType=ClsInfoConnection::CONN_MODULATORY;
     }
 
-
     clsInfoConnection.setConnectionType(iConnectionType);  // 06/02/03 [ulysses] set the connection type
 
-    ClsSysFileNode clsSysFileNode = getConnectionSubNodes(dnTemp);
+    ClsSysFileNode clsSysFileNode = getConnectionSubNodes(&dnTemp);
 
     clsInfoConnection.setConnectionSubNodes(clsSysFileNode);
 
@@ -771,15 +770,15 @@ list<iqrcommon::ClsInfoConnection> iqrcommon::ClsSysFileParser::getListConnectio
 
 //    cout << "dnlstSystemConnections->getLength(): " << dnlstSystemConnections->getLength() << endl;
 
-    for(unsigned int ii=0; ii< dnlstSystemConnections->getLength(); ii++){
+    for(unsigned int ii=0; ii< dnlstSystemConnections.length(); ii++){
 //	cout << "ii: " << ii << endl;
 
-    QDomNode *dnTemp = dnlstSystemConnections->item(ii);
-    string strConnectionSource = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionSourceTag(), true);
-    string strConnectionTarget = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionTargetTag(), true);
-    string strConnectionID = getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
-    string strConnectionName = getAttributeValue(dnTemp, ClsTagLibrary::NameTag(), true);
-    string strConnectionType = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionTypeTag(), true); // 06/02/03 [ulysses] set the connection type
+    QDomNode dnTemp = dnlstSystemConnections.item(ii);
+    string strConnectionSource = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionSourceTag(), true);
+    string strConnectionTarget = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionTargetTag(), true);
+    string strConnectionID = getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
+    string strConnectionName = getAttributeValue(&dnTemp, ClsTagLibrary::NameTag(), true);
+    string strConnectionType = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionTypeTag(), true); // 06/02/03 [ulysses] set the connection type
     clsInfoConnection.setConnectionSourceID(strConnectionSource);
     clsInfoConnection.setConnectionTargetID(strConnectionTarget);
     clsInfoConnection.setConnectionID(strConnectionID);
@@ -803,7 +802,7 @@ list<iqrcommon::ClsInfoConnection> iqrcommon::ClsSysFileParser::getListConnectio
 
     clsInfoConnection.setConnectionType(iConnectionType);  // 06/02/03 [ulysses] set the connection type
 
-    ClsSysFileNode clsSysFileNode = getConnectionSubNodes(dnTemp);
+    ClsSysFileNode clsSysFileNode = getConnectionSubNodes(&dnTemp);
     clsInfoConnection.setConnectionSubNodes(clsSysFileNode);
 
     lstIDConnection.push_back(clsInfoConnection);
@@ -820,13 +819,13 @@ list<iqrcommon::ClsInfoConnection> iqrcommon::ClsSysFileParser::getListConnectio
     list<ClsInfoConnection> lstIDConnectionLocal;
     ClsInfoConnection clsInfoConnection;
 
-    for(unsigned int ii=0; ii< dnlstSystemConnections->getLength(); ii++){
-    QDomNode *dnTemp = dnlstSystemConnections->item(ii);
-    string strConnectionSource = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionSourceTag(), true);
-    string strConnectionTarget =getAttributeValue(dnTemp, ClsTagLibrary::ConnectionTargetTag(), true);
-    string strConnectionID = getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
-    string strConnectionName = getAttributeValue(dnTemp, ClsTagLibrary::NameTag(), true);
-    string strConnectionType = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionTypeTag(), true); // 06/02/03 [ulysses] set the connection type
+    for(unsigned int ii=0; ii< dnlstSystemConnections.length(); ii++){
+    QDomNode dnTemp = dnlstSystemConnections.item(ii);
+    string strConnectionSource = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionSourceTag(), true);
+    string strConnectionTarget =getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionTargetTag(), true);
+    string strConnectionID = getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
+    string strConnectionName = getAttributeValue(&dnTemp, ClsTagLibrary::NameTag(), true);
+    string strConnectionType = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionTypeTag(), true); // 06/02/03 [ulysses] set the connection type
 
     string strNotes = getNotesConnection( strConnectionID );
     clsInfoConnection.setNotes(strNotes);
@@ -848,7 +847,7 @@ list<iqrcommon::ClsInfoConnection> iqrcommon::ClsSysFileParser::getListConnectio
         clsInfoConnection.setConnectionID(strConnectionID);
         clsInfoConnection.setConnectionName(strConnectionName);
         clsInfoConnection.setConnectionType(iConnectionType);  // 06/02/03 [ulysses] set the connection type
-        ClsSysFileNode clsSysFileNode = getConnectionSubNodes(dnTemp);
+        ClsSysFileNode clsSysFileNode = getConnectionSubNodes(&dnTemp);
         clsInfoConnection.setConnectionSubNodes(clsSysFileNode);
         lstIDConnectionLocal.push_back(clsInfoConnection);
     }
@@ -866,13 +865,13 @@ list<iqrcommon::ClsInfoConnection> iqrcommon::ClsSysFileParser::getListConnectio
     list<ClsInfoConnection> lstIDConnectionFromRemote;
     ClsInfoConnection clsInfoConnection;
 
-    for(unsigned int ii=0; ii< dnlstSystemConnections->getLength(); ii++){
-    QDomNode *dnTemp = dnlstSystemConnections->item(ii);
-    string strConnectionSource = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionSourceTag(), true);
-    string strConnectionTarget =getAttributeValue(dnTemp, ClsTagLibrary::ConnectionTargetTag(), true);
-    string strConnectionID = getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
-    string strConnectionName = getAttributeValue(dnTemp, ClsTagLibrary::NameTag(), true);
-    string strConnectionType = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionTypeTag(), true);
+    for(unsigned int ii=0; ii < dnlstSystemConnections.length(); ii++){
+    QDomNode dnTemp = dnlstSystemConnections.item(ii);
+    string strConnectionSource = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionSourceTag(), true);
+    string strConnectionTarget = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionTargetTag(), true);
+    string strConnectionID = getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
+    string strConnectionName = getAttributeValue(&dnTemp, ClsTagLibrary::NameTag(), true);
+    string strConnectionType = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionTypeTag(), true);
     string strNotes = getNotesConnection( strConnectionID );
     clsInfoConnection.setNotes(strNotes);
 
@@ -893,7 +892,7 @@ list<iqrcommon::ClsInfoConnection> iqrcommon::ClsSysFileParser::getListConnectio
         clsInfoConnection.setConnectionID(strConnectionID);
         clsInfoConnection.setConnectionName(strConnectionName);
         clsInfoConnection.setConnectionType(iConnectionType);
-        ClsSysFileNode clsSysFileNode = getConnectionSubNodes(dnTemp);
+        ClsSysFileNode clsSysFileNode = getConnectionSubNodes(&dnTemp);
         clsInfoConnection.setConnectionSubNodes(clsSysFileNode);
 
         lstIDConnectionFromRemote.push_back(clsInfoConnection);
@@ -910,13 +909,13 @@ list<iqrcommon::ClsInfoConnection> iqrcommon::ClsSysFileParser::getListConnectio
     int iConnectionType = -1;
     list<ClsInfoConnection> lstIDConnectionToRemote;
     ClsInfoConnection clsInfoConnection;
-    for(unsigned int ii=0; ii< dnlstSystemConnections->getLength(); ii++){
-    QDomNode *dnTemp = dnlstSystemConnections->item(ii);
-    string strConnectionSource = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionSourceTag(), true);
-    string strConnectionTarget =getAttributeValue(dnTemp, ClsTagLibrary::ConnectionTargetTag(), true);
-    string strConnectionID = getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
-    string strConnectionName = getAttributeValue(dnTemp, ClsTagLibrary::NameTag(), true);
-    string strConnectionType = getAttributeValue(dnTemp, ClsTagLibrary::ConnectionTypeTag(), true);
+    for(unsigned int ii=0; ii< dnlstSystemConnections.length(); ii++){
+    QDomNode dnTemp = dnlstSystemConnections.item(ii);
+    string strConnectionSource = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionSourceTag(), true);
+    string strConnectionTarget =getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionTargetTag(), true);
+    string strConnectionID = getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
+    string strConnectionName = getAttributeValue(&dnTemp, ClsTagLibrary::NameTag(), true);
+    string strConnectionType = getAttributeValue(&dnTemp, ClsTagLibrary::ConnectionTypeTag(), true);
 
     string strNotes = getNotesConnection( strConnectionID );
     clsInfoConnection.setNotes(strNotes);
@@ -938,7 +937,7 @@ list<iqrcommon::ClsInfoConnection> iqrcommon::ClsSysFileParser::getListConnectio
         clsInfoConnection.setConnectionID(strConnectionID);
         clsInfoConnection.setConnectionName(strConnectionName);
         clsInfoConnection.setConnectionType(iConnectionType);  // 06/02/03 [ulysses] set the connection type
-        ClsSysFileNode clsSysFileNode = getConnectionSubNodes(dnTemp);
+        ClsSysFileNode clsSysFileNode = getConnectionSubNodes(&dnTemp);
         clsInfoConnection.setConnectionSubNodes(clsSysFileNode);
 
         lstIDConnectionToRemote.push_back(clsInfoConnection);
@@ -960,9 +959,9 @@ iqrcommon::ClsSysFileNode iqrcommon::ClsSysFileParser::getConnectionSubNodes(QDo
 
 
     ClsSysFileNode clsSysFileNode;
-    for (unsigned int i1 = 0; i1 < dnlstTop->getLength(); i1++){
-    QDomNode *dnConnection =  dnlstTop->item(i1);
-    string strConnectionID = getAttributeValue(dnConnection, ClsTagLibrary::IDTag(), true);
+    for (unsigned int i1 = 0; i1 < dnlstTop->length(); i1++){
+    QDomNode dnConnection =  dnlstTop->item(i1);
+    string strConnectionID = getAttributeValue(&dnConnection, ClsTagLibrary::IDTag(), true);
     if(!strConnectionID.compare(_strConnectionID)) {
         clsSysFileNode.setName(_strConnectionID);
         clsSysFileNode = DomNode2SysNode(dnConnection, 0, "");
@@ -990,12 +989,12 @@ iqrcommon::ClsSysFileNode iqrcommon::ClsSysFileParser::getGroupSubNodes(QDomNode
 #endif
 
     ClsSysFileNode clsSysFileNode;
-    for (unsigned int i1 = 0; i1 < dnlstTop->getLength(); i1++){
-    QDomNode *dnGroup =  dnlstTop->item(i1);
-    string strGroupID = getAttributeValue(dnGroup, ClsTagLibrary::IDTag(), true);
+    for (unsigned int i1 = 0; i1 < dnlstTop->length(); i1++){
+    QDomNode dnGroup =  dnlstTop->item(i1);
+    string strGroupID = getAttributeValue(&dnGroup, ClsTagLibrary::IDTag(), true);
     if(!strGroupID.compare(_strGroupID)) {
         clsSysFileNode.setName(_strGroupID);
-        clsSysFileNode = DomNode2SysNode(dnGroup, 0, "");
+        clsSysFileNode = DomNode2SysNode(&dnGroup, 0, "");
     }
     }
     return clsSysFileNode;
@@ -1007,9 +1006,9 @@ iqrcommon::ClsSysFileNode iqrcommon::ClsSysFileParser::getGroupSubNodes(QDomNode
 #endif
 
     ClsSysFileNode clsSysFileNode;
-    string strGroupID = getAttributeValue(dnGroup, ClsTagLibrary::IDTag(), true);
+    string strGroupID = getAttributeValue(&dnGroup, ClsTagLibrary::IDTag(), true);
     clsSysFileNode.setName(strGroupID);
-    clsSysFileNode = DomNode2SysNode(dnGroup, 0, "");
+    clsSysFileNode = DomNode2SysNode(&dnGroup, 0, "");
     return clsSysFileNode;
 }
 
@@ -1020,9 +1019,9 @@ bool iqrcommon::ClsSysFileParser::isLocalGroup(string _strGroupID) {
 #endif
     bool bLocal = false;
 
-    for (unsigned int ii=0; ii< dnlstLocalPrcGroups->getLength(); ii++){
-    QDomNode *dnGroup =  dnlstLocalPrcGroups->item(ii);
-    string strGroupID = getAttributeValue(dnGroup, ClsTagLibrary::IDTag(), true);
+    for (unsigned int ii=0; ii< dnlstLocalPrcGroups.length(); ii++){
+    QDomNode dnGroup =  dnlstLocalPrcGroups.item(ii);
+    string strGroupID = getAttributeValue(&dnGroup, ClsTagLibrary::IDTag(), true);
 
     if(!strGroupID.compare(_strGroupID)){
         bLocal = true;
@@ -1039,11 +1038,11 @@ string iqrcommon::ClsSysFileParser::getGroupParent(string _strGroupID) {
     cout << "ClsSysFileParser::getGroupParent(string _strGroupID)"<< endl;
 #endif
     string strParentID;
-    for(unsigned int ii=0; ii< dnlstSystemGroups->getLength(); ii++){
-    QDomNode *dnTemp = dnlstSystemGroups->item(ii);
-    string strGroupID = getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
+    for(unsigned int ii=0; ii< dnlstSystemGroups.length(); ii++){
+    QDomNode dnTemp = dnlstSystemGroups.item(ii);
+    string strGroupID = getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
     if(!strGroupID.compare(_strGroupID)) {
-        strParentID = getAttributeValue(dnTemp->getParentNode(), ClsTagLibrary::IDTag(), true);
+        strParentID = getAttributeValue(&dnTemp.parentNode(), ClsTagLibrary::IDTag(), true);
         break;
     }
     }
@@ -1061,43 +1060,41 @@ list<iqrcommon::ClsInfoPrc> iqrcommon::ClsSysFileParser::getListClipboardProcess
 
 
 
-    for(unsigned int ii=0; ii< dnlstClipboardProcesses->getLength(); ii++){
-    QDomNode *dnTemp = dnlstClipboardProcesses->item(ii);
+    for(unsigned int ii=0; ii< dnlstClipboardProcesses.length(); ii++){
+    QDomNode dnTemp = dnlstClipboardProcesses.item(ii);
     ClsInfoPrc clsInfoPrcTemp;
-    string strPrcID = XMLString::transcode(dnTemp->getAttributes()->getNamedItem(XMLString::transcode(ClsTagLibrary::IDTag()))->getNodeValue());
+    string strPrcID = dnTemp.attributes().namedItem(QString(ClsTagLibrary::IDTag())).nodeValue().toStdString();
     clsInfoPrcTemp.setPrcID(strPrcID);
-    getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
-    clsInfoPrcTemp.setProcessName(getAttributeValue(dnTemp, ClsTagLibrary::NameTag(), true));
-    clsInfoPrcTemp.setHostname(getAttributeValue(dnTemp, ClsTagLibrary::HostnameTag(), true));
-    clsInfoPrcTemp.setPort(getAttributeValue(dnTemp, ClsTagLibrary::PortTag(), false));
-    clsInfoPrcTemp.setEnableModule(getAttributeValue(dnTemp, ClsTagLibrary::EnableModuleTag(), false));
-    clsInfoPrcTemp.setPath(getAttributeValue(dnTemp, ClsTagLibrary::PathTag(), false));
-    clsInfoPrcTemp.setColor(getAttributeValue(dnTemp, ClsTagLibrary::ColorTag(), false));
+    getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
+    clsInfoPrcTemp.setProcessName(getAttributeValue(&dnTemp, ClsTagLibrary::NameTag(), true));
+    clsInfoPrcTemp.setHostname(getAttributeValue(&dnTemp, ClsTagLibrary::HostnameTag(), true));
+    clsInfoPrcTemp.setPort(getAttributeValue(&dnTemp, ClsTagLibrary::PortTag(), false));
+    clsInfoPrcTemp.setEnableModule(getAttributeValue(&dnTemp, ClsTagLibrary::EnableModuleTag(), false));
+    clsInfoPrcTemp.setPath(getAttributeValue(&dnTemp, ClsTagLibrary::PathTag(), false));
+    clsInfoPrcTemp.setColor(getAttributeValue(&dnTemp, ClsTagLibrary::ColorTag(), false));
 
 
-
-
-    QDomNode *dnPrcChildTemp = dnTemp->getFirstChild();
-    while(dnPrcChildTemp!=NULL){
-        string strNodeName = XMLString::transcode(dnPrcChildTemp->getNodeName());
+    QDomNode dnPrcChildTemp = dnTemp.firstChild();
+    while(!dnPrcChildTemp.isNull()){
+        string strNodeName = dnPrcChildTemp.nodeName().toStdString();
         if(!strNodeName.compare(ClsTagLibrary::ModuleTag())){
         clsInfoPrcTemp.setHasModule(true);
 //		cout << "MODULE FOUND" << endl;
-        string strModuleName = getAttributeValue(dnPrcChildTemp, ClsTagLibrary::NameTag(), true);
+        string strModuleName = getAttributeValue(&dnPrcChildTemp, ClsTagLibrary::NameTag(), true);
 //		cout << "strModuleName: " << strModuleName << endl;
         ClsSysFileNode clsSysFileNode;
         clsSysFileNode.setName(ClsTagLibrary::ModuleTag());
-        clsSysFileNode.addNode(DomNode2SysNode(dnPrcChildTemp, 0, ""));
+        clsSysFileNode.addNode(DomNode2SysNode(&dnPrcChildTemp, 0, ""));
         clsInfoPrcTemp.setProcessSubNodes(clsSysFileNode);
 
         }
-        dnPrcChildTemp = dnPrcChildTemp->getNextSibling();
+        dnPrcChildTemp = dnPrcChildTemp.nextSibling();
     }
 //###------------------------
 
 
 
-    string strNotes = getNotesNode( dnTemp );
+    string strNotes = getNotesNode(&dnTemp);
     clsInfoPrcTemp.setNotes(strNotes);
     lstInfoPrc.push_back(clsInfoPrcTemp);
     }
@@ -1111,39 +1108,39 @@ list<iqrcommon::ClsInfoPrc>  iqrcommon::ClsSysFileParser::getListProcesses(){
 
     list<ClsInfoPrc> lstInfoPrc;
 
-    QDomNodeList *dnlstSystemProcesses = ddocSystemFile->getElementsByTagName(XMLString::transcode(ClsTagLibrary::ProcessTag()));
-    for(unsigned int ii=0; ii< dnlstSystemProcesses->getLength(); ii++){
-    QDomNode *dnTemp = dnlstSystemProcesses->item(ii);
+    QDomNodeList dnlstSystemProcesses = ddocSystemFile.elementsByTagName(QString(ClsTagLibrary::ProcessTag()));
+    for(unsigned int ii=0; ii< dnlstSystemProcesses.length(); ii++){
+    QDomNode dnTemp = dnlstSystemProcesses.item(ii);
     ClsInfoPrc clsInfoPrcTemp;
-    string strPrcID = XMLString::transcode(dnTemp->getAttributes()->getNamedItem(XMLString::transcode(ClsTagLibrary::IDTag()))->getNodeValue());
+    string strPrcID = dnTemp.attributes().namedItem(QString(ClsTagLibrary::IDTag())).nodeValue().toStdString();
     clsInfoPrcTemp.setPrcID(strPrcID);
-    getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
-    clsInfoPrcTemp.setProcessName(getAttributeValue(dnTemp, ClsTagLibrary::NameTag(), true));
-    clsInfoPrcTemp.setHostname(getAttributeValue(dnTemp, ClsTagLibrary::HostnameTag(), true));
-    clsInfoPrcTemp.setPort(getAttributeValue(dnTemp, ClsTagLibrary::PortTag(), false));
-    clsInfoPrcTemp.setEnableModule(getAttributeValue(dnTemp, ClsTagLibrary::EnableModuleTag(), false));
-    clsInfoPrcTemp.setPath(getAttributeValue(dnTemp, ClsTagLibrary::PathTag(), false));
-    clsInfoPrcTemp.setColor(getAttributeValue(dnTemp, ClsTagLibrary::ColorTag(), false));
+    getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
+    clsInfoPrcTemp.setProcessName(getAttributeValue(&dnTemp, ClsTagLibrary::NameTag(), true));
+    clsInfoPrcTemp.setHostname(getAttributeValue(&dnTemp, ClsTagLibrary::HostnameTag(), true));
+    clsInfoPrcTemp.setPort(getAttributeValue(&dnTemp, ClsTagLibrary::PortTag(), false));
+    clsInfoPrcTemp.setEnableModule(getAttributeValue(&dnTemp, ClsTagLibrary::EnableModuleTag(), false));
+    clsInfoPrcTemp.setPath(getAttributeValue(&dnTemp, ClsTagLibrary::PathTag(), false));
+    clsInfoPrcTemp.setColor(getAttributeValue(&dnTemp, ClsTagLibrary::ColorTag(), false));
 
 
 
-    QDomNode *dnPrcChildTemp = dnTemp->getFirstChild();
-    while(dnPrcChildTemp!=NULL){
-        string strNodeName = XMLString::transcode(dnPrcChildTemp->getNodeName());
+    QDomNode dnPrcChildTemp = dnTemp.firstChild();
+    while(!dnPrcChildTemp.isNull()){
+        string strNodeName = dnPrcChildTemp.nodeName().toStdString();
         if(!strNodeName.compare(ClsTagLibrary::ModuleTag())){
         clsInfoPrcTemp.setHasModule(true);
         cout << "MODULE FOUND" << endl;
 
-        string strModuleName = getAttributeValue(dnPrcChildTemp, ClsTagLibrary::NameTag(), true);
+        string strModuleName = getAttributeValue(&dnPrcChildTemp, ClsTagLibrary::NameTag(), true);
         cout << "strModuleName: " << strModuleName << endl;
 
         ClsSysFileNode clsSysFileNode;
         clsSysFileNode.setName(ClsTagLibrary::ModuleTag());
-        clsSysFileNode.addNode(DomNode2SysNode(dnPrcChildTemp, 0, ""));
+        clsSysFileNode.addNode(DomNode2SysNode(&dnPrcChildTemp, 0, ""));
         clsInfoPrcTemp.setProcessSubNodes(clsSysFileNode);
 
         }
-        dnPrcChildTemp = dnPrcChildTemp->getNextSibling();
+        dnPrcChildTemp = dnPrcChildTemp.nextSibling();
     }
 //###-----------------------
 
@@ -1210,17 +1207,17 @@ iqrcommon::ClsInfoSystem iqrcommon::ClsSysFileParser::getSystemInfo() {
 #endif
     ClsInfoSystem clsInfoSystem;
 
-    QDomNodeList *dnlstTemp = ddocSystemFile->getElementsByTagName(XMLString::transcode(ClsTagLibrary::SystemTag()));
+    QDomNodeList dnlstTemp = ddocSystemFile.elementsByTagName(QString(ClsTagLibrary::SystemTag()));
 
-    QDomNode *dnTemp = dnlstTemp->item(0);
-    string strSystemID = getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
+    QDomNode dnTemp = dnlstTemp.item(0);
+    string strSystemID = getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
     clsInfoSystem.setSystemID(strSystemID);
-    clsInfoSystem.setSystemName(getAttributeValue(dnTemp, ClsTagLibrary::NameTag(), true));
-    clsInfoSystem.setAuthor(getAttributeValue(dnTemp, ClsTagLibrary::AuthorTag(), true));
-    clsInfoSystem.setDate(getAttributeValue(dnTemp, ClsTagLibrary::DateTag(), true));
-    clsInfoSystem.setPort(iqrUtils::string2int(getAttributeValue(dnTemp, ClsTagLibrary::PortTag(), false)));
-    clsInfoSystem.setCyclesPerSecond(iqrUtils::string2int(getAttributeValue(dnTemp, ClsTagLibrary::CyclesPerSecondTag(), false)));
-    clsInfoSystem.setSyncPlots(iqrUtils::string2bool(getAttributeValue(dnTemp, ClsTagLibrary::SyncPlotsTag(), false)));
+    clsInfoSystem.setSystemName(getAttributeValue(&dnTemp, ClsTagLibrary::NameTag(), true));
+    clsInfoSystem.setAuthor(getAttributeValue(&dnTemp, ClsTagLibrary::AuthorTag(), true));
+    clsInfoSystem.setDate(getAttributeValue(&dnTemp, ClsTagLibrary::DateTag(), true));
+    clsInfoSystem.setPort(iqrUtils::string2int(getAttributeValue(&dnTemp, ClsTagLibrary::PortTag(), false)));
+    clsInfoSystem.setCyclesPerSecond(iqrUtils::string2int(getAttributeValue(&dnTemp, ClsTagLibrary::CyclesPerSecondTag(), false)));
+    clsInfoSystem.setSyncPlots(iqrUtils::string2bool(getAttributeValue(&dnTemp, ClsTagLibrary::SyncPlotsTag(), false)));
 
     clsInfoSystem.setNotes(getNotesSystem(strSystemID));
 
@@ -1236,31 +1233,31 @@ iqrcommon::ClsInfoPrc iqrcommon::ClsSysFileParser::getProcessInfo(string _strPro
     ClsInfoPrc clsInfoPrc;
 
 
-    QDomNodeList *dnlstTemp = ddocSystemFile->getElementsByTagName(XMLString::transcode(ClsTagLibrary::ProcessTag()));
-    for(unsigned int ii=0; ii< dnlstTemp->getLength(); ii++){
-    QDomNode *dnTemp = dnlstTemp->item(ii);
-    string strProcessID = getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
+    QDomNodeList dnlstTemp = ddocSystemFile.elementsByTagName(QString(ClsTagLibrary::ProcessTag()));
+    for(unsigned int ii=0; ii< dnlstTemp.length(); ii++){
+    QDomNode dnTemp = dnlstTemp.item(ii);
+    string strProcessID = getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
     if(!strProcessID.compare(_strProcessID)) {
-        clsInfoPrc.setPrcID(getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true));
-        clsInfoPrc.setProcessName(getAttributeValue(dnTemp, ClsTagLibrary::NameTag(), true));
-        clsInfoPrc.setHostname(getAttributeValue(dnTemp, ClsTagLibrary::HostnameTag(), true));
-        clsInfoPrc.setPort(iqrUtils::string2int(getAttributeValue(dnTemp, ClsTagLibrary::PortTag(), false)));
-        clsInfoPrc.setEnableModule(getAttributeValue(dnTemp, ClsTagLibrary::EnableModuleTag(), false));
-        clsInfoPrc.setPath(getAttributeValue(dnTemp, ClsTagLibrary::PathTag(), false));
-        clsInfoPrc.setColor(getAttributeValue(dnTemp, ClsTagLibrary::ColorTag(), false));
+        clsInfoPrc.setPrcID(getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true));
+        clsInfoPrc.setProcessName(getAttributeValue(&dnTemp, ClsTagLibrary::NameTag(), true));
+        clsInfoPrc.setHostname(getAttributeValue(&dnTemp, ClsTagLibrary::HostnameTag(), true));
+        clsInfoPrc.setPort(iqrUtils::string2int(getAttributeValue(&dnTemp, ClsTagLibrary::PortTag(), false)));
+        clsInfoPrc.setEnableModule(getAttributeValue(&dnTemp, ClsTagLibrary::EnableModuleTag(), false));
+        clsInfoPrc.setPath(getAttributeValue(&dnTemp, ClsTagLibrary::PathTag(), false));
+        clsInfoPrc.setColor(getAttributeValue(&dnTemp, ClsTagLibrary::ColorTag(), false));
 
         string strNotes = getNotesProcess( strProcessID );
         clsInfoPrc.setNotes(strNotes);
 
 /* some how we have to find out whether there's a module */
-        QDomNode *dnPrcChildTemp = dnTemp->getFirstChild();
-        while(dnPrcChildTemp!=NULL){
-        string strNodeName = XMLString::transcode(dnPrcChildTemp->getNodeName());
+        QDomNode dnPrcChildTemp = dnTemp.firstChild();
+        while(!dnPrcChildTemp.isNull()){
+        string strNodeName = dnPrcChildTemp.nodeName().toStdString();
         if(!strNodeName.compare(ClsTagLibrary::ModuleTag())){
 // 		    if(!strNodeName.compare("Module"))
             clsInfoPrc.setHasModule(true);
         }
-        dnPrcChildTemp = dnPrcChildTemp->getNextSibling();
+        dnPrcChildTemp = dnPrcChildTemp.nextSibling();
         }
 //###---------------
 
@@ -1376,13 +1373,13 @@ string iqrcommon::ClsSysFileParser::getNotesNode_old(string strParentNodeName, s
 
 //    cout << "_strNodeID: " <<  _strNodeID << endl;
 
-    QDomNodeList *dnlst = ddocSystemFile->getElementsByTagName(XMLString::transcode(ClsTagLibrary::NotesTag()));
-    QDomNode *dnNote = NULL;
+    QDomNodeList dnlst = ddocSystemFile.elementsByTagName(QString(ClsTagLibrary::NotesTag()));
+
 
     for (unsigned int ii = 0; ii < dnlst->getLength(); ii++){
-    dnNote =  dnlst->item(ii);
+    QDomNode dnNote = dnlst.item(ii);
     /* check on the parent of the note: System, Process, Group etc */
-    if(!strParentNodeName.compare(XMLString::transcode(dnNote->getParentNode()->getNodeName()))){
+    if(!strParentNodeName.compare(dnNote.parentNode().nodeName())){
 //	    cout << "dnNote->getNodeName(): " <<  XMLString::transcode(dnNote->getNodeName()) << endl;
 //	    cout << "dnNote->getNodeType(): " << dnNote->getNodeType() << endl;
 //	    cout << "dnNote->hasChildNodes(): " << dnNote->hasChildNodes() << endl;
@@ -1390,10 +1387,10 @@ string iqrcommon::ClsSysFileParser::getNotesNode_old(string strParentNodeName, s
         string strParentID = findAncestorID( dnNote);
         if(!strParentID.compare(_strNodeID)) {
 //		cout << "YEP" << endl;
-        QDomNode *dnValue = dnNote->getFirstChild();
-        if(dnValue!=NULL){
+        QDomNode dnValue = dnNote.firstChild();
+        if(!dnValue.isNull()){
 //		    cout << "XMLString::transcode(dnValue->getNodeValue()): " << XMLString::transcode(dnValue->getNodeValue()) << endl;
-            return XMLString::transcode(dnValue->getNodeValue());
+            return dnValue.nodeValue().toStdString();
         }
         else {
             return "";
@@ -1406,21 +1403,21 @@ string iqrcommon::ClsSysFileParser::getNotesNode_old(string strParentNodeName, s
 
 
 
-void iqrcommon::ClsSysFileParser::buildNotesCache(DOMDocument* ddocRoot){
+void iqrcommon::ClsSysFileParser::buildNotesCache(QDomDocument* ddocRoot){
 #ifdef DEBUG_CLSSYSFILEPARSER
     cout << "iqrcommon::ClsSysFileParser::buildNotesCache()" << endl;
 #endif
     mapNotes.clear();
 
-    QDomNodeList *dnlst = ddocRoot->getElementsByTagName(XMLString::transcode(ClsTagLibrary::NotesTag()));
-    QDomNode *dnNote = NULL;
+    QDomNodeList dnlst = ddocRoot->elementsByTagName(QString(ClsTagLibrary::NotesTag()));
+
     string strNote;
     for (unsigned int ii = 0; ii < dnlst->getLength(); ii++){
-    dnNote =  dnlst->item(ii);
-    string strParentID = findAncestorID( dnNote);
-    QDomNode *dnValue = dnNote->getFirstChild();
-    if(dnValue!=NULL){
-        string strNote = XMLString::transcode(dnValue->getNodeValue());
+    QDomNode dnNote = dnlst.item(ii);
+    string strParentID = findAncestorID(dnNote);
+    QDomNode dnValue = dnNote.firstChild();
+    if(!dnValue.isNull()){
+        string strNote = dnValue.nodeValue();
         pair<string,string> pairTemp(strParentID, strNote);
         mapNotes.insert(pairTemp);
     }
@@ -1448,28 +1445,28 @@ string iqrcommon::ClsSysFileParser::getNotesNode_WorkingButSlow(string strParent
     cout << "ClsSysFileParser::getNotesNode(string strParentNodeName, string _strNodeID)" << endl;
 #endif
 
-    QDomNodeList *dnlst = ddocSystemFile->getElementsByTagName(XMLString::transcode(strParentNodeName.c_str()));
+    QDomNodeList dnlst = ddocSystemFile.elementsByTagName(QString(strParentNodeName.c_str()));
     /* find node with the right id */
-    QDomNode *dnTemp = NULL;
-    for (unsigned int ii = 0; ii < dnlst->getLength(); ii++){
-    dnTemp =  dnlst->item(ii);
-    string strID = getAttributeValue(dnTemp, ClsTagLibrary::IDTag(), true);
+
+    for (unsigned int ii = 0; ii < dnlst.length(); ii++){
+    QDomNode dnTemp = dnlst.item(ii);
+    string strID = getAttributeValue(&dnTemp, ClsTagLibrary::IDTag(), true);
     if(!strID.compare(_strNodeID)) {
 
 
-        QDomNode *dnChild = dnTemp->getFirstChild();
-        while(dnChild!=NULL){
-        string strNodeName = XMLString::transcode(dnChild->getNodeName());
+        QDomNode dnChild = dnTemp.firstChild();
+        while(!dnChild.isNull()){
+        string strNodeName = dnChild.nodeName().toStdString();
         if(!strNodeName.compare(ClsTagLibrary::NotesTag())){
-            QDomNode *dnValue = dnChild->getFirstChild();
-            if(dnValue!=NULL){
-            return XMLString::transcode(dnValue->getNodeValue());
+            QDomNode dnValue = dnChild.firstChild();
+            if(!dnValue.isNull()){
+            return dnValue.nodeValue().toStdString();
             }
             else {
             return "";
             }
         }
-        dnChild = dnChild->getNextSibling();
+        dnChild = dnChild.nextSibling();
         }
     }
     }
@@ -1483,19 +1480,19 @@ string iqrcommon::ClsSysFileParser::getNotesNode(QDomNode *dnRoot){
     cout << "iqrcommon::ClsSysFileParser::getNotesNode(QDomNode *dnRoot)" << endl;
 #endif
 
-    QDomNode *dnTemp = dnRoot->getFirstChild();
-    while(dnTemp!=NULL){
-    string strNodeName = XMLString::transcode(dnTemp->getNodeName());
+    QDomNode dnTemp = dnRoot->firstChild();
+    while(!dnTemp.isNull()){
+    string strNodeName = dnTemp.nodeName().toStdString();
     if(!strNodeName.compare(ClsTagLibrary::NotesTag())){
-        QDomNode *dnValue = dnTemp->getFirstChild();
-        if(dnValue!=NULL){
-        return XMLString::transcode(dnValue->getNodeValue());
+        QDomNode dnValue = dnTemp.firstChild();
+        if(!dnValue.isNull()){
+        return dnValue.nodeValue().toStdString();
         }
         else {
         return "";
         }
     }
-    dnTemp = dnTemp->getNextSibling();
+    dnTemp = dnTemp.nextSibling();
     }
     return "";
 }
@@ -1506,19 +1503,19 @@ string iqrcommon::ClsSysFileParser::getNotesNode(QDomNode *dnRoot){
  * @return ID of the ancestor
  * @param dn the node who's ancestor we're looking for.
  */
-string iqrcommon::ClsSysFileParser::findAncestorID( QDomNode *dn) {
+string iqrcommon::ClsSysFileParser::findAncestorID(QDomNode *dn) {
     string strParentID;
-    string strNodeName = XMLString::transcode(dn->getNodeName());
+    string strNodeName = dn->nodeName().toStdString();
     if(!strNodeName.compare(ClsTagLibrary::SystemTag())){
     strParentID = "";
     } else {
-    QDomNode *dnParent = dn->getParentNode();
-    if(dnParent->getAttributes()->getNamedItem(XMLString::transcode(ClsTagLibrary::IDTag())) == NULL){
+    QDomNode dnParent = dn->parentNode();
+    if(dnParent.attributes().namedItem(QString(ClsTagLibrary::IDTag())).isNull()){
 // 	  if(dnParent->getAttributes()->getNamedItem("id") == NULL){
         strParentID = findAncestorID(dnParent);
     }
     else {
-        strParentID = XMLString::transcode(dnParent->getAttributes()->getNamedItem(XMLString::transcode(ClsTagLibrary::IDTag()))->getNodeValue());
+        strParentID = dnParent.attributes().namedItem(QString(ClsTagLibrary::IDTag())).nodeValue().toStdString();
 // 	       strParentID = dnParent->getAttributes()->getNamedItem("id")->getNodeValue().transcode();
     }
     }
@@ -1529,7 +1526,7 @@ string iqrcommon::ClsSysFileParser::findAncestorID( QDomNode *dn) {
 iqrcommon::ClsSysFileNode iqrcommon::ClsSysFileParser::DomNode2SysNode(QDomNode *dnTop, int iCount,string strSep){
     iCount ++;
     strSep += "\t";
-    string strNodeName = XMLString::transcode(dnTop->getNodeName());
+    string strNodeName = dnTop->nodeName().toStdString();
 
 #ifdef DEBUG_CLSSYSFILEPARSER
 //    cout << "DomNode2SysNode: " << strSep << iCount << " " << strNodeName  << endl;
@@ -1537,54 +1534,54 @@ iqrcommon::ClsSysFileNode iqrcommon::ClsSysFileParser::DomNode2SysNode(QDomNode 
     ClsSysFileNode clsSysFileNode(strNodeName);
 
     // node and it's attributes ++++++++++++++++++++
-    DOMNamedNodeMap *dnnmapAtt =  dnTop->getAttributes();
+    QDomNamedNodeMap dnnmapAtt =  dnTop->attributes();
     iqrcommon_old::ClsParameter clsParameterAtt;
-    for(unsigned int ii=0; ii<dnnmapAtt->getLength();ii++){
-    string strAttName = XMLString::transcode(dnnmapAtt->item(ii)->getNodeName());
-    string strAttValue = XMLString::transcode(dnnmapAtt->item(ii)->getNodeValue());
+    for(unsigned int ii=0; ii < dnnmapAtt.length(); ii++){
+    string strAttName = dnnmapAtt.item(ii).nodeName();
+    string strAttValue = dnnmapAtt.item(ii).nodeValue();
 #ifdef DEBUG_CLSSYSFILEPARSER
 //	cout << "DomNode2SysNode: " << strSep << iCount << " " << "AttName: " << strAttName << ", AttValue: " << strAttValue << endl;
 #endif
     clsParameterAtt.setParameter(strAttName, strAttValue);
     clsSysFileNode.addParameter(clsParameterAtt);
     }
-    QDomNode *dnChild = dnTop->getFirstChild();
-    while(dnChild!=NULL){
-    if(dnChild->getNodeType()==QDomNode::ELEMENT_NODE){
-        clsSysFileNode.addNode(DomNode2SysNode(dnChild, iCount, strSep));
+    QDomNode dnChild = dnTop->firstChild();
+    while(!dnChild.isNull()){
+    if(dnChild.nodeType() == QDomNode::Element_Node){
+        clsSysFileNode.addNode(DomNode2SysNode(&dnChild, iCount, strSep));
     }
-    dnChild = dnChild->getNextSibling();
+    dnChild = dnChild.nextSibling();
     }
     return clsSysFileNode;
 };
 
 
-void iqrcommon::ClsSysFileParser::buildDiagramLineCache(DOMDocument* ddocRoot){
+void iqrcommon::ClsSysFileParser::buildDiagramLineCache(QDomDocument* ddocRoot){
 #ifdef DEBUG_CLSSYSFILEPARSER
     cout << "iqrcommon::ClsSysFileParser::buildDiagramLineCache()" << endl;
 #endif
     mapDiagramLine.clear();
-    QDomNodeList *dnlst = ddocRoot->getElementsByTagName(XMLString::transcode(ClsTagLibrary::DiagramLineTag()));
-    for (unsigned int ii = 0; ii < dnlst->getLength(); ii++){
-    QDomNode *dnTemp =  dnlst->item(ii);
-    QDomNode *dnParent = dnTemp->getParentNode();
-    string strParentID = getAttributeValue(dnParent, ClsTagLibrary::IDTag(), true);
+    QDomNodeList dnlst = ddocRoot->elementsByTagName(QString(ClsTagLibrary::DiagramLineTag()));
+    for (unsigned int ii = 0; ii < dnlst.length(); ii++){
+    QDomNode dnTemp =  dnlst.item(ii);
+    QDomNode dnParent = dnTemp.parentNode();
+    string strParentID = getAttributeValue(&dnParent, ClsTagLibrary::IDTag(), true);
 
     /* extract APSource and APTarget */
-    string strAPSource = getAttributeValue(dnTemp, ClsTagLibrary::DiagramLineAPSourceTag(), false);
-    string strAPTarget = getAttributeValue(dnTemp, ClsTagLibrary::DiagramLineAPTargetTag(), false);
+    string strAPSource = getAttributeValue(&dnTemp, ClsTagLibrary::DiagramLineAPSourceTag(), false);
+    string strAPTarget = getAttributeValue(&dnTemp, ClsTagLibrary::DiagramLineAPTargetTag(), false);
     ClsInfoDiagramLine clsInfoDiagramLine;
     clsInfoDiagramLine.setAPSource(iqrUtils::string2int(strAPSource));
     clsInfoDiagramLine.setAPTarget(iqrUtils::string2int(strAPTarget));
-    QDomNode *dnPoint = dnTemp->getFirstChild();
-    while(dnPoint!=NULL){
-        string strNodeName = XMLString::transcode(dnPoint->getNodeName());
+    QDomNode dnPoint = dnTemp.firstChild();
+    while(!dnPoint.isNull()){
+        string strNodeName = dnPoint.nodeName().toStdString();
         if( !strNodeName.compare(ClsTagLibrary::DiagramLinePointTag())){
-        string strX = getAttributeValue(dnPoint, ClsTagLibrary::DiagramLinePointXTag(), true);
-        string strY = getAttributeValue(dnPoint, ClsTagLibrary::DiagramLinePointYTag(), true);
+        string strX = getAttributeValue(&dnPoint, ClsTagLibrary::DiagramLinePointXTag(), true);
+        string strY = getAttributeValue(&dnPoint, ClsTagLibrary::DiagramLinePointYTag(), true);
         clsInfoDiagramLine.addPoint(strX, strY);
         }
-        dnPoint = dnPoint->getNextSibling();
+        dnPoint = dnPoint.nextSibling();
     }
     pair<string,ClsInfoDiagramLine> pairTemp(strParentID, clsInfoDiagramLine);
     mapDiagramLine.insert(pairTemp);
@@ -1592,23 +1589,23 @@ void iqrcommon::ClsSysFileParser::buildDiagramLineCache(DOMDocument* ddocRoot){
 }
 
 
-void iqrcommon::ClsSysFileParser::buildDiagramIconCache(DOMDocument* ddocRoot){
+void iqrcommon::ClsSysFileParser::buildDiagramIconCache(QDomDocument* ddocRoot){
 #ifdef DEBUG_CLSSYSFILEPARSER
     cout << "iqrcommon::ClsSysFileParser::buildDiagramIconCache()" << endl;
 #endif
     mapDiagramIcon.clear();
-    QDomNodeList *dnlst = ddocRoot->getElementsByTagName(XMLString::transcode(ClsTagLibrary::DiagramIconTag()));
-    for (unsigned int ii = 0; ii < dnlst->getLength(); ii++){
-    QDomNode *dnTemp =  dnlst->item(ii);
-    QDomNode *dnParent = dnTemp->getParentNode();
-    string strParentID = getAttributeValue(dnParent, ClsTagLibrary::IDTag(), true);
-    if(dnTemp!=NULL){
+    QDomNodeList dnlst = ddocRoot->elementsByTagName(QString(ClsTagLibrary::DiagramIconTag()));
+    for (unsigned int ii = 0; ii < dnlst.length(); ii++){
+    QDomNode dnTemp =  dnlst.item(ii);
+    QDomNode dnParent = dnTemp.parentNode();
+    string strParentID = getAttributeValue(&dnParent, ClsTagLibrary::IDTag(), true);
+    if(!dnTemp.isNull()){
         ClsInfoDiagramIcon clsInfoDiagramIcon;
-        clsInfoDiagramIcon.setX(getAttributeValue(dnTemp, ClsTagLibrary::DiagramIconXTag(), true));
-        clsInfoDiagramIcon.setY(getAttributeValue(dnTemp, ClsTagLibrary::DiagramIconYTag(), true));
+        clsInfoDiagramIcon.setX(getAttributeValue(&dnTemp, ClsTagLibrary::DiagramIconXTag(), true));
+        clsInfoDiagramIcon.setY(getAttributeValue(&dnTemp, ClsTagLibrary::DiagramIconYTag(), true));
         /* these attributes are implicit, i.e. do not have to be present */
-        clsInfoDiagramIcon.setWidth(getAttributeValue(dnTemp, ClsTagLibrary::DiagramIconWidthTag(), false));
-        clsInfoDiagramIcon.setHeight(getAttributeValue(dnTemp, ClsTagLibrary::DiagramIconHeightTag(), false));
+        clsInfoDiagramIcon.setWidth(getAttributeValue(&dnTemp, ClsTagLibrary::DiagramIconWidthTag(), false));
+        clsInfoDiagramIcon.setHeight(getAttributeValue(&dnTemp, ClsTagLibrary::DiagramIconHeightTag(), false));
         pair<string,ClsInfoDiagramIcon> pairTemp(strParentID, clsInfoDiagramIcon);
         mapDiagramIcon.insert(pairTemp);
     }
