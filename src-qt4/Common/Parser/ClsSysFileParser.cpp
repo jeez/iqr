@@ -11,7 +11,7 @@
 #include "../Helper/tagLibrary.hpp"
 #include "ClsSysFileParser.h"
 #include "ClsMyEntityResolver.h"
-#include "ClsMyErrorHandler.h"
+//#include "ClsMyErrorHandler.h"
 #include "ClsParameter.h"
 
 //#define DEBUG_CLSSYSFILEPARSER
@@ -42,7 +42,7 @@ DomNode2List(QDomNode dnTop, int iCount, string strSep){
     lstParam.push_back(clsParameterChild);
     // +++++++++++++++++++++++++++++++++++++++++++++
 
-    QDomNode dnChild = dnTop->firstChild();
+    QDomNode dnChild = dnTop.firstChild();
     while(!dnChild.isNull()){
         if(dnChild.nodeType() == QDomNode::ElementNode){
         clsParameterChild.setParameter(strNodeName, DomNode2List(dnChild, iCount, strSep));
@@ -139,15 +139,16 @@ void iqrcommon::ClsSysFileParser::parseBuffer(bool bValidate)  {
 /* NEW STUFF */
     MyResolver mr;
 
-    QXmlSimpleReader parser;
-    QXmlInputSource *source = new QXmlInputSource(QByteArray(gXMLInMemBuf));
+    QXmlSimpleReader *parser = new QXmlSimpleReader();
+    QXmlInputSource *source = new QXmlInputSource();
+    source->setData(QByteArray(gXMLInMemBuf));
 
     //TODO: I NEED TO SET the ContentHandler, the ErrorHandler and parse source
     // Also, we need to modify MyResolver and set DTD and this things
     QXmlDefaultHandler contentHandler;
-    parser.setContentHandler(&contentHandler);
+    parser->setContentHandler(&contentHandler);
 
-    parser.setEntityResolver(&mr);
+    parser->setEntityResolver(&mr);
 
     //XercesDOMParser* parser = new XercesDOMParser();
     //parser->setEntityResolver(&mr);
@@ -159,10 +160,10 @@ void iqrcommon::ClsSysFileParser::parseBuffer(bool bValidate)  {
     //}
 
     //parser->setDoNamespaces(gDoNamespaces);
-    parser.setFeature("http://xml.org/sax/features/namespaces", gDoNamespaces);
+    parser->setFeature("http://xml.org/sax/features/namespaces", gDoNamespaces);
 
-    ClsMyErrorHandler clsMyErrorHandler;
-    parser.setErrorHandler(&clsMyErrorHandler);
+    //ClsMyErrorHandler clsMyErrorHandler;
+    //parser.setErrorHandler(&clsMyErrorHandler);
 
     /*  Parse the XML file, catching any XML exceptions that might propogate out of it.*/
     //bool errorsOccured = false;
@@ -248,11 +249,11 @@ void iqrcommon::ClsSysFileParser::parseBuffer(bool bValidate)  {
         buildDiagramLineCache(&ddocSystemFile);
         buildDiagramIconCache(&ddocSystemFile);
 
-
     bParserBufferParsed = true;
-    } else
-        throw ClsSysFileParserException;
-
+    } else {
+        ClsSysFileParserException clsSysFileParserException(ClsSysFileParserException::PARSE_ERROR);
+        throw clsSysFileParserException;
+    }
 };
 
 
@@ -279,18 +280,19 @@ void iqrcommon::ClsSysFileParser::parseFragment(string strCont, bool bValidate) 
 
     //MyResolver mr;
 
-    QXmlSimpleReader parser;
-    QXmlInputSource *source = new QXmlInputSource(QByteArray(gXMLInMemBuf));
+    QXmlSimpleReader *parser = new QXmlSimpleReader();
+    QXmlInputSource *source = new QXmlInputSource();
+    source->setData(QByteArray(gXMLInMemBuf));
 
     QXmlDefaultHandler contentHandler;
-    parser.setContentHandler(&contentHandler);
+    parser->setContentHandler(&contentHandler);
 
     //parser.setEntityResolver(&mr);
 
-    parser.setFeature("http://xml.org/sax/features/namespaces", gDoNamespaces);
+    parser->setFeature("http://xml.org/sax/features/namespaces", gDoNamespaces);
 
-    ClsMyErrorHandler clsMyErrorHandler;
-    parser.setErrorHandler(&clsMyErrorHandler);
+    //ClsMyErrorHandler clsMyErrorHandler;
+    //parser.setErrorHandler(&clsMyErrorHandler);
 
     bool parsingSuccessful = true;
 
@@ -365,8 +367,10 @@ void iqrcommon::ClsSysFileParser::parseFragment(string strCont, bool bValidate) 
         buildDiagramIconCache(&ddocClipboard);
 
     bParserBufferParsed = true;
+    } else {
+        ClsSysFileParserException clsSysFileParserException(ClsSysFileParserException::PARSE_ERROR);
+        throw clsSysFileParserException;
     }
-
 };
 
 
@@ -425,8 +429,7 @@ void iqrcommon::ClsSysFileParser::createPrcDOMTree(string _strPrcID)  {
     QDomImplementation impl = ddocSystemFile.implementation();
     //DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"Range"));
 
-
-    ddocLocalPrc = impl.createDocument(0, ClsTagLibrary::ProcessTag(), 0);
+    ddocLocalPrc = impl.createDocument(0, ClsTagLibrary::ProcessTag(), ddocSystemFile.doctype());
 
     QDomElement rootElem = ddocLocalPrc.documentElement();  // returns the root element
     //DOMElement *rootElem = ddocLocalPrc->getDocumentElement();  // returns a reference to the root element
@@ -645,7 +648,7 @@ string iqrcommon::ClsSysFileParser::getLocalGroupID(int iIndex)
 //	  cout << strNodeName << endl;
 //	  cout << dnTemp->getNodeValue() << endl;
             if(!strNodeName.compare(ClsTagLibrary::IDTag())){
-                strGroupID = dnTemp.nodeValue();
+                strGroupID = dnTemp.nodeValue().toStdString();
                 break;
             }
         }
@@ -668,9 +671,9 @@ iqrcommon::ClsSysFileNode iqrcommon::ClsSysFileParser::getGroupTopologyParameter
             QDomNode dnGroupChild = dnGroup.firstChild();
             while (!dnGroupChild.isNull()){
                 if (dnGroupChild.nodeType() == QDomNode::ElementNode){
-                    string strTemp = dnGroupChild.nodeName();
+                    string strTemp = dnGroupChild.nodeName().toStdString();
                     if (!strTemp.compare(ClsTagLibrary::TopologyTag())) {
-                        string strTopology = dnGroupChild.nodeName();
+                        string strTopology = dnGroupChild.nodeName().toStdString();
                         clsSysFileNode.setName(strTopology);
                         clsSysFileNode = DomNode2SysNode(&dnGroupChild, 0, "");
                     }
@@ -964,7 +967,7 @@ iqrcommon::ClsSysFileNode iqrcommon::ClsSysFileParser::getConnectionSubNodes(QDo
     string strConnectionID = getAttributeValue(&dnConnection, ClsTagLibrary::IDTag(), true);
     if(!strConnectionID.compare(_strConnectionID)) {
         clsSysFileNode.setName(_strConnectionID);
-        clsSysFileNode = DomNode2SysNode(dnConnection, 0, "");
+        clsSysFileNode = DomNode2SysNode(&dnConnection, 0, "");
     }
     }
     return clsSysFileNode;
@@ -1006,9 +1009,9 @@ iqrcommon::ClsSysFileNode iqrcommon::ClsSysFileParser::getGroupSubNodes(QDomNode
 #endif
 
     ClsSysFileNode clsSysFileNode;
-    string strGroupID = getAttributeValue(&dnGroup, ClsTagLibrary::IDTag(), true);
+    string strGroupID = getAttributeValue(dnGroup, ClsTagLibrary::IDTag(), true);
     clsSysFileNode.setName(strGroupID);
-    clsSysFileNode = DomNode2SysNode(&dnGroup, 0, "");
+    clsSysFileNode = DomNode2SysNode(dnGroup, 0, "");
     return clsSysFileNode;
 }
 
@@ -1375,8 +1378,7 @@ string iqrcommon::ClsSysFileParser::getNotesNode_old(string strParentNodeName, s
 
     QDomNodeList dnlst = ddocSystemFile.elementsByTagName(QString(ClsTagLibrary::NotesTag()));
 
-
-    for (unsigned int ii = 0; ii < dnlst->getLength(); ii++){
+    for (unsigned int ii = 0; ii < dnlst.length(); ii++){
     QDomNode dnNote = dnlst.item(ii);
     /* check on the parent of the note: System, Process, Group etc */
     if(!strParentNodeName.compare(dnNote.parentNode().nodeName())){
@@ -1384,7 +1386,7 @@ string iqrcommon::ClsSysFileParser::getNotesNode_old(string strParentNodeName, s
 //	    cout << "dnNote->getNodeType(): " << dnNote->getNodeType() << endl;
 //	    cout << "dnNote->hasChildNodes(): " << dnNote->hasChildNodes() << endl;
 
-        string strParentID = findAncestorID( dnNote);
+        string strParentID = findAncestorID(&dnNote);
         if(!strParentID.compare(_strNodeID)) {
 //		cout << "YEP" << endl;
         QDomNode dnValue = dnNote.firstChild();
@@ -1412,12 +1414,12 @@ void iqrcommon::ClsSysFileParser::buildNotesCache(QDomDocument* ddocRoot){
     QDomNodeList dnlst = ddocRoot->elementsByTagName(QString(ClsTagLibrary::NotesTag()));
 
     string strNote;
-    for (unsigned int ii = 0; ii < dnlst->getLength(); ii++){
+    for (unsigned int ii = 0; ii < dnlst.length(); ii++){
     QDomNode dnNote = dnlst.item(ii);
-    string strParentID = findAncestorID(dnNote);
+    string strParentID = findAncestorID(&dnNote);
     QDomNode dnValue = dnNote.firstChild();
     if(!dnValue.isNull()){
-        string strNote = dnValue.nodeValue();
+        string strNote = dnValue.nodeValue().toStdString();
         pair<string,string> pairTemp(strParentID, strNote);
         mapNotes.insert(pairTemp);
     }
@@ -1512,7 +1514,7 @@ string iqrcommon::ClsSysFileParser::findAncestorID(QDomNode *dn) {
     QDomNode dnParent = dn->parentNode();
     if(dnParent.attributes().namedItem(QString(ClsTagLibrary::IDTag())).isNull()){
 // 	  if(dnParent->getAttributes()->getNamedItem("id") == NULL){
-        strParentID = findAncestorID(dnParent);
+        strParentID = findAncestorID(&dnParent);
     }
     else {
         strParentID = dnParent.attributes().namedItem(QString(ClsTagLibrary::IDTag())).nodeValue().toStdString();
@@ -1537,8 +1539,8 @@ iqrcommon::ClsSysFileNode iqrcommon::ClsSysFileParser::DomNode2SysNode(QDomNode 
     QDomNamedNodeMap dnnmapAtt =  dnTop->attributes();
     iqrcommon_old::ClsParameter clsParameterAtt;
     for(unsigned int ii=0; ii < dnnmapAtt.length(); ii++){
-    string strAttName = dnnmapAtt.item(ii).nodeName();
-    string strAttValue = dnnmapAtt.item(ii).nodeValue();
+    string strAttName = dnnmapAtt.item(ii).nodeName().toStdString();
+    string strAttValue = dnnmapAtt.item(ii).nodeValue().toStdString();
 #ifdef DEBUG_CLSSYSFILEPARSER
 //	cout << "DomNode2SysNode: " << strSep << iCount << " " << "AttName: " << strAttName << ", AttValue: " << strAttValue << endl;
 #endif
@@ -1547,7 +1549,7 @@ iqrcommon::ClsSysFileNode iqrcommon::ClsSysFileParser::DomNode2SysNode(QDomNode 
     }
     QDomNode dnChild = dnTop->firstChild();
     while(!dnChild.isNull()){
-    if(dnChild.nodeType() == QDomNode::Element_Node){
+    if(dnChild.nodeType() == QDomNode::ElementNode){
         clsSysFileNode.addNode(DomNode2SysNode(&dnChild, iCount, strSep));
     }
     dnChild = dnChild.nextSibling();

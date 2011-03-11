@@ -22,8 +22,8 @@ INCLUDE_DIRECTORIES(
 
 
 SET(libSrc
-  ClsSysFileParser.cpp
-  ClsMyErrorHandler.cpp )
+  ClsSysFileParser.cpp)
+  #ClsMyErrorHandler.cpp )
 
 ADD_LIBRARY(SysFileParser STATIC ${libSrc})
 TARGET_LINK_LIBRARIES(SysFileParser ${QT_LIBRARIES} ${XERCESC_LIBRARIES})

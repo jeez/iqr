@@ -16,9 +16,14 @@
 //using namespace xercesc;
 
 namespace iqrcommon {
-    
+
     class MyResolver : public QXmlEntityResolver {
     public:
+
+        virtual QString errorString() const {
+            return QString();
+        }
+
         virtual bool resolveEntity( const QString & publicId, const QString & systemId, QXmlInputSource *& ret ){
         //InputSource* resolveEntity( const XMLCh* const publicId,
         //			    const XMLCh* const systemId){
@@ -30,21 +35,23 @@ namespace iqrcommon {
 
                 //static const char*  cpMemBufId = "iqr421_System";
                 //return new MemBufInputSource ( (const XMLByte*)iqrSystemDTD_data, strlen(iqrSystemDTD_data), cpMemBufId, false);
-                ret = new QXmlInputSource(QByteArray(iqrSystemDTD_data));
+                ret = new QXmlInputSource();
+                ret->setData(QByteArray(iqrSystemDTD_data));
+
                 return true;
 /*
-  with the code below, we can also use a file from disk... 
+  with the code below, we can also use a file from disk...
   return new LocalFileInputSource ( XMLString::transcode("/home/ulysses/iqrDTD/iqrSystem.dtd"));
 */
-	    }
+        }
             return false;
-	}
-    };
+    }
+    }l;
 
 }
 
 #endif
 
-/// Local Variables: 
+/// Local Variables:
 /// mode: c++
-/// End: 
+/// End:
