@@ -25,10 +25,9 @@
 #include "ClsDataClientConfigReaderException.h"
 #include "ClsDataClientConfig.h"
 
-using namespace xercesc;
 using namespace iqrcommon;
 
-class ClsDataClientConfigReader  : public ClsBaseParser {
+class ClsDataClientConfigReader : public ClsBaseParser {
 
 public:
     ClsDataClientConfigReader( );
@@ -38,13 +37,13 @@ public:
 
 private:
     enum CONFIGREADER_STATES {
-	PARSER_INSTANTIATED,
-	PARSER_BUFFER_PARSED
+        PARSER_INSTANTIATED,
+        PARSER_BUFFER_PARSED
     };
     int iSysConfigReaderState;
     bool bXMLPlatformInitialized;
 
-    DOMDocument* ddocConfig;
+    QDomDocument ddocConfig;
 };
 
 #endif /* CLSDATACLIENTCONFIGREADER_H */

@@ -34,7 +34,6 @@ ClsDataClientConfigReader::ClsDataClientConfigReader( ) {
 #endif
     iSysConfigReaderState = PARSER_INSTANTIATED;
     bXMLPlatformInitialized = false;
-
 };
 
 
@@ -51,159 +50,98 @@ list<ClsDataClientConfig> ClsDataClientConfigReader::getDataClientConfig(string 
     bool errorsOccured = false;
     static bool gDoNamespaces = false;
 
-    if(!bXMLPlatformInitialized){
-	try {
-	    XMLPlatformUtils::Initialize();
-	}
-	catch(const XMLException& toCatch) {
-	    cerr << "Error during Xerces-c Initialization.\n"
-		 << "  Exception message:"
-		 << toCatch.getMessage() << endl;
-	    bXMLPlatformInitialized = false;
-	    errorsOccured = true;
-//	    return;
-	}
-	bXMLPlatformInitialized = true;
-	errorsOccured = false;
-    }
-    //--------------------
+    QXmlSimpleReader *parser = new QXmlSimpleReader();
+
+    parser->setFeature("http://xml.org/sax/features/namespaces", gDoNamespaces);
+
+    QXmlInputSource *source = new QXmlInputSource(new QFile(strFileName.c_str()));
+
+    QDomDocument ddocConfig;
+    errorsOccured = ddocConfig.setContent(source, parser);
+
+    QDomNodeList dnlstClients = ddocConfig.elementsByTagName(ConfigTagLibrary::DataClientTag());
 
     if (!errorsOccured) {
-	XercesDOMParser* parser = new XercesDOMParser();
-	parser->setValidationScheme(XercesDOMParser::Val_Never);
-	/*
-	  XercesDOMParser::Val_Never;
-	  XercesDOMParser::Val_Auto;
-	  XercesDOMParser::Val_Always;
-	*/
+        if(dnlstClients.length() > 0){
+        QDomNode dnValue;
+
+        unsigned int ii = 0;
+        while(ii < dnlstClients.length()){
+            QDomNode dnClient = dnlstClients.item(ii);
+            ii++;
+
+            string strType = getAttributeValue(&dnClient, ConfigTagLibrary::TypeTag(), true);
+            string strID = getAttributeValue(&dnClient, ConfigTagLibrary::IDTag(), false);
+            ClsDataClientConfig clsDataClientConfig(strID, strType);
 
 
-	parser->setDoNamespaces(gDoNamespaces);
-	ErrorHandler* errHandler = (ErrorHandler*) new HandlerBase();
-	parser->setErrorHandler(errHandler);
-
-
-	try {
-	    parser->parse(strFileName.c_str());
-
-	    int errorCount = parser->getErrorCount();
-	    if (errorCount > 0){
-		errorsOccured = true;
-	    }
-
-	} catch (const XMLException& e) {
-	    cerr << "An error occured during parsing (XMLException)\n   NMessage: " <<  XMLString::transcode(e.getMessage()) << endl;
-	    ClsDataClientConfigReaderException clsDataClientConfigReaderException(XMLString::transcode(e.getMessage()));
-	    errorsOccured = true;
-	    throw clsDataClientConfigReaderException;
-	} catch (const DOMException& e) {
-	    cerr << "An error occured during parsing (DOMException)\n   DMessage: " << XMLString::transcode(e.msg) << endl;
-	    ClsDataClientConfigReaderException clsDataClientConfigReaderException(XMLString::transcode(e.msg));
-	    errorsOccured = true;
-	    throw clsDataClientConfigReaderException;
-	} catch (const SAXException& e) {
-	    cerr << "An error occured during parsing (SAXException)\n   DMessage: " <<  XMLString::transcode(e.getMessage()) << endl;
-	    ClsDataClientConfigReaderException clsDataClientConfigReaderException(XMLString::transcode(e.getMessage()));
-	    errorsOccured = true;
-	    throw clsDataClientConfigReaderException;
-	} catch (...) {
-	    cerr << "An error occured during parsing\n " << endl;
-	    errorsOccured = true;
-	    ClsDataClientConfigReaderException clsDataClientConfigReaderException(ClsDataClientConfigReaderException::PARSE_ERROR);
-	    throw clsDataClientConfigReaderException;
-	}
-
-	/* DOMNode* dnIqrConfig; */
-	DOMDocument *ddocConfig = parser->getDocument();
-
-	DOMNodeList* dnlstClients = ddocConfig->getElementsByTagName(XMLString::transcode(ConfigTagLibrary::DataClientTag()));
-
-	try{
-	    if(dnlstClients->getLength()>0){
-		DOMNode* dnValue = NULL;
-
-		unsigned int ii = 0;
-		while( ii< dnlstClients->getLength()){
-		    DOMNode* dnClient = dnlstClients->item(ii);
-		    ii++;
-
-		    string strType = getAttributeValue(dnClient, ConfigTagLibrary::TypeTag(), true);
-		    string strID = getAttributeValue(dnClient, ConfigTagLibrary::IDTag(), false);
-		    ClsDataClientConfig clsDataClientConfig(strID, strType);
-
-
-		    DOMNodeList* dnlstClientChildren = dnClient->getChildNodes();
-		    unsigned int i2 = 0;
-		    while( i2< dnlstClientChildren->getLength()){
-			DOMNode* dnClientChild = dnlstClientChildren->item(i2);
-			if(dnClientChild->getNodeType() == 1){
-			    string strName = XMLString::transcode(dnClientChild->getNodeName());
-			    if(!strName.compare(ConfigTagLibrary::PositionTag())){
-				int iX = 0;
-				int iY = 0;
-				iX = iqrUtils::string2int(getAttributeValue(dnClientChild, ConfigTagLibrary::PositionXTag(), true));
-				iY = iqrUtils::string2int(getAttributeValue(dnClientChild, ConfigTagLibrary::PositionYTag(), true));
-				clsDataClientConfig.setPosition(iX, iY);
-			    } else if(!strName.compare(ConfigTagLibrary::Geometry())){
-				int iWidth = 0;
-				int iHeight = 0;
-				    iWidth = iqrUtils::string2int(getAttributeValue(dnClientChild, ConfigTagLibrary::GeometryWidthTag(), true));
-				    iHeight = iqrUtils::string2int(getAttributeValue(dnClientChild, ConfigTagLibrary::GeometryHeightTag(), true));
-				clsDataClientConfig.setGeometry(iWidth, iHeight);
-			    } else if(!strName.compare(ConfigTagLibrary::StateVariableDisplayTag())){
-				DOMNodeList* dnlstSVD = dnClientChild->getChildNodes();
-				unsigned int i3 = 0;
-				while( i3< dnlstSVD->getLength()){
-				    DOMNode* dnSVD = dnlstSVD->item(i3);
-				    if(dnSVD->getNodeType() == 1){
-					string strSVDID = getAttributeValue(dnSVD, ConfigTagLibrary::IDTag(), true);
-//--					string strItemType = getAttributeValue(dnSVD, ConfigTagLibrary::TypeTag(), true);
-					string strItemID = getAttributeValue(dnSVD, ConfigTagLibrary::ItemIDTag(), true);
-					string strSelectedIndices = getAttributeValue(dnSVD, ConfigTagLibrary::SelectedIndicesTag(), true);
-					ClsStateVariableDisplayConfig clsStateVariableDisplayConfig(/*strItemType,*/ strSVDID, strItemID, strSelectedIndices);
-					DOMNodeList* dnlstSVDParams = dnSVD->getChildNodes();
-					unsigned int i4 = 0;
-					while( i4< dnlstSVDParams->getLength()){
-					    DOMNode* dnSVDParam = dnlstSVDParams->item(i4);
-					    if(dnSVDParam->getNodeType() == 1){
-						string strParamName = XMLString::transcode(dnSVDParam->getNodeName());
-						dnValue = dnSVDParam->getFirstChild();
-						string strParamValue = "";
-						if(dnValue!=NULL){
-						    strParamValue = XMLString::transcode(dnValue->getNodeValue());
-						}
-						pair<string, string> pParam(strParamName, strParamValue);
-						clsStateVariableDisplayConfig.addParameter(pParam);
-					    }
-					    i4++;
-					}
-					clsDataClientConfig.addStateVariableDisplayConfig(clsStateVariableDisplayConfig);
-				    }
-				    i3++;
-				}
-			    } else {
-				string strValue = "";
-				dnValue = dnClientChild->getFirstChild();
-				if(dnValue!=NULL){
-				    strValue = XMLString::transcode(dnValue->getNodeValue());
-				}
-				pair<string, string> pParam(strName, strValue);
-				clsDataClientConfig.addParameter(pParam);
-			    }
-			}
-			i2++;
-		    }
-		    lstConfigs.push_back(clsDataClientConfig);
-		}
-	    }
-	} catch (...) {
-	    ClsDataClientConfigReaderException clsDataClientConfigReaderException(ClsDataClientConfigReaderException::PARSE_ERROR);
-	    throw clsDataClientConfigReaderException;
-	}
-
-	delete errHandler;
-    }
-
+            QDomNodeList dnlstClientChildren = dnClient.childNodes();
+            unsigned int i2 = 0;
+            while(i2 < dnlstClientChildren.length()){
+            QDomNode dnClientChild = dnlstClientChildren.item(i2);
+            if(dnClientChild.nodeType() == QDomNode::ElementNode){
+                string strName = dnClientChild.nodeName().toStdString();
+                if(!strName.compare(ConfigTagLibrary::PositionTag())){
+                int iX = 0;
+                int iY = 0;
+                iX = iqrUtils::string2int(getAttributeValue(&dnClientChild, ConfigTagLibrary::PositionXTag(), true));
+                iY = iqrUtils::string2int(getAttributeValue(&dnClientChild, ConfigTagLibrary::PositionYTag(), true));
+                clsDataClientConfig.setPosition(iX, iY);
+                } else if(!strName.compare(ConfigTagLibrary::Geometry())){
+                int iWidth = 0;
+                int iHeight = 0;
+                    iWidth = iqrUtils::string2int(getAttributeValue(&dnClientChild, ConfigTagLibrary::GeometryWidthTag(), true));
+                    iHeight = iqrUtils::string2int(getAttributeValue(&dnClientChild, ConfigTagLibrary::GeometryHeightTag(), true));
+                clsDataClientConfig.setGeometry(iWidth, iHeight);
+                } else if(!strName.compare(ConfigTagLibrary::StateVariableDisplayTag())){
+                QDomNodeList dnlstSVD = dnClientChild.childNodes();
+                unsigned int i3 = 0;
+                while(i3 < dnlstSVD.length()){
+                    QDomNode dnSVD = dnlstSVD.item(i3);
+                    if(dnSVD.nodeType() == QDomNode::ElementNode){
+                    string strSVDID = getAttributeValue(&dnSVD, ConfigTagLibrary::IDTag(), true);
+                    string strItemID = getAttributeValue(&dnSVD, ConfigTagLibrary::ItemIDTag(), true);
+                    string strSelectedIndices = getAttributeValue(&dnSVD, ConfigTagLibrary::SelectedIndicesTag(), true);
+                    ClsStateVariableDisplayConfig clsStateVariableDisplayConfig(/*strItemType,*/ strSVDID, strItemID, strSelectedIndices);
+                    QDomNodeList dnlstSVDParams = dnSVD.childNodes();
+                    unsigned int i4 = 0;
+                    while(i4 < dnlstSVDParams.length()){
+                        QDomNode dnSVDParam = dnlstSVDParams.item(i4);
+                        if(dnSVDParam.nodeType() == QDomNode::ElementNode){
+                        string strParamName = dnSVDParam.nodeName().toStdString();
+                        dnValue = dnSVDParam.firstChild();
+                        string strParamValue = "";
+                        if(!dnValue.isNull()){
+                            strParamValue = dnValue.nodeValue().toStdString();
+                        }
+                        pair<string, string> pParam(strParamName, strParamValue);
+                        clsStateVariableDisplayConfig.addParameter(pParam);
+                        }
+                        i4++;
+                    }
+                    clsDataClientConfig.addStateVariableDisplayConfig(clsStateVariableDisplayConfig);
+                    }
+                    i3++;
+                }
+                } else {
+                string strValue = "";
+                dnValue = dnClientChild.firstChild();
+                if(!dnValue.isNull()){
+                    strValue = dnValue.nodeValue().toStdString();
+                }
+                pair<string, string> pParam(strName, strValue);
+                clsDataClientConfig.addParameter(pParam);
+                }
+            }
+            i2++;
+            }
+            lstConfigs.push_back(clsDataClientConfig);
+        }
+        }
+        } else {
+        ClsDataClientConfigReaderException clsDataClientConfigReaderException(ClsDataClientConfigReaderException::PARSE_ERROR);
+        throw clsDataClientConfigReaderException;
+        }
     return lstConfigs;
 };
 
@@ -213,7 +151,7 @@ list<ClsDataClientConfig> ClsDataClientConfigReader::getDataClientConfig(string 
  * To be called after the last call to createPrcDOMTree(string strPrcName, string _strPrcID, string strPrcType)
  */
 void ClsDataClientConfigReader::terminateXMLPlatformUtils(){
-    XMLPlatformUtils::Terminate();
+    //XMLPlatformUtils::Terminate();
 };
 
 
