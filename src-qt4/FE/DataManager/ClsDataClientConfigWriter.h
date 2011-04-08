@@ -19,23 +19,8 @@
 #include <string>
 #include <map>
 
-#include <dom/DOM.hpp>
-#include <dom/DOMException.hpp>
-#include <framework/MemBufInputSource.hpp>
-#include <framework/XMLFormatter.hpp>
-#include <util/PlatformUtils.hpp>
-#include <util/TranscodingException.hpp>
-#include <util/XMLString.hpp>
-#include <util/XMLUniDefs.hpp>
-#include <util/XMLString.hpp>
-#include <util/PlatformUtils.hpp>
-
-#include <parsers/XercesDOMParser.hpp>
-#include <sax/HandlerBase.hpp>
-
 #include "ClsDataClientConfig.h"
 
-using namespace xercesc;
 using namespace std;
 
 class ClsDataClientConfigWriter {
