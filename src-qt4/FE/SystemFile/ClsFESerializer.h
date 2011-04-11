@@ -1,7 +1,7 @@
 /****************************************************************************
  ** $Filename: systemFileWriter.hpp
  ** $Author: Mark Blanchard
- ** 
+ **
  ** $CreateDate: Mon Sep 17 17:20:40 2001
  ** $Date: 2003/04/13 12:32:44 $
  **
@@ -13,22 +13,9 @@
 #include <string>
 #include <list>
 
-#include <dom/DOM.hpp>
-#include <dom/DOMException.hpp>
-#include <framework/MemBufInputSource.hpp> 
-#include <framework/XMLFormatter.hpp>
-#include <util/PlatformUtils.hpp>
-#include <util/TranscodingException.hpp>
-#include <util/XMLString.hpp>
-#include <util/XMLUniDefs.hpp>
-#include <util/XMLString.hpp>
-#include <util/PlatformUtils.hpp>
-
-#include <parsers/XercesDOMParser.hpp>
-#include <sax/HandlerBase.hpp>
-
 #include "parameterList.hpp"
 
+#include <QtXml>
 
 class ClsFESystem;
 class ClsFEGroup;
@@ -41,18 +28,14 @@ namespace iqrcommon {
     class ClsItem;
 }
 
-using namespace xercesc;
-
-
-
 using namespace iqrcommon;
 using namespace std;
 
 class ClsKey {
 public:
 
-    ClsKey( string _ID, string _origID, string _source, string _target, string _type) : 
-	ID(_ID), origID(_origID), source(_source), target(_target), type (_type) {};
+    ClsKey( string _ID, string _origID, string _source, string _target, string _type) :
+    ID(_ID), origID(_origID), source(_source), target(_target), type (_type) {};
     string ID;
     string origID;
     string source;
@@ -64,11 +47,11 @@ public:
 
 
 class ClsFESerializer {
-    
+
 public:
-    
+
     ClsFESerializer();
-    
+
 
     ~ClsFESerializer();
 
@@ -81,7 +64,7 @@ public:
     string getGroupsWidthConnectionsAsXML(list<string> lstIDGroups, list<string> lstIDConnections);
 
     int serializeToAER(string strExportFilename);
-    
+
 private:
 
     void CreateDOMTree(bool _bIncludeXMLDeclNode = true);
@@ -94,30 +77,30 @@ private:
 
     void writeExternalProcesses();
 
-    DOMElement *addFESystem(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, ClsFESystem*);
-    DOMElement *addFEProcess(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, ClsFEProcess*);
-    DOMElement *addFEGroup(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, ClsFEGroup*);
-    DOMElement *addFEConnection(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, ClsFEConnection*);
-    
-    DOMElement* addParameterizedNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, 
-				     string strNodeTag, 
-				     string strNodeType, 
-				     ParameterList parameterList);
+    QDomElement *addFESystem(QDomDocument *ddocRoot, ClsFESystem*);
+    QDomElement *addFEProcess(QDomDocument *ddocRoot, ClsFEProcess*);
+    QDomElement *addFEGroup(QDomDocument *ddocRoot, ClsFEGroup*);
+    QDomElement *addFEConnection(QDomDocument *ddocRoot, ClsFEConnection*);
 
-    list<DOMElement*> getAERConnections(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot);
+    QDomElement* addParameterizedNode(QDomDocument *ddocRoot,
+                     string strNodeTag,
+                     string strNodeType,
+                     ParameterList parameterList);
 
-	XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocSystem; //necessary for windows
+    list<QDomElement*> getAERConnections(QDomDocument *ddocRoot);
 
-    void addXRefHolders(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, DOMElement *delemParent, ClsItem* itemParent);
+    QDomDocument ddocSystem; //necessary for windows
+
+    void addXRefHolders(QDomDocument *ddocRoot, QDomElement *delemParent, ClsItem* itemParent);
 
 
     static const bool INCLUDE_XML_DECL_NODE = true;
     static const bool EXCLUDE_XML_DECL_NODE = false;
 
     bool bXMLPlatformInitialized;
-    
+
     list<string> lstExternalProcesses;
-    
+
 
 };
 
