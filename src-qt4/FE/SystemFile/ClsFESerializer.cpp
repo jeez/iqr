@@ -1386,7 +1386,7 @@ QDomElement* ClsFESerializer::addParameterizedNode(QDomDocument *ddocRoot, strin
     return delemParameterizedNode;
 }
 
-void ClsFESerializer::addXRefHolders(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, DOMElement *delemParent, ClsItem* itemParent){
+void ClsFESerializer::addXRefHolders(QDomDocument *ddocRoot, QDomElement *delemParent, ClsItem* itemParent){
     list<string> lstXRefHolders;
     if(dynamic_cast<ClsFEProcess*>(itemParent)){
     lstXRefHolders = dynamic_cast<ClsFEProcess*>(itemParent)->getListModuleXRefHolders();
@@ -1403,9 +1403,9 @@ void ClsFESerializer::addXRefHolders(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument 
         clsXRefHolder = dynamic_cast<ClsFEConnection*>(itemParent)->getSynapseXRefHolder(*itXRefHolders);
     }
     if(clsXRefHolder!=NULL){
-        DOMElement *delemXRefHolder = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::XRefHolderTag()));
+        QDomElement delemXRefHolder = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::XRefHolderTag()));
         string strXRefHolderName = clsXRefHolder->getName();
-        delemXRefHolder->setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
+        delemXRefHolder.setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
                       QString::fromStdString(strXRefHolderName.c_str()));
 
         XRefList xRefList = clsXRefHolder->getListXRefs();
@@ -1415,13 +1415,13 @@ void ClsFESerializer::addXRefHolders(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument 
         string strXRefName = (*itXRef)->getName();
         string strXRefTarget = (*itXRef)->getTarget();
 
-        DOMElement *delemXRef = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::XRefTag()));
-        delemXRef->setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
+        QDomElement delemXRef = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::XRefTag()));
+        delemXRef.setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
                     QString::fromStdString(strXRefName.c_str()));
 
-        delemXRef->setAttribute(QString::fromStdString(ClsTagLibrary::TargetTag()),
+        delemXRef.setAttribute(QString::fromStdString(ClsTagLibrary::TargetTag()),
                     QString::fromStdString(strXRefTarget.c_str()));
-        delemXRefHolder->appendChild(delemXRef);
+        delemXRefHolder.appendChild(delemXRef);
         }
         delemParent->appendChild(delemXRefHolder);
     }
