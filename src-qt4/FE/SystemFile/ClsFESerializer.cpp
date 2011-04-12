@@ -214,7 +214,7 @@ string ClsFESerializer::getProcessesAsXML(list<string> lstIDs) {
     theOutput->setByteStream(myFormTarget);
 #endif
 */
-    QBuffer myFormTarget();
+    QBuffer myFormTarget;
     QTextStream output(&myFormTarget);
     delemClipboard.save(output, 4);
 
@@ -271,7 +271,7 @@ string ClsFESerializer::getConnectionsAsXML(list<string> lstIDs) {
     delemClipboard.appendChild(*delemConnection);
     }
 
-    QBuffer myFormTarget();
+    QBuffer myFormTarget;
     QTextStream output(&myFormTarget);
     delemClipboard.save(output, 4);
 
@@ -404,7 +404,7 @@ string ClsFESerializer::getGroupsAsXML(list<string> lstIDs) {
     return "";
     }
 */
-    QBuffer myFormTarget();
+    QBuffer myFormTarget;
     QTextStream output(&myFormTarget);
     delemClipboard.save(output, 4);
 
@@ -486,7 +486,7 @@ string ClsFESerializer::getGroupsWidthConnectionsAsXML(list<string> lstIDGroups,
         return "";
     }
 */
-    QBuffer myFormTarget();
+    QBuffer myFormTarget;
     QTextStream output(&myFormTarget);
     delemClipboard.save(output, 4);
 
@@ -624,7 +624,7 @@ int ClsFESerializer::serializeToAER(string strExportFilename){
     list<QDomElement*> lstDEConnections = getAERConnections(&ddocAERSystem);
     list<QDomElement*>::iterator it;
     for(it=lstDEConnections.begin(); it!=lstDEConnections.end();it++){
-    delemSystem->appendChild((*it));
+    delemSystem->appendChild(*(*it));
     }
 
     QFile myFormTarget(QString::fromStdString(strExportFilename.c_str()));
@@ -689,7 +689,7 @@ int ClsFESerializer::serializeToAER(string strExportFilename){
     theSerializer->release();
 //    delete myErrorHandler;
 //    delete myFilter;
-    delete myFormTarget;
+    delete myFormTarget;*/
 
 /* use exceptions.... */
 
@@ -751,7 +751,7 @@ list<QDomElement*> ClsFESerializer::getAERConnections(QDomDocument* ddocRoot){
     delemAERConnection.setAttribute(QString::fromStdString(ClsTagLibrary::ConnectionTargetTag()),
                      QString::fromStdString(itMapSTT->first.target.c_str()));
 
-    delemAERConnection->setAttribute(QString::fromStdString(ClsTagLibrary::ConnectionTypeTag()),
+    delemAERConnection.setAttribute(QString::fromStdString(ClsTagLibrary::ConnectionTypeTag()),
                      QString::fromStdString(itMapSTT->first.type.c_str()));
 
 
@@ -779,7 +779,7 @@ list<QDomElement*> ClsFESerializer::getAERConnections(QDomDocument* ddocRoot){
         delemAERConnection.appendChild(delemPre);
 
         for(unsigned int ii=0; ii<vectIndices.size(); ii++){
-            QDomElement delemPost = ddocRoot->createElement(reateElement(QString::fromStdString(ClsTagLibrary::post()));
+            QDomElement delemPost = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::post()));
 
             delemPost.setAttribute(QString::fromStdString(ClsTagLibrary::index()),
                        QString::fromStdString(iqrUtils::int2string(vectIndices[ii].neuronPost).c_str()));
@@ -795,7 +795,9 @@ list<QDomElement*> ClsFESerializer::getAERConnections(QDomDocument* ddocRoot){
         }
         }
     }
-    lstDEConnections.push_back(delemAERConnection);
+    QDomElement *ptDelemAERConnection = new QDomElement;
+    *ptDelemAERConnection = delemAERConnection;
+    lstDEConnections.push_back(ptDelemAERConnection);
     }
     return lstDEConnections;
 }
@@ -866,7 +868,7 @@ int ClsFESerializer::SerializeDOMTree(string &strSystemCont)  {
     }
 */
 
-    QBuffer myFormTarget();
+    QBuffer myFormTarget;
     QTextStream output(&myFormTarget);
     ddocSystem.save(output, 4);
 
@@ -1290,7 +1292,7 @@ QDomElement* ClsFESerializer::addFEConnection(QDomDocument *ddocRoot, ClsFEConne
     while (parameterListAttenuationFunction.size()) {
         string strParamName = parameterListAttenuationFunction.front()->getName();
         string strParamValue = parameterListAttenuationFunction.front()->getValueAsString();
-        delemAttenuationFunctionType->setAttribute(QString::fromStdString(strParamName.c_str()),
+        delemAttenuationFunctionType.setAttribute(QString::fromStdString(strParamName.c_str()),
                           QString::fromStdString(strParamValue.c_str()));
         parameterListAttenuationFunction.pop_front();
     }
@@ -1330,7 +1332,7 @@ QDomElement* ClsFESerializer::addFEConnection(QDomDocument *ddocRoot, ClsFEConne
     QDomElement delemNote = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::NotesTag()));
     delemConnection->appendChild(delemNote);
     QDomText dtxtNote = ddocRoot->createTextNode(QString::fromStdString((dynamic_cast<ClsFEConnection*>(clsFEConnection))->getNotes().c_str()));
-    delemNote->appendChild(dtxtNote);
+    delemNote.appendChild(dtxtNote);
 
 
 /* DiagramLine */
