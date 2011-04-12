@@ -152,7 +152,7 @@ string ClsFESerializer::getProcessesAsXML(list<string> lstIDs) {
     }
 
 
-    //DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"Range"));
+    //DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(QString::fromStdString((const char*)"Range"));
 
     QDomImplementation impl;
     QDomDocument ddocClipboard = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::iqrEntityTag()), NULL);
@@ -230,14 +230,14 @@ string ClsFESerializer::getProcessesAsXML(list<string> lstIDs) {
 
     }
     catch (const XMLException& toCatch) {
-    char* message = XMLString::transcode(toCatch.getMessage());
+    char* message = QString::fromStdString(toCatch.getMessage());
     cout << "Exception message is: \n"
          << message << "\n";
     XMLString::release(&message);
     return "";
     }
     catch (const DOMException& toCatch) {
-    char* message = XMLString::transcode(toCatch.msg);
+    char* message = QString::fromStdString(toCatch.msg);
     cout << "Exception message is: \n"
          << message << "\n";
     XMLString::release(&message);
@@ -258,19 +258,24 @@ string ClsFESerializer::getConnectionsAsXML(list<string> lstIDs) {
     cout << "ClsFESerializer::getConnectionsAsXML(list<string> lstIDs )" << endl;
     }
 
-    DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"Range"));
-    XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocClipboard = impl->createDocument(0, XMLString::transcode(ClsTagLibrary::iqrEntityTag()), NULL);
-    DOMElement *delemClipboard = ddocClipboard->createElement(XMLString::transcode(ClsTagLibrary::iqrEntityTag()));
-    delemClipboard->setAttribute(XMLString::transcode(ClsTagLibrary::ClipboardContentsType()), XMLString::transcode(ClsTagLibrary::ConnectionTag()));
+    //DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(QString::fromStdString((const char*)"Range"));
+    QDomImplementation impl;
+    QDomDocument ddocClipboard = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::iqrEntityTag()), NULL);
+    QDomElement delemClipboard = ddocClipboard.createElement(QString::fromStdString(ClsTagLibrary::iqrEntityTag()));
+    delemClipboard.setAttribute(QString::fromStdString(ClsTagLibrary::ClipboardContentsType()), QString::fromStdString(ClsTagLibrary::ConnectionTag()));
 
     list<string>::iterator it;
     for(it=lstIDs.begin(); it!=lstIDs.end(); it++){
     string strID = (*it);
-    DOMElement *delemConnection = addFEConnection(ddocClipboard, ClsFESystemManager::Instance()->getFEConnection(strID));
-    delemClipboard->appendChild(delemConnection);
+    QDomElement *delemConnection = addFEConnection(&ddocClipboard, ClsFESystemManager::Instance()->getFEConnection(strID));
+    delemClipboard.appendChild(*delemConnection);
     }
 
+    QBuffer myFormTarget();
+    QTextStream output(&myFormTarget);
+    delemClipboard.save(output, 4);
 
+/**
 #if XERCES_VERSION_MAJOR >= 3
      DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true))
@@ -304,14 +309,14 @@ string ClsFESerializer::getConnectionsAsXML(list<string> lstIDs) {
 #endif
     }
     catch (const XMLException& toCatch) {
-    char* message = XMLString::transcode(toCatch.getMessage());
+    char* message = QString::fromStdString(toCatch.getMessage());
     cout << "Exception message is: \n"
          << message << "\n";
     XMLString::release(&message);
     return "";
     }
     catch (const DOMException& toCatch) {
-    char* message = XMLString::transcode(toCatch.msg);
+    char* message = QString::fromStdString(toCatch.msg);
     cout << "Exception message is: \n"
          << message << "\n";
     XMLString::release(&message);
@@ -321,11 +326,10 @@ string ClsFESerializer::getConnectionsAsXML(list<string> lstIDs) {
     cout << "Unexpected Exception \n" ;
     return "";
     }
+*/
 
-    string strConnectionXML = (const char*)(myFormTarget->getRawBuffer());
+    string strConnectionXML = output.readAll().toStdString();
 
-    theSerializer->release();
-    delete myFormTarget;
     return strConnectionXML;
 }
 
@@ -335,18 +339,19 @@ string ClsFESerializer::getGroupsAsXML(list<string> lstIDs) {
     }
 
 
-    DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"Range"));
-    XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocClipboard = impl->createDocument(0, XMLString::transcode(ClsTagLibrary::iqrEntityTag()), NULL);
-    DOMElement *delemClipboard = ddocClipboard->createElement(XMLString::transcode(ClsTagLibrary::iqrEntityTag()));
-    delemClipboard->setAttribute(XMLString::transcode(ClsTagLibrary::ClipboardContentsType()), XMLString::transcode(ClsTagLibrary::GroupTag()));
+    //DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(QString::fromStdString((const char*)"Range"));
+    QDomImplementation impl;
+    QDomDocument ddocClipboard = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::iqrEntityTag()), NULL);
+    QDomElement delemClipboard = ddocClipboard.createElement(QString::fromStdString(ClsTagLibrary::iqrEntityTag()));
+    delemClipboard.setAttribute(QString::fromStdString(ClsTagLibrary::ClipboardContentsType()), QString::fromStdString(ClsTagLibrary::GroupTag()));
 
     list<string>::iterator it;
     for(it=lstIDs.begin(); it!=lstIDs.end(); it++){
     string strID = (*it);
-    DOMElement *delemGroup = addFEGroup(ddocClipboard, ClsFESystemManager::Instance()->getFEGroup(strID));
-    delemClipboard->appendChild(delemGroup);
+    QDomElement *delemGroup = addFEGroup(&ddocClipboard, ClsFESystemManager::Instance()->getFEGroup(strID));
+    delemClipboard.appendChild(*delemGroup);
     }
-
+/**
 #if XERCES_VERSION_MAJOR >= 3
     DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
     if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true)){
@@ -381,14 +386,14 @@ string ClsFESerializer::getGroupsAsXML(list<string> lstIDs) {
 #endif
 }
     catch (const XMLException& toCatch) {
-    char* message = XMLString::transcode(toCatch.getMessage());
+    char* message = QString::fromStdString(toCatch.getMessage());
     cout << "Exception message is: \n"
          << message << "\n";
     XMLString::release(&message);
     return "";
     }
     catch (const DOMException& toCatch) {
-    char* message = XMLString::transcode(toCatch.msg);
+    char* message = QString::fromStdString(toCatch.msg);
     cout << "Exception message is: \n"
          << message << "\n";
     XMLString::release(&message);
@@ -398,11 +403,13 @@ string ClsFESerializer::getGroupsAsXML(list<string> lstIDs) {
     cout << "Unexpected Exception \n" ;
     return "";
     }
+*/
+    QBuffer myFormTarget();
+    QTextStream output(&myFormTarget);
+    delemClipboard.save(output, 4);
 
-    string strGroupXML = (const char*)(myFormTarget->getRawBuffer());
+    string strGroupXML = output.readAll().toStdString();
 
-    theSerializer->release();
-    delete myFormTarget;
     return strGroupXML;
 }
 
@@ -412,25 +419,25 @@ string ClsFESerializer::getGroupsWidthConnectionsAsXML(list<string> lstIDGroups,
     cout << "ClsFESerializer::getGroupsWidthConnectionsAsXML(list<string> lstIDGroups, list<string> lstIDConnections)" << endl;
     }
 
-    DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"Range"));
-    XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocClipboard = impl->createDocument(0, XMLString::transcode(ClsTagLibrary::iqrEntityTag()), NULL);
-    DOMElement *delemClipboard = ddocClipboard->createElement(XMLString::transcode(ClsTagLibrary::iqrEntityTag()));
-    delemClipboard->setAttribute(XMLString::transcode(ClsTagLibrary::ClipboardContentsType()), XMLString::transcode(ClsTagLibrary::GroupsWithConnectionsTag()));
+    QDomImplementation impl;
+    QDomDocument ddocClipboard = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::iqrEntityTag()), NULL);
+    QDomElement delemClipboard = ddocClipboard.createElement(QString::fromStdString(ClsTagLibrary::iqrEntityTag()));
+    delemClipboard.setAttribute(QString::fromStdString(ClsTagLibrary::ClipboardContentsType()), QString::fromStdString(ClsTagLibrary::GroupsWithConnectionsTag()));
 
     list<string>::iterator itGroup;
     for(itGroup=lstIDGroups.begin(); itGroup!=lstIDGroups.end(); itGroup++){
         string strID = (*itGroup);
-        DOMElement *delemGroup = addFEGroup(ddocClipboard, ClsFESystemManager::Instance()->getFEGroup(strID));
-        delemClipboard->appendChild(delemGroup);
+        QDomElement *delemGroup = addFEGroup(&ddocClipboard, ClsFESystemManager::Instance()->getFEGroup(strID));
+        delemClipboard.appendChild(*delemGroup);
     }
 
     list<string>::iterator itConnection;
     for(itConnection=lstIDConnections.begin(); itConnection!=lstIDConnections.end(); itConnection++){
         string strID = (*itConnection);
-        DOMElement *delemConnection = addFEConnection(ddocClipboard, ClsFESystemManager::Instance()->getFEConnection(strID));
-        delemClipboard->appendChild(delemConnection);
+        QDomElement *delemConnection = addFEConnection(&ddocClipboard, ClsFESystemManager::Instance()->getFEConnection(strID));
+        delemClipboard.appendChild(*delemConnection);
     }
-
+/**
 #if XERCES_VERSION_MAJOR >= 3
     DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
     if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true))
@@ -461,14 +468,14 @@ string ClsFESerializer::getGroupsWidthConnectionsAsXML(list<string> lstIDGroups,
 #endif
     }
     catch (const XMLException& toCatch) {
-        char* message = XMLString::transcode(toCatch.getMessage());
+        char* message = QString::fromStdString(toCatch.getMessage());
         cout << "Exception message is: \n"
          << message << "\n";
         XMLString::release(&message);
         return "";
     }
     catch (const DOMException& toCatch) {
-        char* message = XMLString::transcode(toCatch.msg);
+        char* message = QString::fromStdString(toCatch.msg);
         cout << "Exception message is: \n"
          << message << "\n";
         XMLString::release(&message);
@@ -478,11 +485,13 @@ string ClsFESerializer::getGroupsWidthConnectionsAsXML(list<string> lstIDGroups,
         cout << "Unexpected Exception \n" ;
         return "";
     }
+*/
+    QBuffer myFormTarget();
+    QTextStream output(&myFormTarget);
+    delemClipboard.save(output, 4);
 
-    string strGroupsWithConnectionsXML = (const char*)(myFormTarget->getRawBuffer());
+    string strGroupsWithConnectionsXML = output.readAll().toStdString();
 
-    theSerializer->release();
-    delete myFormTarget;
     return strGroupsWithConnectionsXML;
 }
 
@@ -508,13 +517,13 @@ void ClsFESerializer::CreateDOMTree(bool _bIncludeXMLDeclNode){
 
     _bIncludeXMLDeclNode = true;
 
-    DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"Range"));
+    QDomImplementation impl;
 
-    DOMDocumentType *dtd = impl->createDocumentType(XMLString::transcode(ClsTagLibrary::SystemTag()),
-                            XMLString::transcode("-//INI/iqr421"),
-                            XMLString::transcode("iqrSystem.dtd"));
+    QDomDocumentType dtd = impl.createDocumentType(QString::fromStdString(ClsTagLibrary::SystemTag()),
+                            QString::fromStdString("-//INI/iqr421"),
+                            QString::fromStdString("iqrSystem.dtd"));
 
-    ddocSystem = impl->createDocument(0, XMLString::transcode(ClsTagLibrary::SystemTag()), dtd);
+    ddocSystem = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::SystemTag()), dtd);
 
 //     if (bDebugSystemFileWriter) {
 // 	qDebug("ClsFESerializer::CreateDOMTree:"
@@ -523,8 +532,7 @@ void ClsFESerializer::CreateDOMTree(bool _bIncludeXMLDeclNode){
 // 	       _pclsSystem->Connections().count());
 //     }
 
-
-    DOMElement *delemSystem = addFESystem(ddocSystem, ClsFESystemManager::Instance()->getFESystem());
+    QDomElement *delemSystem = addFESystem(&ddocSystem, ClsFESystemManager::Instance()->getFESystem());
     map<string, ClsFEProcess*> mapProcesses = ClsFESystemManager::Instance()->getMapFEProcesses();
     map<string, ClsFEGroup*> mapGroups = ClsFESystemManager::Instance()->getMapFEGroups();
     map<string, ClsFEProcess*>::iterator itmapPrcs;
@@ -533,20 +541,20 @@ void ClsFESerializer::CreateDOMTree(bool _bIncludeXMLDeclNode){
     string strProcessID = clsFEProcessTemp->getProcessID();
     string strPath = clsFEProcessTemp->getPath();
     if(strPath.length()<=0){
-        DOMElement *delemProcess = addFEProcess(ddocSystem, clsFEProcessTemp);
-        delemSystem->appendChild(delemProcess);
+        QDomElement *delemProcess = addFEProcess(&ddocSystem, clsFEProcessTemp);
+        delemSystem->appendChild(*delemProcess);
 
         map<string, ClsFEGroup*>::iterator itmapFEGroups;
         for (itmapFEGroups = mapGroups.begin(); itmapFEGroups != mapGroups.end(); ++itmapFEGroups){
         if(!strProcessID.compare((itmapFEGroups->second)->getProcessID())) {
-            DOMElement *delemGroup = addFEGroup(ddocSystem, itmapFEGroups->second);
-            delemProcess->appendChild(delemGroup);
+            QDomElement *delemGroup = addFEGroup(&ddocSystem, itmapFEGroups->second);
+            delemProcess->appendChild(*delemGroup);
         }
         }
     } else {
         /* WE HAVE TO CREATE AN "EMPTY" PROCESS */
-        DOMElement *delemProcess = addFEProcess(ddocSystem, clsFEProcessTemp);
-        delemSystem->appendChild(delemProcess);
+        QDomElement *delemProcess = addFEProcess(&ddocSystem, clsFEProcessTemp);
+        delemSystem->appendChild(*delemProcess);
         lstExternalProcesses.push_back(strProcessID);
     }
     }
@@ -558,12 +566,12 @@ void ClsFESerializer::CreateDOMTree(bool _bIncludeXMLDeclNode){
     string strSourceProcessID = ClsFESystemManager::Instance()->getGroupProcessID(strSourceID);
     string strTargetProcessID = ClsFESystemManager::Instance()->getGroupProcessID(strTargetID);
     if(strSourceProcessID.compare(strTargetProcessID)){
-        DOMElement *delemConnection = addFEConnection(ddocSystem, itmapConnection->second);
-        delemSystem->appendChild(delemConnection);
+        QDomElement *delemConnection = addFEConnection(&ddocSystem, itmapConnection->second);
+        delemSystem->appendChild(*delemConnection);
     } else {
         if(find(lstExternalProcesses.begin(), lstExternalProcesses.end(), strSourceProcessID)==lstExternalProcesses.end()){
-        DOMElement *delemConnection = addFEConnection(ddocSystem, itmapConnection->second);
-        delemSystem->appendChild(delemConnection);
+        QDomElement *delemConnection = addFEConnection(&ddocSystem, itmapConnection->second);
+        delemSystem->appendChild(*delemConnection);
         }
     }
     }
@@ -579,33 +587,25 @@ void ClsFESerializer::CreateDOMTree(bool _bIncludeXMLDeclNode){
 int ClsFESerializer::serializeToAER(string strExportFilename){
 
     if(!bXMLPlatformInitialized){
-    try {
-        XMLPlatformUtils::Initialize();
-    }
-    catch(const XMLException& toCatch) {
-        cerr << "Error during Xerces-c Initialization.\n"
-         << "  Exception message:"
-         << toCatch.getMessage() << endl;
-        bXMLPlatformInitialized = false;
-        return false;
-    }
-    bXMLPlatformInitialized = true;
+        bXMLPlatformInitialized = true;
     }
 
-    DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"Range"));
-    DOMDocumentType *dtd = impl->createDocumentType(XMLString::transcode(ClsTagLibrary::AERSystemTag()),  //<-FIX
-                            XMLString::transcode("-//INI/iqr421"),
-                            XMLString::transcode("iqrAERSystem.dtd")); //<-FIX
+    QDomImplementation impl;
 
-    XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocAERSystem = impl->createDocument(0, XMLString::transcode(ClsTagLibrary::AERSystemTag()), dtd);
-    DOMElement *delemSystem = addFESystem(ddocAERSystem, ClsFESystemManager::Instance()->getFESystem());
+    QDomDocumentType dtd = impl.createDocumentType(QString::fromStdString(ClsTagLibrary::AERSystemTag()), //<-FIX
+                            QString::fromStdString("-//INI/iqr421"),
+                            QString::fromStdString("iqrSystem.dtd"));
+
+    QDomDocument ddocAERSystem = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::AERSystemTag()), dtd);
+
+    QDomElement *delemSystem = addFESystem(&ddocAERSystem, ClsFESystemManager::Instance()->getFESystem());
 
     map<string, ClsFEProcess*> mapProcesses = ClsFESystemManager::Instance()->getMapFEProcesses();
     map<string, ClsFEGroup*> mapGroups = ClsFESystemManager::Instance()->getMapFEGroups();
     map<string, ClsFEProcess*>::iterator itmapPrcs;
     for (itmapPrcs = mapProcesses.begin(); itmapPrcs != mapProcesses.end(); ++itmapPrcs){
-    DOMElement *delemProcess = addFEProcess(ddocAERSystem, itmapPrcs->second);
-    delemSystem->appendChild(delemProcess);
+    QDomElement *delemProcess = addFEProcess(&ddocAERSystem, itmapPrcs->second);
+    delemSystem->appendChild(*delemProcess);
 
     string strProcessID = itmapPrcs->second->getProcessID();
 
@@ -616,19 +616,24 @@ int ClsFESerializer::serializeToAER(string strExportFilename){
 
         }
         if(!strProcessID.compare((itmapFEGroups->second)->getProcessID())) {
-        DOMElement *delemGroup = addFEGroup(ddocAERSystem, itmapFEGroups->second);
-        delemProcess->appendChild(delemGroup);
+        QDomElement *delemGroup = addFEGroup(&ddocAERSystem, itmapFEGroups->second);
+        delemProcess->appendChild(*delemGroup);
         }
     }
     }
-    list<DOMElement*> lstDEConnections = getAERConnections(ddocAERSystem);
-    list<DOMElement*>::iterator it;
+    list<QDomElement*> lstDEConnections = getAERConnections(&ddocAERSystem);
+    list<QDomElement*>::iterator it;
     for(it=lstDEConnections.begin(); it!=lstDEConnections.end();it++){
     delemSystem->appendChild((*it));
     }
 
+    QFile myFormTarget(QString::fromStdString(strExportFilename.c_str()));
+    QTextStream output(&myFormTarget);
+    ddocAERSystem.save(output, 4);
+
+/*
 //    DOMImplementation *
-    impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"LS"));
+    impl = DOMImplementationRegistry::getDOMImplementation(QString::fromStdString((const char*)"LS"));
 #if XERCES_VERSION_MAJOR >= 3
     DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
     if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true))
@@ -661,14 +666,14 @@ int ClsFESerializer::serializeToAER(string strExportFilename){
 #endif
     }
     catch (const XMLException& toCatch) {
-    char* message = XMLString::transcode(toCatch.getMessage());
+    char* message = QString::fromStdString(toCatch.getMessage());
     cout << "Exception message is: \n"
          << message << "\n";
     XMLString::release(&message);
     return -1;
     }
     catch (const DOMException& toCatch) {
-    char* message = XMLString::transcode(toCatch.msg);
+    char* message = QString::fromStdString(toCatch.msg);
     cout << "Exception message is: \n"
          << message << "\n";
     XMLString::release(&message);
@@ -692,12 +697,12 @@ int ClsFESerializer::serializeToAER(string strExportFilename){
 
 }
 
-list<DOMElement*> ClsFESerializer::getAERConnections(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot){
+list<QDomElement*> ClsFESerializer::getAERConnections(QDomDocument* ddocRoot){
     if (bDebugSystemFileWriter) {
     cout << "ClsFESerializer::getAERConnections(DOMDocument *ddocRoot)" << endl;
     }
 
-    list<DOMElement*> lstDEConnections;
+    list<QDomElement*> lstDEConnections;
 
     map<ClsKey, ListIndexQuadruples> mapSourceTargetType;
 
@@ -735,19 +740,19 @@ list<DOMElement*> ClsFESerializer::getAERConnections(XERCES_CPP_NAMESPACE_QUALIF
 //	cout << "strConnectionKey: " << strConnectionKey << endl;
 
 
-    DOMElement* delemAERConnection = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::AERConnectionTag()));
+    QDomElement delemAERConnection = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::AERConnectionTag()));
 
-    delemAERConnection->setAttribute(XMLString::transcode(ClsTagLibrary::IDTag()),
-                     XMLString::transcode(itMapSTT->first.ID.c_str()));
+    delemAERConnection.setAttribute(QString::fromStdString(ClsTagLibrary::IDTag()),
+                     QString::fromStdString(itMapSTT->first.ID.c_str()));
 
-    delemAERConnection->setAttribute(XMLString::transcode(ClsTagLibrary::ConnectionSourceTag()),
-                     XMLString::transcode(itMapSTT->first.source.c_str()));
+    delemAERConnection.setAttribute(QString::fromStdString(ClsTagLibrary::ConnectionSourceTag()),
+                     QString::fromStdString(itMapSTT->first.source.c_str()));
 
-    delemAERConnection->setAttribute(XMLString::transcode(ClsTagLibrary::ConnectionTargetTag()),
-                     XMLString::transcode(itMapSTT->first.target.c_str()));
+    delemAERConnection.setAttribute(QString::fromStdString(ClsTagLibrary::ConnectionTargetTag()),
+                     QString::fromStdString(itMapSTT->first.target.c_str()));
 
-    delemAERConnection->setAttribute(XMLString::transcode(ClsTagLibrary::ConnectionTypeTag()),
-                     XMLString::transcode(itMapSTT->first.type.c_str()));
+    delemAERConnection->setAttribute(QString::fromStdString(ClsTagLibrary::ConnectionTypeTag()),
+                     QString::fromStdString(itMapSTT->first.type.c_str()));
 
 
 /* synapses III */
@@ -756,13 +761,11 @@ list<DOMElement*> ClsFESerializer::getAERConnections(XERCES_CPP_NAMESPACE_QUALIF
     if(clsFEConnection!=NULL){
         string strSynapseType = clsFEConnection->getConnectionSynapseType();
         if(strSynapseType.size()>0){
-        DOMElement *delemSynapse = addParameterizedNode(ddocRoot, ClsTagLibrary::SynapseTag(), strSynapseType, clsFEConnection->getListSynapseParameters());
-        delemAERConnection->appendChild(delemSynapse);
+        QDomElement *delemSynapse = addParameterizedNode(ddocRoot, ClsTagLibrary::SynapseTag(), strSynapseType, clsFEConnection->getListSynapseParameters());
+        delemAERConnection.appendChild(*delemSynapse);
         }
     }
 /* ------------- */
-
-//	cout << "delemAERConnection->getTagName (): " << XMLString::transcode(delemAERConnection->getTagName()) << endl;
 
     unsigned int _nNeuronsPre = ClsFESystemManager::Instance()->getFEGroup(strSourceID)->getNumberOfNeurons();
     ListIndexQuadruples listIndexQuadruple = itMapSTT->second;
@@ -770,32 +773,25 @@ list<DOMElement*> ClsFESerializer::getAERConnections(XERCES_CPP_NAMESPACE_QUALIF
 
         vector<Indices> vectIndices = listIndexQuadruple.getIndicesByFirst(pre);
         if(vectIndices.size()>0){
-        DOMElement *delemPre = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::pre()));
-        delemPre->setAttribute(XMLString::transcode(ClsTagLibrary::index()),
-                       XMLString::transcode(iqrUtils::int2string(pre).c_str()));
-        delemAERConnection->appendChild(delemPre);
+        QDomElement delemPre = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::pre()));
+        delemPre.setAttribute(QString::fromStdString(ClsTagLibrary::index()),
+                       QString::fromStdString(iqrUtils::int2string(pre).c_str()));
+        delemAERConnection.appendChild(delemPre);
 
         for(unsigned int ii=0; ii<vectIndices.size(); ii++){
-            DOMElement *delemPost = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::post()));
+            QDomElement delemPost = ddocRoot->createElement(reateElement(QString::fromStdString(ClsTagLibrary::post()));
 
-
-            delemPost->setAttribute(XMLString::transcode(ClsTagLibrary::index()),
-                       XMLString::transcode(iqrUtils::int2string(vectIndices[ii].neuronPost).c_str()));
-
+            delemPost.setAttribute(QString::fromStdString(ClsTagLibrary::index()),
+                       QString::fromStdString(iqrUtils::int2string(vectIndices[ii].neuronPost).c_str()));
 
 //this should write out the synapse mask index
-            delemPost->setAttribute(XMLString::transcode(ClsTagLibrary::synapse_index()),
-                       XMLString::transcode(iqrUtils::int2string(vectIndices[ii].synapse).c_str()));
+            delemPost.setAttribute(QString::fromStdString(ClsTagLibrary::synapse_index()),
+                       QString::fromStdString(iqrUtils::int2string(vectIndices[ii].synapse).c_str()));
 
+            delemPost.setAttribute(QString::fromStdString(ClsTagLibrary::delay()),
+                       QString::fromStdString(iqrUtils::int2string(vectIndices[ii].delay).c_str()));
 
-            delemPost->setAttribute(XMLString::transcode(ClsTagLibrary::delay()),
-                       XMLString::transcode(iqrUtils::int2string(vectIndices[ii].delay).c_str()));
-
-
-//--		    DOMText *dtxtIndexPost = ddocRoot->createTextNode(XMLString::transcode(iqrUtils::int2string(vectIndices[ii].neuronPost).c_str()));
-//--		    delemPost->appendChild(dtxtIndexPost);
-
-            delemPre->appendChild(delemPost);
+            delemPre.appendChild(delemPost);
         }
         }
     }
@@ -816,8 +812,9 @@ int ClsFESerializer::SerializeDOMTree(string &strSystemCont)  {
     cout << "ClsFESerializer::SerializeDOMTree(string &strSystemCont)" << endl;
     }
 
-
-    DOMImplementation *impl = DOMImplementationRegistry::getDOMImplementation(XMLString::transcode((const char*)"LS"));
+    QDomImplementation impl;
+    /*
+    DOMImplementation *impl = DOMImplementationRegistry::getDOMImplementation(QString::fromStdString((const char*)"LS"));
 #if XERCES_VERSION_MAJOR >= 3
   DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
     if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true))
@@ -850,14 +847,14 @@ int ClsFESerializer::SerializeDOMTree(string &strSystemCont)  {
 #endif
     }
     catch (const XMLException& toCatch) {
-    char* message = XMLString::transcode(toCatch.getMessage());
+    char* message = QString::fromStdString(toCatch.getMessage());
     cout << "Exception message is: \n"
          << message << "\n";
     XMLString::release(&message);
     return -1;
     }
     catch (const DOMException& toCatch) {
-    char* message = XMLString::transcode(toCatch.msg);
+    char* message = QString::fromStdString(toCatch.msg);
     cout << "Exception message is: \n"
          << message << "\n";
     XMLString::release(&message);
@@ -867,95 +864,93 @@ int ClsFESerializer::SerializeDOMTree(string &strSystemCont)  {
     cout << "Unexpected Exception \n" ;
     return -1;
     }
+*/
 
-    strSystemCont = (const char*)(myFormTarget->getRawBuffer());
+    QBuffer myFormTarget();
+    QTextStream output(&myFormTarget);
+    ddocSystem.save(output, 4);
 
-    theSerializer->release();
-//    delete myErrorHandler;
-//    delete myFilter;
-    delete myFormTarget;
-
-/* use exceptions.... */
+    strSystemCont = output.readAll().toStdString();
 
     return 0;
 }
 
 
-DOMElement *ClsFESerializer::addFESystem(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, ClsFESystem* clsFESystem) {
+QDomElement* ClsFESerializer::addFESystem(QDomDocument *ddocRoot, ClsFESystem* clsFESystem) {
     // Add the system as the root element.
-    DOMElement *delemSystem;
-    delemSystem = ddocRoot->getDocumentElement();
+    QDomElement *delemSystem = new QDomElement();
+    *delemSystem = ddocRoot->documentElement();
 
     // Add ID as an attribute.
-    delemSystem->setAttribute(XMLString::transcode(ClsTagLibrary::IDTag()),
-                  XMLString::transcode(clsFESystem->getSystemID().c_str()));
+    delemSystem->setAttribute(QString::fromStdString(ClsTagLibrary::IDTag()),
+                  QString::fromStdString(clsFESystem->getSystemID().c_str()));
 
     // Add the system's parameter list as attributes of the root
-    delemSystem->setAttribute(XMLString::transcode(ClsTagLibrary::AuthorTag()),
-                  XMLString::transcode(clsFESystem->getParameter(ClsTagLibrary::AuthorTag())->getValueAsString().c_str()));
+    delemSystem->setAttribute(QString::fromStdString(ClsTagLibrary::AuthorTag()),
+                  QString::fromStdString(clsFESystem->getParameter(ClsTagLibrary::AuthorTag())->getValueAsString().c_str()));
 
-    delemSystem->setAttribute(XMLString::transcode(ClsTagLibrary::DateTag()),
-                  XMLString::transcode(clsFESystem->getParameter(ClsTagLibrary::DateTag())->getValueAsString().c_str()));
+    delemSystem->setAttribute(QString::fromStdString(ClsTagLibrary::DateTag()),
+                  QString::fromStdString(clsFESystem->getParameter(ClsTagLibrary::DateTag())->getValueAsString().c_str()));
 
-    delemSystem->setAttribute(XMLString::transcode(ClsTagLibrary::PortTag()),
-                  XMLString::transcode(clsFESystem->getParameter(ClsTagLibrary::PortTag())->getValueAsString().c_str()));
+    delemSystem->setAttribute(QString::fromStdString(ClsTagLibrary::PortTag()),
+                  QString::fromStdString(clsFESystem->getParameter(ClsTagLibrary::PortTag())->getValueAsString().c_str()));
 
-    delemSystem->setAttribute(XMLString::transcode(ClsTagLibrary::CyclesPerSecondTag()),
-                  XMLString::transcode(clsFESystem->getParameter(ClsTagLibrary::CyclesPerSecondTag())->getValueAsString().c_str()));
+    delemSystem->setAttribute(QString::fromStdString(ClsTagLibrary::CyclesPerSecondTag()),
+                  QString::fromStdString(clsFESystem->getParameter(ClsTagLibrary::CyclesPerSecondTag())->getValueAsString().c_str()));
 
-    delemSystem->setAttribute(XMLString::transcode(ClsTagLibrary::SyncPlotsTag()),
-                  XMLString::transcode(clsFESystem->getParameter(ClsTagLibrary::SyncPlotsTag())->getValueAsString().c_str()));
+    delemSystem->setAttribute(QString::fromStdString(ClsTagLibrary::SyncPlotsTag()),
+                  QString::fromStdString(clsFESystem->getParameter(ClsTagLibrary::SyncPlotsTag())->getValueAsString().c_str()));
 
-    delemSystem->setAttribute(XMLString::transcode(ClsTagLibrary::NameTag()),
-                  XMLString::transcode(clsFESystem->getParameter(ClsTagLibrary::NameTag())->getValueAsString().c_str()));
+    delemSystem->setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
+                  QString::fromStdString(clsFESystem->getParameter(ClsTagLibrary::NameTag())->getValueAsString().c_str()));
 
-    DOMElement *delemNote = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::NotesTag()));
+    QDomElement delemNote = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::NotesTag()));
 
     delemSystem->appendChild(delemNote);
-    DOMText *dtxtNote = ddocRoot->createTextNode(XMLString::transcode(clsFESystem->getParameter(ClsTagLibrary::NotesTag())->getValueAsString().c_str()));
-    delemNote->appendChild(dtxtNote);
+    QDomText dtxtNote = ddocRoot->createTextNode(QString::fromStdString(clsFESystem->getParameter(ClsTagLibrary::NotesTag())->getValueAsString().c_str()));
+    delemNote.appendChild(dtxtNote);
 
     return delemSystem;
 
 }
 
-DOMElement *ClsFESerializer::addFEProcess(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, ClsFEProcess* clsFEProcess) {
-    DOMElement *delemProcess;
-    delemProcess = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::ProcessTag()));
+QDomElement* ClsFESerializer::addFEProcess(QDomDocument *ddocRoot, ClsFEProcess* clsFEProcess) {
+    QDomElement* delemProcess = new QDomElement();
+    *delemProcess = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::ProcessTag()));
 
     string strProcessID = clsFEProcess->getProcessID();
     string strProcessName = clsFEProcess->getProcessName();
     string strProcessPath  = clsFEProcess->getPath();
     string strColor =  clsFEProcess->getColor();
 
-    delemProcess->setAttribute(XMLString::transcode(ClsTagLibrary::IDTag()),
-                   XMLString::transcode(strProcessID.c_str()));
+    delemProcess->setAttribute(QString::fromStdString(ClsTagLibrary::IDTag()),
+                   QString::fromStdString(strProcessID.c_str()));
 
-    delemProcess->setAttribute(XMLString::transcode(ClsTagLibrary::NameTag()),
-                   XMLString::transcode(strProcessName.c_str()));
-
-
-    delemProcess->setAttribute(XMLString::transcode(ClsTagLibrary::HostnameTag()),
-                   XMLString::transcode(""));
-
-    delemProcess->setAttribute(XMLString::transcode(ClsTagLibrary::PortTag()),
-                   XMLString::transcode("54923"));
-
-    delemProcess->setAttribute(XMLString::transcode(ClsTagLibrary::ColorTag()),
-                   XMLString::transcode(strColor.c_str()));
+    delemProcess->setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
+                   QString::fromStdString(strProcessName.c_str()));
 
 
-    delemProcess->setAttribute(XMLString::transcode(ClsTagLibrary::EnableModuleTag()),
-                   XMLString::transcode(clsFEProcess->getEnableModulesAsString().c_str()));
+    delemProcess->setAttribute(QString::fromStdString(ClsTagLibrary::HostnameTag()),
+                   QString::fromStdString(""));
 
-    delemProcess->setAttribute(XMLString::transcode(ClsTagLibrary::PathTag()),
-                   XMLString::transcode(strProcessPath.c_str()));
+    delemProcess->setAttribute(QString::fromStdString(ClsTagLibrary::PortTag()),
+                   QString::fromStdString("54923"));
+
+    delemProcess->setAttribute(QString::fromStdString(ClsTagLibrary::ColorTag()),
+                   QString::fromStdString(strColor.c_str()));
+
+
+    delemProcess->setAttribute(QString::fromStdString(ClsTagLibrary::EnableModuleTag()),
+                   QString::fromStdString(clsFEProcess->getEnableModulesAsString().c_str()));
+
+    delemProcess->setAttribute(QString::fromStdString(ClsTagLibrary::PathTag()),
+                   QString::fromStdString(strProcessPath.c_str()));
 
 
     string strModuleType = clsFEProcess->getProcessModuleType();
     if(strModuleType.size()>0){
-    DOMElement *delemModule = addParameterizedNode(ddocRoot, ClsTagLibrary::ModuleTag(), strModuleType, clsFEProcess->getListModuleParameters());
-    delemProcess->appendChild(delemModule);
+    QDomElement *delemModule = addParameterizedNode(ddocRoot, ClsTagLibrary::ModuleTag(), strModuleType, clsFEProcess->getListModuleParameters());
+    delemProcess->appendChild(*delemModule);
 
     /* XRefs */
     addXRefHolders(ddocRoot, delemModule, clsFEProcess);
@@ -966,61 +961,61 @@ DOMElement *ClsFESerializer::addFEProcess(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocu
 
 /* ------- */
 
-    DOMElement *delemNote = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::NotesTag()));
+    QDomElement delemNote = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::NotesTag()));
     delemProcess->appendChild(delemNote);
-    DOMText *dtxtNote = ddocRoot->createTextNode(XMLString::transcode(clsFEProcess->getNotes().c_str()));
-    delemNote->appendChild(dtxtNote);
+    QDomText dtxtNote = ddocRoot->createTextNode(QString::fromStdString(clsFEProcess->getNotes().c_str()));
+    delemNote.appendChild(dtxtNote);
 
 
     /* DiagramIcon */
-    DOMElement *delemDiagramIcon = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::DiagramIconTag()));
+    QDomElement delemDiagramIcon = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::DiagramIconTag()));
     delemProcess->appendChild(delemDiagramIcon);
 
 
     ClsInfoDiagramIcon clsInfoDiagramIcon = ClsFEDiagramManager::Instance()->getDiagramIcon( strProcessID);
-    delemDiagramIcon->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramIconXTag()),
-                    XMLString::transcode(clsInfoDiagramIcon.getXAsString().c_str()));
-    delemDiagramIcon->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramIconYTag()),
-                    XMLString::transcode(clsInfoDiagramIcon.getYAsString().c_str()));
-    delemDiagramIcon->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramIconWidthTag()),
-                    XMLString::transcode(clsInfoDiagramIcon.getWidthAsString().c_str()));
-    delemDiagramIcon->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramIconHeightTag()),
-                    XMLString::transcode(clsInfoDiagramIcon.getHeightAsString().c_str()));
+    delemDiagramIcon.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramIconXTag()),
+                    QString::fromStdString(clsInfoDiagramIcon.getXAsString().c_str()));
+    delemDiagramIcon.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramIconYTag()),
+                    QString::fromStdString(clsInfoDiagramIcon.getYAsString().c_str()));
+    delemDiagramIcon.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramIconWidthTag()),
+                    QString::fromStdString(clsInfoDiagramIcon.getWidthAsString().c_str()));
+    delemDiagramIcon.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramIconHeightTag()),
+                    QString::fromStdString(clsInfoDiagramIcon.getHeightAsString().c_str()));
 
     return delemProcess;
 }
 
 
-DOMElement* ClsFESerializer::addFEGroup(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, ClsFEGroup *clsFEGroup) {
+QDomElement* ClsFESerializer::addFEGroup(QDomDocument *ddocRoot, ClsFEGroup *clsFEGroup) {
     if (bDebugSystemFileWriter) {
     cout << "ClsFESerializer::addFEGroup(ClsFEGroup *clsFEGroup" << endl;
     }
 
 
-    DOMElement *delemGroup;
-    delemGroup = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::GroupTag()));
+    QDomElement *delemGroup = new QDomElement();
+    *delemGroup = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::GroupTag()));
     string strGroupID = clsFEGroup->getGroupID();
     string strGroupName = clsFEGroup->getGroupName();
     string strColor =  clsFEGroup->getColor();
 
 
-    delemGroup->setAttribute(XMLString::transcode(ClsTagLibrary::IDTag()),
-                 XMLString::transcode(strGroupID.c_str()));
-    delemGroup->setAttribute(XMLString::transcode(ClsTagLibrary::NameTag()),
-                 XMLString::transcode(strGroupName.c_str()));
-    delemGroup->setAttribute(XMLString::transcode(ClsTagLibrary::ColorTag()),
-                 XMLString::transcode(strColor.c_str()));
+    delemGroup->setAttribute(QString::fromStdString(ClsTagLibrary::IDTag()),
+                 QString::fromStdString(strGroupID.c_str()));
+    delemGroup->setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
+                 QString::fromStdString(strGroupName.c_str()));
+    delemGroup->setAttribute(QString::fromStdString(ClsTagLibrary::ColorTag()),
+                 QString::fromStdString(strColor.c_str()));
 
 
 
     /* Topology */
-    DOMElement *delemTopology = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::TopologyTag()));
+    QDomElement delemTopology = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::TopologyTag()));
     delemGroup->appendChild(delemTopology);
 
 
     string strTopologyType = clsFEGroup->getTopology()->Type();
-    DOMElement *delemTopologyType = ddocRoot->createElement(XMLString::transcode(strTopologyType.c_str()));
-    delemTopology->appendChild(delemTopologyType);
+    QDomElement delemTopologyType = ddocRoot->createElement(QString::fromStdString(strTopologyType.c_str()));
+    delemTopology.appendChild(delemTopologyType);
 
 
     ClsBaseTopology *clsBaseTopology = clsFEGroup->getTopology();
@@ -1030,8 +1025,7 @@ DOMElement* ClsFESerializer::addFEGroup(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocume
     while (parameterList.size()) {
     string strParamName = parameterList.front()->getName();
     string strParamValue = parameterList.front()->getValueAsString();
-    delemTopologyType->setAttribute(XMLString::transcode(strParamName.c_str()),
-                    XMLString::transcode(strParamValue.c_str()));
+    delemTopologyType.setAttribute(QString::fromStdString(strParamName.c_str()), QString::fromStdString(strParamValue.c_str()));
     parameterList.pop_front();
     }
 
@@ -1044,10 +1038,10 @@ DOMElement* ClsFESerializer::addFEGroup(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocume
     for(itLstPInt=lstPInt.begin();itLstPInt!=lstPInt.end();itLstPInt++){
         int iX = (*itLstPInt).first;
         int iY = (*itLstPInt).second;
-        DOMElement *delemPoint = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::Point()));
-        delemTopologyType->appendChild(delemPoint);
-        delemPoint->setAttribute(XMLString::transcode(ClsTagLibrary::PointX()), XMLString::transcode(iqrUtils::int2string(iX).c_str()));
-        delemPoint->setAttribute(XMLString::transcode(ClsTagLibrary::PointY()), XMLString::transcode(iqrUtils::int2string(iY).c_str()));
+        QDomElement delemPoint = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::Point()));
+        delemTopologyType.appendChild(delemPoint);
+        delemPoint.setAttribute(QString::fromStdString(ClsTagLibrary::PointX()), QString::fromStdString(iqrUtils::int2string(iX).c_str()));
+        delemPoint.setAttribute(QString::fromStdString(ClsTagLibrary::PointY()), QString::fromStdString(iqrUtils::int2string(iY).c_str()));
     }
 
     }
@@ -1056,8 +1050,8 @@ DOMElement* ClsFESerializer::addFEGroup(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocume
     /* neurons */
     string strNeuronType = clsFEGroup->getGroupNeuronType();
     if(strNeuronType.size()>0){
-    DOMElement *delemNeuron = addParameterizedNode(ddocRoot, ClsTagLibrary::NeuronTag(), strNeuronType, clsFEGroup->getListNeuronParameters());
-    delemGroup->appendChild(delemNeuron);
+    QDomElement *delemNeuron = addParameterizedNode(ddocRoot, ClsTagLibrary::NeuronTag(), strNeuronType, clsFEGroup->getListNeuronParameters());
+    delemGroup->appendChild(*delemNeuron);
 
     /* XRefs UH?
        addXRefHolders(ddocRoot, delemNeuron, clsFEGroup);
@@ -1069,72 +1063,70 @@ DOMElement* ClsFESerializer::addFEGroup(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocume
 
 
 /* Note */
-    DOMElement *delemNote = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::NotesTag()));
+    QDomElement delemNote = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::NotesTag()));
     delemGroup->appendChild(delemNote);
-    DOMText *dtxtNote = ddocRoot->createTextNode(XMLString::transcode((dynamic_cast<ClsFEGroup*>(clsFEGroup))->getNotes().c_str()));
-    delemNote->appendChild(dtxtNote);
+    QDomText dtxtNote = ddocRoot->createTextNode(QString::fromStdString((dynamic_cast<ClsFEGroup*>(clsFEGroup))->getNotes().c_str()));
+    delemNote.appendChild(dtxtNote);
 
 
     /* DiagramIcon */
-    DOMElement *delemDiagramIcon = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::DiagramIconTag()));
+    QDomElement delemDiagramIcon = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::DiagramIconTag()));
     delemGroup->appendChild(delemDiagramIcon);
 
 
     ClsInfoDiagramIcon clsInfoDiagramIcon =  ClsFEDiagramManager::Instance()->getDiagramIcon( strGroupID);
-    delemDiagramIcon->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramIconXTag()),
-                    XMLString::transcode(clsInfoDiagramIcon.getXAsString().c_str()));
-    delemDiagramIcon->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramIconYTag()),
-                    XMLString::transcode(clsInfoDiagramIcon.getYAsString().c_str()));
-    delemDiagramIcon->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramIconWidthTag()),
-                    XMLString::transcode(clsInfoDiagramIcon.getWidthAsString().c_str()));
-    delemDiagramIcon->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramIconHeightTag()),
-                    XMLString::transcode(clsInfoDiagramIcon.getHeightAsString().c_str()));
+    delemDiagramIcon.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramIconXTag()),
+                    QString::fromStdString(clsInfoDiagramIcon.getXAsString().c_str()));
+    delemDiagramIcon.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramIconYTag()),
+                    QString::fromStdString(clsInfoDiagramIcon.getYAsString().c_str()));
+    delemDiagramIcon.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramIconWidthTag()),
+                    QString::fromStdString(clsInfoDiagramIcon.getWidthAsString().c_str()));
+    delemDiagramIcon.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramIconHeightTag()),
+                    QString::fromStdString(clsInfoDiagramIcon.getHeightAsString().c_str()));
     return delemGroup;
-
-
 }
 
 
-DOMElement *ClsFESerializer::addFEConnection(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, ClsFEConnection* clsFEConnection) {
+QDomElement* ClsFESerializer::addFEConnection(QDomDocument *ddocRoot, ClsFEConnection* clsFEConnection) {
     if (bDebugSystemFileWriter) {
     cout << "ClsFESerializer::addFEConnection(DOMDocument *ddocRoot, ClsFEConnection* clsFEConnection)"<< endl;
     }
 
     if(clsFEConnection!=NULL){
-    DOMElement *delemConnection;
-    delemConnection = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::ConnectionTag()));
+    QDomElement *delemConnection = new QDomElement();
+    *delemConnection = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::ConnectionTag()));
     string strConnectionID = clsFEConnection->getConnectionID();
     string strConnectionName = clsFEConnection->getConnectionName();
 
-    delemConnection->setAttribute(XMLString::transcode(ClsTagLibrary::IDTag()),
-                      XMLString::transcode(strConnectionID.c_str()));
+    delemConnection->setAttribute(QString::fromStdString(ClsTagLibrary::IDTag()),
+                      QString::fromStdString(strConnectionID.c_str()));
 
-    delemConnection->setAttribute(XMLString::transcode(ClsTagLibrary::NameTag()),
-                      XMLString::transcode(strConnectionName.c_str()));
+    delemConnection->setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
+                      QString::fromStdString(strConnectionName.c_str()));
 
-    delemConnection->setAttribute(XMLString::transcode(ClsTagLibrary::ConnectionSourceTag()),
-                      XMLString::transcode(clsFEConnection->getConnectionSourceID().c_str()));
+    delemConnection->setAttribute(QString::fromStdString(ClsTagLibrary::ConnectionSourceTag()),
+                      QString::fromStdString(clsFEConnection->getConnectionSourceID().c_str()));
 
-    delemConnection->setAttribute(XMLString::transcode(ClsTagLibrary::ConnectionTargetTag()),
-                      XMLString::transcode(clsFEConnection->getConnectionTargetID().c_str()));
+    delemConnection->setAttribute(QString::fromStdString(ClsTagLibrary::ConnectionTargetTag()),
+                      QString::fromStdString(clsFEConnection->getConnectionTargetID().c_str()));
 
-    delemConnection->setAttribute(XMLString::transcode(ClsTagLibrary::ConnectionTypeTag()),
-                      XMLString::transcode(clsFEConnection->getConnectionTypeAsString().c_str()));
+    delemConnection->setAttribute(QString::fromStdString(ClsTagLibrary::ConnectionTypeTag()),
+                      QString::fromStdString(clsFEConnection->getConnectionTypeAsString().c_str()));
 
-    DOMElement *delemPattern = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::ConnectionPattern()));
+    QDomElement delemPattern = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::ConnectionPattern()));
     delemConnection->appendChild(delemPattern);
 
     string strPatternType = clsFEConnection->PatternType();
-    DOMElement *delemPatternType = ddocRoot->createElement(XMLString::transcode(strPatternType.c_str()));
-    delemPattern->appendChild(delemPatternType);
+    QDomElement delemPatternType = ddocRoot->createElement(QString::fromStdString(strPatternType.c_str()));
+    delemPattern.appendChild(delemPatternType);
     ClsBasePattern *clsBasePattern = clsFEConnection->getPattern();
 
     ParameterList parameterList0 = clsBasePattern->getListParameters();
     while (parameterList0.size()) {
         string strParamName = parameterList0.front()->getName();
         string strParamValue = parameterList0.front()->getValueAsString();
-        delemPatternType->setAttribute(XMLString::transcode(strParamName.c_str()),
-                       XMLString::transcode(strParamValue.c_str()));
+        delemPatternType.setAttribute(QString::fromStdString(strParamName.c_str()),
+                       QString::fromStdString(strParamValue.c_str()));
         parameterList0.pop_front();
     }
 
@@ -1152,21 +1144,21 @@ DOMElement *ClsFESerializer::addFEConnection(XERCES_CPP_NAMESPACE_QUALIFIER DOMD
 
         if(dynamic_cast<ClsRegion*>(clsBaseSubPopulationSource)){
             ClsRegion *clsRegion = dynamic_cast<ClsRegion*>(clsBaseSubPopulationSource);
-            DOMElement *delemRegion = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::SelectorRegion()));
-            delemPatternType->appendChild(delemRegion);
+            QDomElement delemRegion = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::SelectorRegion()));
+            delemPatternType.appendChild(delemRegion);
             int iXStart = clsRegion->getXStart();
             int iYStart = clsRegion->getYStart();
             int iWidth = clsRegion->getWidth();
             int iHeight = clsRegion->getHeight();
 
-            delemRegion->setAttribute(XMLString::transcode(ClsTagLibrary::RegionXStart()), XMLString::transcode(iqrUtils::int2string(iXStart).c_str()));
-            delemRegion->setAttribute(XMLString::transcode(ClsTagLibrary::RegionYStart()), XMLString::transcode(iqrUtils::int2string(iYStart).c_str()));
-            delemRegion->setAttribute(XMLString::transcode(ClsTagLibrary::RegionWidth()), XMLString::transcode(iqrUtils::int2string(iWidth).c_str()));
-            delemRegion->setAttribute(XMLString::transcode(ClsTagLibrary::RegionHeight()), XMLString::transcode(iqrUtils::int2string(iHeight).c_str()));
+            delemRegion.setAttribute(QString::fromStdString(ClsTagLibrary::RegionXStart()), QString::fromStdString(iqrUtils::int2string(iXStart).c_str()));
+            delemRegion.setAttribute(QString::fromStdString(ClsTagLibrary::RegionYStart()), QString::fromStdString(iqrUtils::int2string(iYStart).c_str()));
+            delemRegion.setAttribute(QString::fromStdString(ClsTagLibrary::RegionWidth()), QString::fromStdString(iqrUtils::int2string(iWidth).c_str()));
+            delemRegion.setAttribute(QString::fromStdString(ClsTagLibrary::RegionHeight()), QString::fromStdString(iqrUtils::int2string(iHeight).c_str()));
         }
         else if(dynamic_cast<ClsList*>(clsBaseSubPopulationSource)){
-            DOMElement *delemList = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::SelectorList()));
-            delemPatternType->appendChild(delemList);
+            QDomElement delemList = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::SelectorList()));
+            delemPatternType.appendChild(delemList);
             ClsList *clsList = dynamic_cast<ClsList*>(clsBaseSubPopulationSource);
 
             list<pair<int, int> > lstPInt = clsList->getData();
@@ -1174,15 +1166,15 @@ DOMElement *ClsFESerializer::addFEConnection(XERCES_CPP_NAMESPACE_QUALIFIER DOMD
             for(itLstPInt=lstPInt.begin();itLstPInt!=lstPInt.end();itLstPInt++){
             int iX = (*itLstPInt).first;
             int iY = (*itLstPInt).second;
-            DOMElement *delemPoint = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::Point()));
-            delemList->appendChild(delemPoint);
-            delemPoint->setAttribute(XMLString::transcode(ClsTagLibrary::PointX()), XMLString::transcode(iqrUtils::int2string(iX).c_str()));
-            delemPoint->setAttribute(XMLString::transcode(ClsTagLibrary::PointY()), XMLString::transcode(iqrUtils::int2string(iY).c_str()));
+            QDomElement delemPoint = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::Point()));
+            delemList.appendChild(delemPoint);
+            delemPoint.setAttribute(QString::fromStdString(ClsTagLibrary::PointX()), QString::fromStdString(iqrUtils::int2string(iX).c_str()));
+            delemPoint.setAttribute(QString::fromStdString(ClsTagLibrary::PointY()), QString::fromStdString(iqrUtils::int2string(iY).c_str()));
             }
         }
         else if(dynamic_cast<ClsAll*>(clsBaseSubPopulationSource)){
-            DOMElement *delemAll = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::SelectorAll()));
-            delemPatternType->appendChild(delemAll);
+            QDomElement delemAll = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::SelectorAll()));
+            delemPatternType.appendChild(delemAll);
         }
         }
 
@@ -1191,21 +1183,21 @@ DOMElement *ClsFESerializer::addFEConnection(XERCES_CPP_NAMESPACE_QUALIFIER DOMD
 
         if(dynamic_cast<ClsRegion*>(clsBaseSubPopulationTarget)){
             ClsRegion *clsRegion = dynamic_cast<ClsRegion*>(clsBaseSubPopulationTarget);
-            DOMElement *delemRegion = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::SelectorRegion()));
-            delemPatternType->appendChild(delemRegion);
+            QDomElement delemRegion = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::SelectorRegion()));
+            delemPatternType.appendChild(delemRegion);
             int iXStart = clsRegion->getXStart();
             int iYStart = clsRegion->getYStart();
             int iWidth = clsRegion->getWidth();
             int iHeight = clsRegion->getHeight();
 
-            delemRegion->setAttribute(XMLString::transcode(ClsTagLibrary::RegionXStart()), XMLString::transcode(iqrUtils::int2string(iXStart).c_str()));
-            delemRegion->setAttribute(XMLString::transcode(ClsTagLibrary::RegionYStart()), XMLString::transcode(iqrUtils::int2string(iYStart).c_str()));
-            delemRegion->setAttribute(XMLString::transcode(ClsTagLibrary::RegionWidth()), XMLString::transcode(iqrUtils::int2string(iWidth).c_str()));
-            delemRegion->setAttribute(XMLString::transcode(ClsTagLibrary::RegionHeight()), XMLString::transcode(iqrUtils::int2string(iHeight).c_str()));
+            delemRegion.setAttribute(QString::fromStdString(ClsTagLibrary::RegionXStart()), QString::fromStdString(iqrUtils::int2string(iXStart).c_str()));
+            delemRegion.setAttribute(QString::fromStdString(ClsTagLibrary::RegionYStart()), QString::fromStdString(iqrUtils::int2string(iYStart).c_str()));
+            delemRegion.setAttribute(QString::fromStdString(ClsTagLibrary::RegionWidth()), QString::fromStdString(iqrUtils::int2string(iWidth).c_str()));
+            delemRegion.setAttribute(QString::fromStdString(ClsTagLibrary::RegionHeight()), QString::fromStdString(iqrUtils::int2string(iHeight).c_str()));
         }
         else if(dynamic_cast<ClsList*>(clsBaseSubPopulationTarget)){
-            DOMElement *delemList = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::SelectorList()));
-            delemPatternType->appendChild(delemList);
+            QDomElement delemList = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::SelectorList()));
+            delemPatternType.appendChild(delemList);
             ClsList *clsList = dynamic_cast<ClsList*>(clsBaseSubPopulationTarget);
 
             list<pair<int, int> > lstPInt = clsList->getData();
@@ -1213,15 +1205,15 @@ DOMElement *ClsFESerializer::addFEConnection(XERCES_CPP_NAMESPACE_QUALIFIER DOMD
             for(itLstPInt=lstPInt.begin();itLstPInt!=lstPInt.end();itLstPInt++){
             int iX = (*itLstPInt).first;
             int iY = (*itLstPInt).second;
-            DOMElement *delemPoint = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::Point()));
-            delemList->appendChild(delemPoint);
-            delemPoint->setAttribute(XMLString::transcode(ClsTagLibrary::PointX()), XMLString::transcode(iqrUtils::int2string(iX).c_str()));
-            delemPoint->setAttribute(XMLString::transcode(ClsTagLibrary::PointY()), XMLString::transcode(iqrUtils::int2string(iY).c_str()));
+            QDomElement delemPoint = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::Point()));
+            delemList.appendChild(delemPoint);
+            delemPoint.setAttribute(QString::fromStdString(ClsTagLibrary::PointX()), QString::fromStdString(iqrUtils::int2string(iX).c_str()));
+            delemPoint.setAttribute(QString::fromStdString(ClsTagLibrary::PointY()), QString::fromStdString(iqrUtils::int2string(iY).c_str()));
             }
         }
         else if(dynamic_cast<ClsAll*>(clsBaseSubPopulationTarget)){
-            DOMElement *delemAll = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::SelectorAll()));
-            delemPatternType->appendChild(delemAll);
+            QDomElement delemAll = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::SelectorAll()));
+            delemPatternType.appendChild(delemAll);
         }
         }
 
@@ -1236,35 +1228,35 @@ DOMElement *ClsFESerializer::addFEConnection(XERCES_CPP_NAMESPACE_QUALIFIER DOMD
 
         for(itLPLP=lstTuples.begin(); itLPLP!=lstTuples.end(); itLPLP++){
             pair<tListOfPairs, tListOfPairs> pairLOP = *itLPLP;
-            DOMElement *delemTuple = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::Tuple()));
-            delemPatternType->appendChild(delemTuple);
+            QDomElement delemTuple = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::Tuple()));
+            delemPatternType.appendChild(delemTuple);
 
             tListOfPairs tlopSource = pairLOP.first;
-            DOMElement *delemSourceList = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::SourceList()));
-            delemTuple->appendChild(delemSourceList);
+            QDomElement delemSourceList = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::SourceList()));
+            delemTuple.appendChild(delemSourceList);
             tListOfPairs::iterator itLPSource;
             for(itLPSource=tlopSource.begin(); itLPSource!=tlopSource.end(); itLPSource++){
             int iX = (*itLPSource).first;
             int iY = (*itLPSource).second;
 
-            DOMElement *delemPoint = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::Point()));
-            delemSourceList->appendChild(delemPoint);
-            delemPoint->setAttribute(XMLString::transcode(ClsTagLibrary::PointX()), XMLString::transcode(iqrUtils::int2string(iX).c_str()));
-            delemPoint->setAttribute(XMLString::transcode(ClsTagLibrary::PointY()), XMLString::transcode(iqrUtils::int2string(iY).c_str()));
+            QDomElement delemPoint = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::Point()));
+            delemSourceList.appendChild(delemPoint);
+            delemPoint.setAttribute(QString::fromStdString(ClsTagLibrary::PointX()), QString::fromStdString(iqrUtils::int2string(iX).c_str()));
+            delemPoint.setAttribute(QString::fromStdString(ClsTagLibrary::PointY()), QString::fromStdString(iqrUtils::int2string(iY).c_str()));
             }
 
             tListOfPairs tlopTarget = pairLOP.second;
-            DOMElement *delemTargetList = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::TargetList()));
-            delemTuple->appendChild(delemTargetList);
+            QDomElement delemTargetList = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::TargetList()));
+            delemTuple.appendChild(delemTargetList);
             tListOfPairs::iterator itLPTarget;
             for(itLPTarget=tlopTarget.begin(); itLPTarget!=tlopTarget.end(); itLPTarget++){
             int iX = (*itLPTarget).first;
             int iY = (*itLPTarget).second;
 
-            DOMElement *delemPoint = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::Point()));
-            delemTargetList->appendChild(delemPoint);
-            delemPoint->setAttribute(XMLString::transcode(ClsTagLibrary::PointX()), XMLString::transcode(iqrUtils::int2string(iX).c_str()));
-            delemPoint->setAttribute(XMLString::transcode(ClsTagLibrary::PointY()), XMLString::transcode(iqrUtils::int2string(iY).c_str()));
+            QDomElement delemPoint = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::Point()));
+            delemTargetList.appendChild(delemPoint);
+            delemPoint.setAttribute(QString::fromStdString(ClsTagLibrary::PointX()), QString::fromStdString(iqrUtils::int2string(iX).c_str()));
+            delemPoint.setAttribute(QString::fromStdString(ClsTagLibrary::PointY()), QString::fromStdString(iqrUtils::int2string(iY).c_str()));
             }
         }
         }
@@ -1272,50 +1264,50 @@ DOMElement *ClsFESerializer::addFEConnection(XERCES_CPP_NAMESPACE_QUALIFIER DOMD
 
 
 /* Arborization */
-    DOMElement *delemArborization = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::ConnectionArborization()));
+    QDomElement delemArborization = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::ConnectionArborization()));
     delemConnection->appendChild(delemArborization);
     string strArborizationType = clsFEConnection->getArborization()->Type();
-    DOMElement *delemArborizationType = ddocRoot->createElement(XMLString::transcode(strArborizationType.c_str()));
-    delemArborization->appendChild(delemArborizationType);
+    QDomElement delemArborizationType = ddocRoot->createElement(QString::fromStdString(strArborizationType.c_str()));
+    delemArborization.appendChild(delemArborizationType);
     ParameterList parameterList = clsFEConnection->getArborization()->getListParameters();
     while (parameterList.size()) {
         string strParamName = parameterList.front()->getName();
         string strParamValue = parameterList.front()->getValueAsString();
-        delemArborizationType->setAttribute(XMLString::transcode(strParamName.c_str()),
-                        XMLString::transcode(strParamValue.c_str()));
+        delemArborizationType.setAttribute(QString::fromStdString(strParamName.c_str()),
+                        QString::fromStdString(strParamValue.c_str()));
         parameterList.pop_front();
     }
 /* end Arborization */
 
 
 /* AttenuationFunction */
-    DOMElement *delemAttenuationFunction = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::ConnectionAttenuationFunction()));
+    QDomElement delemAttenuationFunction = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::ConnectionAttenuationFunction()));
     delemConnection->appendChild(delemAttenuationFunction);
     string strAttenuationFunctionType = clsFEConnection->getAttenuationFunction()->Type();
-    DOMElement *delemAttenuationFunctionType = ddocRoot->createElement(XMLString::transcode(strAttenuationFunctionType.c_str()));
-    delemAttenuationFunction->appendChild(delemAttenuationFunctionType);
+    QDomElement delemAttenuationFunctionType = ddocRoot->createElement(QString::fromStdString(strAttenuationFunctionType.c_str()));
+    delemAttenuationFunction.appendChild(delemAttenuationFunctionType);
     ParameterList parameterListAttenuationFunction = clsFEConnection->getAttenuationFunction()->getListParameters();
     while (parameterListAttenuationFunction.size()) {
         string strParamName = parameterListAttenuationFunction.front()->getName();
         string strParamValue = parameterListAttenuationFunction.front()->getValueAsString();
-        delemAttenuationFunctionType->setAttribute(XMLString::transcode(strParamName.c_str()),
-                          XMLString::transcode(strParamValue.c_str()));
+        delemAttenuationFunctionType->setAttribute(QString::fromStdString(strParamName.c_str()),
+                          QString::fromStdString(strParamValue.c_str()));
         parameterListAttenuationFunction.pop_front();
     }
 /*   end AttenuationFunction */
 
 /* DelayFunction */
-    DOMElement *delemDelayFunction = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::ConnectionDelayFunction()));
+    QDomElement delemDelayFunction = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::ConnectionDelayFunction()));
     delemConnection->appendChild(delemDelayFunction);
     string strDelayFunctionType = clsFEConnection->getDelayFunction()->Type();
-    DOMElement *delemDelayFunctionType = ddocRoot->createElement(XMLString::transcode(strDelayFunctionType.c_str()));
-    delemDelayFunction->appendChild(delemDelayFunctionType);
+    QDomElement delemDelayFunctionType = ddocRoot->createElement(QString::fromStdString(strDelayFunctionType.c_str()));
+    delemDelayFunction.appendChild(delemDelayFunctionType);
     ParameterList parameterListDelayFunction = clsFEConnection->getDelayFunction()->getListParameters();
     while (parameterListDelayFunction.size()) {
         string strParamName = parameterListDelayFunction.front()->getName();
         string strParamValue = parameterListDelayFunction.front()->getValueAsString();
-        delemDelayFunctionType->setAttribute(XMLString::transcode(strParamName.c_str()),
-                         XMLString::transcode(strParamValue.c_str()));
+        delemDelayFunctionType.setAttribute(QString::fromStdString(strParamName.c_str()),
+                         QString::fromStdString(strParamValue.c_str()));
         parameterListDelayFunction.pop_front();
     }
 /* end DelayFunction */
@@ -1323,8 +1315,8 @@ DOMElement *ClsFESerializer::addFEConnection(XERCES_CPP_NAMESPACE_QUALIFIER DOMD
 /* synapses */
     string strSynapseType = clsFEConnection->getConnectionSynapseType();
     if(strSynapseType.size()>0){
-        DOMElement *delemSynapse = addParameterizedNode(ddocRoot, ClsTagLibrary::SynapseTag(), strSynapseType, clsFEConnection->getListSynapseParameters());
-        delemConnection->appendChild(delemSynapse);
+        QDomElement *delemSynapse = addParameterizedNode(ddocRoot, ClsTagLibrary::SynapseTag(), strSynapseType, clsFEConnection->getListSynapseParameters());
+        delemConnection->appendChild(*delemSynapse);
 
         /* XRefs */
         addXRefHolders(ddocRoot, delemSynapse, clsFEConnection);
@@ -1335,58 +1327,58 @@ DOMElement *ClsFESerializer::addFEConnection(XERCES_CPP_NAMESPACE_QUALIFIER DOMD
 
 
 /* Note */
-    DOMElement *delemNote = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::NotesTag()));
+    QDomElement delemNote = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::NotesTag()));
     delemConnection->appendChild(delemNote);
-    DOMText *dtxtNote = ddocRoot->createTextNode(XMLString::transcode((dynamic_cast<ClsFEConnection*>(clsFEConnection))->getNotes().c_str()));
+    QDomText dtxtNote = ddocRoot->createTextNode(QString::fromStdString((dynamic_cast<ClsFEConnection*>(clsFEConnection))->getNotes().c_str()));
     delemNote->appendChild(dtxtNote);
 
 
 /* DiagramLine */
-    DOMElement *delemDiagramLine = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::DiagramLineTag()));
+    QDomElement delemDiagramLine = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::DiagramLineTag()));
     delemConnection->appendChild(delemDiagramLine);
 
     ClsInfoDiagramLine clsInfoDiagramLine =  ClsFEDiagramManager::Instance()->getDiagramLine( strConnectionID);
-    delemDiagramLine->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramLineAPSourceTag()),
-                    XMLString::transcode(iqrUtils::int2string(clsInfoDiagramLine.getAPSource()).c_str()));
-    delemDiagramLine->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramLineAPTargetTag()),
-                    XMLString::transcode(iqrUtils::int2string(clsInfoDiagramLine.getAPTarget()).c_str()));
+    delemDiagramLine.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramLineAPSourceTag()),
+                    QString::fromStdString(iqrUtils::int2string(clsInfoDiagramLine.getAPSource()).c_str()));
+    delemDiagramLine.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramLineAPTargetTag()),
+                    QString::fromStdString(iqrUtils::int2string(clsInfoDiagramLine.getAPTarget()).c_str()));
 
     vector<vector<int> > vectorPoints = clsInfoDiagramLine.getPoints();
 
     for(unsigned int ii=0; ii<vectorPoints.size(); ii++){
         int iX = vectorPoints[ii][0];
         int iY = vectorPoints[ii][1];
-        DOMElement *delemPoint = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::DiagramLinePointTag()));
+        QDomElement delemPoint = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::DiagramLinePointTag()));
 
-        delemPoint->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramLinePointXTag()),
-                      XMLString::transcode(iqrUtils::int2string(iX).c_str()));
-        delemPoint->setAttribute( XMLString::transcode(ClsTagLibrary::DiagramLinePointYTag()),
-                      XMLString::transcode(iqrUtils::int2string(iY).c_str()));
-        delemDiagramLine->appendChild(delemPoint);
+        delemPoint.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramLinePointXTag()),
+                      QString::fromStdString(iqrUtils::int2string(iX).c_str()));
+        delemPoint.setAttribute( QString::fromStdString(ClsTagLibrary::DiagramLinePointYTag()),
+                      QString::fromStdString(iqrUtils::int2string(iY).c_str()));
+        delemDiagramLine.appendChild(delemPoint);
     }
     return delemConnection;
     }
 }
 
-DOMElement* ClsFESerializer::addParameterizedNode(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument *ddocRoot, string strNodeTag, string strNodeType, ParameterList parameterList){
+QDomElement* ClsFESerializer::addParameterizedNode(QDomDocument *ddocRoot, string strNodeTag, string strNodeType, ParameterList parameterList){
 
-    DOMElement *delemParameterizedNode;
-    delemParameterizedNode = ddocRoot->createElement(XMLString::transcode(strNodeTag.c_str()));
+    QDomElement *delemParameterizedNode = new QDomElement();
+    *delemParameterizedNode = ddocRoot->createElement(QString::fromStdString(strNodeTag.c_str()));
 
-    delemParameterizedNode->setAttribute(XMLString::transcode(ClsTagLibrary::NameTag()),
-                     XMLString::transcode(strNodeType.c_str()));
+    delemParameterizedNode->setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
+                     QString::fromStdString(strNodeType.c_str()));
 
     while (parameterList.size()) {
     string strParamName = parameterList.front()->getName();
     string strParamValue = parameterList.front()->getValueAsString();
 
-    DOMElement *delemParameter = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::ParameterTag()));
+    QDomElement delemParameter = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::ParameterTag()));
 
-    delemParameter->setAttribute(XMLString::transcode(ClsTagLibrary::NameTag()),
-                     XMLString::transcode(strParamName.c_str()));
+    delemParameter.setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
+                     QString::fromStdString(strParamName.c_str()));
 
-    delemParameter->setAttribute(XMLString::transcode(ClsTagLibrary::ValueTag()),
-                     XMLString::transcode(strParamValue.c_str()));
+    delemParameter.setAttribute(QString::fromStdString(ClsTagLibrary::ValueTag()),
+                     QString::fromStdString(strParamValue.c_str()));
 
     delemParameterizedNode->appendChild(delemParameter);
     parameterList.pop_front();
@@ -1411,10 +1403,10 @@ void ClsFESerializer::addXRefHolders(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument 
         clsXRefHolder = dynamic_cast<ClsFEConnection*>(itemParent)->getSynapseXRefHolder(*itXRefHolders);
     }
     if(clsXRefHolder!=NULL){
-        DOMElement *delemXRefHolder = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::XRefHolderTag()));
+        DOMElement *delemXRefHolder = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::XRefHolderTag()));
         string strXRefHolderName = clsXRefHolder->getName();
-        delemXRefHolder->setAttribute(XMLString::transcode(ClsTagLibrary::NameTag()),
-                      XMLString::transcode(strXRefHolderName.c_str()));
+        delemXRefHolder->setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
+                      QString::fromStdString(strXRefHolderName.c_str()));
 
         XRefList xRefList = clsXRefHolder->getListXRefs();
 
@@ -1423,12 +1415,12 @@ void ClsFESerializer::addXRefHolders(XERCES_CPP_NAMESPACE_QUALIFIER DOMDocument 
         string strXRefName = (*itXRef)->getName();
         string strXRefTarget = (*itXRef)->getTarget();
 
-        DOMElement *delemXRef = ddocRoot->createElement(XMLString::transcode(ClsTagLibrary::XRefTag()));
-        delemXRef->setAttribute(XMLString::transcode(ClsTagLibrary::NameTag()),
-                    XMLString::transcode(strXRefName.c_str()));
+        DOMElement *delemXRef = ddocRoot->createElement(QString::fromStdString(ClsTagLibrary::XRefTag()));
+        delemXRef->setAttribute(QString::fromStdString(ClsTagLibrary::NameTag()),
+                    QString::fromStdString(strXRefName.c_str()));
 
-        delemXRef->setAttribute(XMLString::transcode(ClsTagLibrary::TargetTag()),
-                    XMLString::transcode(strXRefTarget.c_str()));
+        delemXRef->setAttribute(QString::fromStdString(ClsTagLibrary::TargetTag()),
+                    QString::fromStdString(strXRefTarget.c_str()));
         delemXRefHolder->appendChild(delemXRef);
         }
         delemParent->appendChild(delemXRefHolder);
