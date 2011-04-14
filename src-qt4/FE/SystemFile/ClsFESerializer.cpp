@@ -135,7 +135,7 @@ string ClsFESerializer::getSystemAsString( bool bVerifySystem) {
     if (!IsDOMTreeValid()) {
 // 	    qWarning("WARNING: ClsFESerializer::SaveSystem:"
 //		     " invalid system, not saving");
-        return false;
+        return NULL;
     }
 
     }
@@ -151,11 +151,8 @@ string ClsFESerializer::getProcessesAsXML(list<string> lstIDs) {
     cout << "ClsFESerializer::getProcessesAsXML(list<string> lstIDs)" << endl;
     }
 
-
-    //DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(QString::fromStdString((const char*)"Range"));
-
     QDomImplementation impl;
-    QDomDocument ddocClipboard = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::iqrEntityTag()), NULL);
+    QDomDocument ddocClipboard = impl.createDocument(QString(), QString::fromStdString(ClsTagLibrary::iqrEntityTag()), QDomDocumentType());
     QDomElement delemClipboard = ddocClipboard.createElement(QString::fromStdString(ClsTagLibrary::iqrEntityTag()));
     delemClipboard.setAttribute(QString::fromStdString(ClsTagLibrary::ClipboardContentsType()), QString::fromStdString(ClsTagLibrary::ProcessTag()));
 
@@ -214,9 +211,10 @@ string ClsFESerializer::getProcessesAsXML(list<string> lstIDs) {
     theOutput->setByteStream(myFormTarget);
 #endif
 */
-    QBuffer myFormTarget;
-    QTextStream output(&myFormTarget);
+    QString *buffer = new QString();
+    QTextStream output(buffer);
     delemClipboard.save(output, 4);
+
 
 /*
     try {
@@ -249,7 +247,7 @@ string ClsFESerializer::getProcessesAsXML(list<string> lstIDs) {
     }
 */
     string strProcessXML = output.readAll().toStdString();
-
+    delete buffer;
     return strProcessXML;
 }
 
@@ -258,9 +256,8 @@ string ClsFESerializer::getConnectionsAsXML(list<string> lstIDs) {
     cout << "ClsFESerializer::getConnectionsAsXML(list<string> lstIDs )" << endl;
     }
 
-    //DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(QString::fromStdString((const char*)"Range"));
     QDomImplementation impl;
-    QDomDocument ddocClipboard = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::iqrEntityTag()), NULL);
+    QDomDocument ddocClipboard = impl.createDocument(QString(), QString::fromStdString(ClsTagLibrary::iqrEntityTag()), QDomDocumentType());
     QDomElement delemClipboard = ddocClipboard.createElement(QString::fromStdString(ClsTagLibrary::iqrEntityTag()));
     delemClipboard.setAttribute(QString::fromStdString(ClsTagLibrary::ClipboardContentsType()), QString::fromStdString(ClsTagLibrary::ConnectionTag()));
 
@@ -271,8 +268,8 @@ string ClsFESerializer::getConnectionsAsXML(list<string> lstIDs) {
     delemClipboard.appendChild(*delemConnection);
     }
 
-    QBuffer myFormTarget;
-    QTextStream output(&myFormTarget);
+    QString *buffer = new QString();
+    QTextStream output(buffer);
     delemClipboard.save(output, 4);
 
 /**
@@ -330,6 +327,7 @@ string ClsFESerializer::getConnectionsAsXML(list<string> lstIDs) {
 
     string strConnectionXML = output.readAll().toStdString();
 
+    delete buffer;
     return strConnectionXML;
 }
 
@@ -339,9 +337,8 @@ string ClsFESerializer::getGroupsAsXML(list<string> lstIDs) {
     }
 
 
-    //DOMImplementation* impl = DOMImplementationRegistry::getDOMImplementation(QString::fromStdString((const char*)"Range"));
     QDomImplementation impl;
-    QDomDocument ddocClipboard = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::iqrEntityTag()), NULL);
+    QDomDocument ddocClipboard = impl.createDocument(QString(), QString::fromStdString(ClsTagLibrary::iqrEntityTag()), QDomDocumentType());
     QDomElement delemClipboard = ddocClipboard.createElement(QString::fromStdString(ClsTagLibrary::iqrEntityTag()));
     delemClipboard.setAttribute(QString::fromStdString(ClsTagLibrary::ClipboardContentsType()), QString::fromStdString(ClsTagLibrary::GroupTag()));
 
@@ -404,12 +401,13 @@ string ClsFESerializer::getGroupsAsXML(list<string> lstIDs) {
     return "";
     }
 */
-    QBuffer myFormTarget;
-    QTextStream output(&myFormTarget);
+    QString *buffer = new QString();
+    QTextStream output(buffer);
     delemClipboard.save(output, 4);
 
     string strGroupXML = output.readAll().toStdString();
 
+    delete buffer;
     return strGroupXML;
 }
 
@@ -420,7 +418,7 @@ string ClsFESerializer::getGroupsWidthConnectionsAsXML(list<string> lstIDGroups,
     }
 
     QDomImplementation impl;
-    QDomDocument ddocClipboard = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::iqrEntityTag()), NULL);
+    QDomDocument ddocClipboard = impl.createDocument(QString(), QString::fromStdString(ClsTagLibrary::iqrEntityTag()), QDomDocumentType());
     QDomElement delemClipboard = ddocClipboard.createElement(QString::fromStdString(ClsTagLibrary::iqrEntityTag()));
     delemClipboard.setAttribute(QString::fromStdString(ClsTagLibrary::ClipboardContentsType()), QString::fromStdString(ClsTagLibrary::GroupsWithConnectionsTag()));
 
@@ -486,12 +484,13 @@ string ClsFESerializer::getGroupsWidthConnectionsAsXML(list<string> lstIDGroups,
         return "";
     }
 */
-    QBuffer myFormTarget;
-    QTextStream output(&myFormTarget);
+    QString *buffer = new QString();
+    QTextStream output(buffer);
     delemClipboard.save(output, 4);
 
     string strGroupsWithConnectionsXML = output.readAll().toStdString();
 
+    delete buffer;
     return strGroupsWithConnectionsXML;
 }
 
@@ -524,7 +523,6 @@ void ClsFESerializer::CreateDOMTree(bool _bIncludeXMLDeclNode){
                             QString::fromStdString("iqrSystem.dtd"));
 
     ddocSystem = impl.createDocument(0, QString::fromStdString(ClsTagLibrary::SystemTag()), dtd);
-
 //     if (bDebugSystemFileWriter) {
 // 	qDebug("ClsFESerializer::CreateDOMTree:"
 // 	       " system has %d processes, %d connections",
@@ -814,66 +812,18 @@ int ClsFESerializer::SerializeDOMTree(string &strSystemCont)  {
     cout << "ClsFESerializer::SerializeDOMTree(string &strSystemCont)" << endl;
     }
 
-    QDomImplementation impl;
-    /*
-    DOMImplementation *impl = DOMImplementationRegistry::getDOMImplementation(QString::fromStdString((const char*)"LS"));
-#if XERCES_VERSION_MAJOR >= 3
-  DOMLSSerializer* theSerializer = ((DOMImplementationLS*)impl)->createLSSerializer();
-    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true))
-    theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTDiscardDefaultContent, true);
-
-    if (theSerializer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true))
-    theSerializer->getDomConfig()->setParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true);
-#else
-    DOMWriter* theSerializer = ((DOMImplementationLS*)impl)->createDOMWriter();
-    if (theSerializer->canSetFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true))
-    theSerializer->setFeature(XMLUni::fgDOMWRTDiscardDefaultContent, true);
-
-    if (theSerializer->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
-    theSerializer->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
-#endif
-
-
-    MemBufFormatTarget *myFormTarget = new MemBufFormatTarget();
-#if XERCES_VERSION_MAJOR >= 3
-    DOMLSOutput* theOutput = ((DOMImplementationLS*)impl)->createLSOutput();
-    theOutput->setByteStream(myFormTarget);
-#endif
-
-    try {
-    // do the serialization through DOMWriter::writeNode();
-#if XERCES_VERSION_MAJOR >= 3
-    theSerializer->write(ddocSystem, theOutput);
-#else
-    theSerializer->writeNode(myFormTarget, *ddocSystem);
-#endif
-    }
-    catch (const XMLException& toCatch) {
-    char* message = QString::fromStdString(toCatch.getMessage());
-    cout << "Exception message is: \n"
-         << message << "\n";
-    XMLString::release(&message);
-    return -1;
-    }
-    catch (const DOMException& toCatch) {
-    char* message = QString::fromStdString(toCatch.msg);
-    cout << "Exception message is: \n"
-         << message << "\n";
-    XMLString::release(&message);
-    return -1;
-    }
-    catch (...) {
-    cout << "Unexpected Exception \n" ;
-    return -1;
-    }
-*/
-
-    QBuffer myFormTarget;
-    QTextStream output(&myFormTarget);
+    QString *buffer = new QString();
+    QTextStream output(buffer);
     ddocSystem.save(output, 4);
 
-    strSystemCont = output.readAll().toStdString();
+    //TODO: Remove this hack as soon as we find out how to add the first line
+    // of the XML using QtXML API
+    QString modifiedOutput = output.readAll();
+    modifiedOutput.prepend("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n");
 
+    strSystemCont = modifiedOutput.toStdString();
+
+    delete buffer;
     return 0;
 }
 
