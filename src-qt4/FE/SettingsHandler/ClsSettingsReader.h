@@ -6,19 +6,13 @@
 #include <string>
 #include <list>
 
-#include <parsers/XercesDOMParser.hpp>
-#include <dom/DOM.hpp>
-#include <sax/HandlerBase.hpp>
-#include <util/XMLString.hpp>
-#include <util/PlatformUtils.hpp>
-
+#include <QtXml>
 
 #include "ClsSettingsReaderException.h"
 
-using namespace xercesc;
 
 class ClsSettingsReader {
-    
+
 public:
      ClsSettingsReader( );
      void parseBuffer(string strFileName);
@@ -27,26 +21,26 @@ public:
 /* new functions: */
      string getEntity (string strEntityName );
      list<string> getListLastFiles();
-     
-    
+
+
 private:
      enum SETTINGREADER_STATES {
-	  PARSER_INSTANTIATED,
-	  PARSER_BUFFER_PARSED
+      PARSER_INSTANTIATED,
+      PARSER_BUFFER_PARSED
      };
      int iSysSettingReaderState;
     bool bXMLPlatformInitialized;
 
-     DOMDocument* ddocIqrSetting;
+     QDomDocument ddocIqrSetting;
 
 
 };
 
 #endif
 
-/// Local Variables: 
+/// Local Variables:
 /// mode: c++
-/// End: 
+/// End:
 
 
 

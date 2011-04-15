@@ -47,7 +47,7 @@ list<ClsDataClientConfig> ClsDataClientConfigReader::getDataClientConfig(string 
     cout << "reading settings from: " << strFileName << endl;
 #endif
 
-    bool errorsOccured = false;
+    bool parsingSuccessful = false;
     static bool gDoNamespaces = false;
 
     QXmlSimpleReader *parser = new QXmlSimpleReader();
@@ -57,11 +57,11 @@ list<ClsDataClientConfig> ClsDataClientConfigReader::getDataClientConfig(string 
     QXmlInputSource *source = new QXmlInputSource(new QFile(strFileName.c_str()));
 
     QDomDocument ddocConfig;
-    errorsOccured = ddocConfig.setContent(source, parser);
+    parsingSuccessful = ddocConfig.setContent(source, parser);
 
     QDomNodeList dnlstClients = ddocConfig.elementsByTagName(ConfigTagLibrary::DataClientTag());
 
-    if (!errorsOccured) {
+    if (parsingSuccessful) {
         if(dnlstClients.length() > 0){
         QDomNode dnValue;
 
