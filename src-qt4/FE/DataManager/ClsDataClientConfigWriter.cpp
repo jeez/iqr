@@ -131,8 +131,10 @@ bool ClsDataClientConfigWriter::saveConfig(string strFileName, list<ClsDataClien
 #endif
 */
     QFile myFormTarget(QString::fromStdString(strFileName.c_str()));
+    myFormTarget.open(QFile::ReadWrite);
     QTextStream output(&myFormTarget);
     delemConfig.save(output, 4);
+    myFormTarget.close();
 
     /*
     XMLFormatTarget *myFormTarget = new LocalFileFormatTarget(strFileName.c_str());
