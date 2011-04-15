@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 #include "tagLibrary.hpp"
 #include "ClsSettingsWriter.h"
@@ -36,16 +37,16 @@ bool ClsSettingsWriter::saveSettings(string strFileName, ParameterList parameter
         if(mapDOMElements.find(strParamCategory) != mapDOMElements.end()){
             delemCategory = mapDOMElements.find(strParamCategory)->second;
         } else {
-            delemCategory = ddocSetting.createElement(QString::fromStdString(strParamCategory.c_str()));
+            delemCategory = ddocSetting.createElement(QString::fromStdString(strParamCategory));
             delemSetting.appendChild(delemCategory);
             pair<string, QDomElement> pairTemp(strParamCategory, delemCategory);
             mapDOMElements.insert(pairTemp);
         }
 
-        QDomElement delemParameter = ddocSetting.createElement(QString::fromStdString(strParamName.c_str()));
+        QDomElement delemParameter = ddocSetting.createElement(QString::fromStdString(strParamName));
         delemCategory.appendChild(delemParameter);
 
-        QDomText dtxtValue = ddocSetting.createTextNode(QString::fromStdString(strParamValue.c_str()));
+        QDomText dtxtValue = ddocSetting.createTextNode(QString::fromStdString(strParamValue));
         delemParameter.appendChild(dtxtValue);
 
         parameterList.pop_front();
@@ -58,16 +59,17 @@ bool ClsSettingsWriter::saveSettings(string strFileName, ParameterList parameter
         QDomElement delemFile = ddocSetting.createElement(QString::fromStdString(ClsTagLibrary::FileTag()));
         delemLFO.appendChild(delemFile);
         string strFilename = lstLFO.front();
-        QDomText dtxtValue = ddocSetting.createTextNode(QString::fromStdString(strFilename.c_str()));
+        QDomText dtxtValue = ddocSetting.createTextNode(QString::fromStdString(strFilename));
         delemFile.appendChild(dtxtValue);
         lstLFO.pop_front();
     }
 
-    QFile myFormTarget(QString::fromStdString(strFileName.c_str()));
-    myFormTarget.open(QFile::ReadWrite);
-    QTextStream output(&myFormTarget);
+    QTextStream output(new QString());
     delemSetting.save(output, 4);
-    myFormTarget.close();
 
+    ofstream settingsFile;
+    settingsFile.open(strFileName.c_str());
+    settingsFile << output.readAll().toStdString();
+    settingsFile.close();
     return true;
 }
