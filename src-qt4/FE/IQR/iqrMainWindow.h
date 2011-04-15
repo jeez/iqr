@@ -158,8 +158,8 @@ private:
     bool isValidSystem(bool bConfirm);
 
     enum ABOUT_MENU{
-	HELP_MANUAL,
-	HELP_USERDEFINED_TYPES
+    HELP_MANUAL,
+    HELP_USERDEFINED_TYPES
     };
 
 
@@ -272,6 +272,7 @@ private:
 
     bool bSimulationRunning;
     friend class ClsFEDialogManager;
+    bool bSystemAlreadySaved;
 };
 
 
