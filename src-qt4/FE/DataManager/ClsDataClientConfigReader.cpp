@@ -54,7 +54,10 @@ list<ClsDataClientConfig> ClsDataClientConfigReader::getDataClientConfig(string 
 
     parser->setFeature("http://xml.org/sax/features/namespaces", gDoNamespaces);
 
-    QXmlInputSource *source = new QXmlInputSource(new QFile(strFileName.c_str()));
+    QFile *settingsFile = new QFile(strFileName.c_str());
+    settingsFile->open(QFile::ReadOnly);
+
+    QXmlInputSource *source = new QXmlInputSource(settingsFile);
 
     QDomDocument ddocConfig;
     parsingSuccessful = ddocConfig.setContent(source, parser);
@@ -142,6 +145,9 @@ list<ClsDataClientConfig> ClsDataClientConfigReader::getDataClientConfig(string 
         ClsDataClientConfigReaderException clsDataClientConfigReaderException(ClsDataClientConfigReaderException::PARSE_ERROR);
         throw clsDataClientConfigReaderException;
         }
+
+    settingsFile->close();
+    delete settingsFile;
     return lstConfigs;
 };
 
