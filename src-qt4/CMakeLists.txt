@@ -36,11 +36,6 @@ MESSAGE( STATUS "REL: " ${IQR_REL} )
 #ENDIF(WIN32)
 
 
-#IF(WIN32)
-#set(XERCESC_INCLUDE_DIR "C:/xerces-c-2.8.0/include")
-#set(XERCESC_LIBRARIES "C:/xerces-c-2.8.0/lib/libxerces-c.a")
-#set(XERCESC_ROOT_DIR "C:/xerces-c-2.8.0")
-#ENDIF(WIN32)
 
 IF(UNIX)
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -rdynamic -pthread")
@@ -91,7 +86,6 @@ INCLUDE(${QT_USE_FILE})
 
 
 
-FIND_PACKAGE(XercesC REQUIRED)
 
 SET(appSRC
   FE/System/ClsBaseConnection.cpp
@@ -258,7 +252,6 @@ INCLUDE_DIRECTORIES(
   ${QT_INCLUDE_DIR}/QtCore
   ${QT_INCLUDE_DIR}/QtXml
   ${QT_INCLUDE_DIR}/QtSvg
-  ${XERCESC_INCLUDE_DIR}
   C:/pthreads.2/include
 )
 
@@ -300,7 +293,6 @@ TARGET_LINK_LIBRARIES(iqr
   IqrParamRelais
   HelpDlgs
   ${QT_LIBRARIES}
-  ${XERCESC_LIBRARIES}
 )
 ENDIF(UNIX)
 
@@ -314,7 +306,6 @@ TARGET_LINK_LIBRARIES(iqr
   IqrParamRelais
   HelpDlgs
   ${QT_LIBRARIES}
-  ${XERCESC_LIBRARIES}
 )
 ENDIF(APPLE)
 
@@ -328,7 +319,6 @@ TARGET_LINK_LIBRARIES(iqr
   IqrParamRelais
   HelpDlgs
   ${QT_LIBRARIES}
-  ${XERCESC_LIBRARIES}
   pthreadGCE2
 )
 ENDIF(WIN32)
